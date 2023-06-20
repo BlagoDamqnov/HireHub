@@ -1,6 +1,7 @@
+using HireHub.Data.Data;
+
 namespace HireHub
 {
-    using HireHub.Data;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 

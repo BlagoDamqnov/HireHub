@@ -5,6 +5,10 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HireHub", "HireHub\HireHub.csproj", "{C3C6BD74-2E9A-49D3-BF36-F69C9F24DBB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HireHub.Data", "HireHub.Data\HireHub.Data.csproj", "{3A53B6AB-8CE8-4ED1-8505-453659EB40C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HireHub.Core", "HireHub.Core\HireHub.Core.csproj", "{A483DE55-E4B6-4314-A860-1012397B6A33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{C3C6BD74-2E9A-49D3-BF36-F69C9F24DBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3C6BD74-2E9A-49D3-BF36-F69C9F24DBB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3C6BD74-2E9A-49D3-BF36-F69C9F24DBB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A53B6AB-8CE8-4ED1-8505-453659EB40C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A53B6AB-8CE8-4ED1-8505-453659EB40C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A53B6AB-8CE8-4ED1-8505-453659EB40C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A53B6AB-8CE8-4ED1-8505-453659EB40C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A483DE55-E4B6-4314-A860-1012397B6A33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A483DE55-E4B6-4314-A860-1012397B6A33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A483DE55-E4B6-4314-A860-1012397B6A33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A483DE55-E4B6-4314-A860-1012397B6A33}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

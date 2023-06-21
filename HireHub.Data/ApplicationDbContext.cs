@@ -1,5 +1,6 @@
 ﻿using HireHub.Data.Entities;
 using HireHub.Data.EntitiesConfigurations;
+using Microsoft.AspNetCore.Identity;
 
 namespace HireHub.Data
 {

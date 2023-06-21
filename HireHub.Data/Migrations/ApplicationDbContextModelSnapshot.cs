@@ -47,7 +47,7 @@ namespace HireHub.Data.Migrations
 
                     b.HasIndex("JobId");
 
-                    b.ToTable("Applications");
+                    b.ToTable("Applications", (string)null);
                 });
 
             modelBuilder.Entity("HireHub.Data.Entities.ApplicationResume", b =>
@@ -62,7 +62,7 @@ namespace HireHub.Data.Migrations
 
                     b.HasIndex("ResumeId");
 
-                    b.ToTable("ApplicationResumes");
+                    b.ToTable("ApplicationResumes", (string)null);
                 });
 
             modelBuilder.Entity("HireHub.Data.Entities.Category", b =>
@@ -79,7 +79,7 @@ namespace HireHub.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("HireHub.Data.Entities.Country", b =>
@@ -96,7 +96,7 @@ namespace HireHub.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("HireHub.Data.Entities.Job", b =>
@@ -150,7 +150,7 @@ namespace HireHub.Data.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Jobs");
+                    b.ToTable("Jobs", (string)null);
                 });
 
             modelBuilder.Entity("HireHub.Data.Entities.Resume", b =>
@@ -173,7 +173,7 @@ namespace HireHub.Data.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("Resumes");
+                    b.ToTable("Resumes", (string)null);
                 });
 
             modelBuilder.Entity("HireHub.Data.Entities.Town", b =>
@@ -195,7 +195,7 @@ namespace HireHub.Data.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Towns");
+                    b.ToTable("Towns", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -262,6 +262,10 @@ namespace HireHub.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -313,6 +317,8 @@ namespace HireHub.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -398,6 +404,16 @@ namespace HireHub.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("HireHub.Data.Entities.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("CompanyName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("User");
                 });
 
             modelBuilder.Entity("HireHub.Data.Entities.Application", b =>

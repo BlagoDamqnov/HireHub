@@ -1,18 +1,105 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5FBFF;
+}
+.job-card {
+    background-color: #fff;
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+    position: relative;
+    margin-top: 5px;
+    width: 900px;
+    margin-left: 180px;
+}
+
+.logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 55px;
+    margin-top: 50px;
+    margin-left: 20px;
+}
+
+.job-details {
+    flex-grow: 1;
+}
+
+.job-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.company {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.location {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.description {
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.apply-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+}
+
+    .apply-btn:hover {
+        background-color: #45a049;
+    }
+
+.created-date {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 5px;
+    text-align: right;
+}
+.apply-link {
+    color: white !important;
+    text-decoration: none;
+}
+.nav-bar-hire {
+    margin-left: 760px !important;
 }

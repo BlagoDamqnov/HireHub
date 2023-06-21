@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Explore Job";
+}
+
+<div class="job-card">
+    <img class="logo" src="https://evroto.com/wp-content/uploads/2020/09/efbet-logo.jpg" alt="Company Logo">
+    <div class="job-details">
+        <div class="created-date"> 19 June</div>
+        <div class="job-title">Backend Developer with C#</div>
+        <div class="company">Company: Efbet</div>
+        <div class="location">Location: Sofia</div>
+        <div class="description">Salary: 2500</div>
+        <button class="apply-btn"><a class="apply-link"asp-action="Index" asp-controller="Home">Apply Now</a></button>
+    </div>
+</div>
+<div class="job-card">
+    <img class="logo" src="data:image/png;base64,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" alt="Company Logo">
+    <div class="job-details">
+        <div class="created-date"> 19 June</div>
+        <div class="job-title">Backend Developer with C#</div>
+        <div class="company">Company:MentorMate</div>
+        <div class="location">Location: Sofia</div>
+        <div class="description">Salary: 2500</div>
+        <button class="apply-btn"><a class="apply-link"  href="ApplyLink">Apply Now</a></button>
+    </div>
+</div>
+<div class="job-card">
+    <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAhFBMVEXz8/PzUyWBvAYFpvD/ugjz9fb19Pbz+fr39fr69vPy9foAofD/tgDzRQB9ugAAo/Df6dCv0Xjz2dPzTBfzl4PznImz04CAx/H60oHS5vJ5xPH60Hn16dIAnvDz7u3z4t7n7dzzNADzkXurz3BwtQDzvrLM36zf6/Os2PL336z07d/7z3RN8WfWAAABg0lEQVR4nO3cyVLCYBCFURwCkXlygDBFUBTf//3cSGIVf5WrDi7O9wJdp3p/Wy1JkvSrLLzqVDu8FHAzjW57JrZ34+hSH5yWg9jK187PrXx/GMZ2GF9+MZsObmKbzSvhZHgb25CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCwUWE5i21QC/fB86Xp/dLt/DG4t/MGbf7+FNxkl9jZzTrR1TvCeXjJIWFJkv7uIbzqVDe8LAE8Lp+D+zgTu5/FS2zFKUFcrEex9ZaV8Ksf3Sol7N3FNqqFRf8+NkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQsJmhetebOtr75dmi+iO1anTKrrNJbDRsvCuDJQk6Z/1DSzvYqEfRCNJAAAAAElFTkSuQmCC" alt="Company Logo">
+    <div class="job-details">
+        <div class="created-date"> 19 June</div>
+        <div class="job-title">Backend Developer with C#</div>
+        <div class="company">Company: Efbet</div>
+        <div class="location">Location: Sofia</div>
+        <div class="description">Salary: 2500</div>
+        <button class="apply-btn"><a class="apply-link"  href="ApplyLink">Apply Now</a></button>
+    </div>
+</div>
+<div class="job-card">
+    <img class="logo" src="https://evroto.com/wp-content/uploads/2020/09/efbet-logo.jpg" alt="Company Logo">
+    <div class="job-details">
+        <div class="created-date">19 June</div>
+        <div class="job-title">Backend Developer with C#</div>
+        <div class="company">Company: Efbet</div>
+        <div class="location">Location: Sofia</div>
+        <div class="description">Salary: 2500</div>
+        <button class="apply-btn"><a class="apply-link" href="ApplyLink">Apply Now</a></button>
+    </div>
+</div>

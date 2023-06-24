@@ -1,11 +1,17 @@
 ﻿using HireHub.Web.Services.Data.Interfaces;
 using HireHub.Web.ViewModels.Jobs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HireHub.Controllers
 {
+    using HireHub.Models;
     using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
     using System.Security.Claims;
 
+    using static Common.NotificationMessagesConstants;
+
+    [Authorize]
     public class JobController : Controller
     {
         private readonly IJobService _jobService;
@@ -15,6 +21,7 @@ namespace HireHub.Controllers
             _jobService = jobService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Explore()
         {
             var jobs = await _jobService.GetLastFiveJobs();
@@ -24,7 +31,7 @@ namespace HireHub.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(int countryId)
         {
-            var model = await _jobService.GetNewJobAsync();
+            CreateJobVM model = await _jobService.GetNewJobAsync();
 
             var job = await _jobService.GetTownsByCountryId(model,1);
 
@@ -38,19 +45,27 @@ namespace HireHub.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View(model);
+                TempData[ErrorMessage] = "You have entered invalid data. Please try again.";
+                return RedirectToAction("Create");
             }
 
             try
             {
                 await _jobService.AddJobAsync(model, userId);
+                TempData[SuccessMessage] = "You have successfully created a job offer.";
             }
             catch (System.Exception)
             {
-                return View(model);
+                return RedirectToAction("Create");
             }
            
             return RedirectToAction("Explore");
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

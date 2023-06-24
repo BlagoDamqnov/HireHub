@@ -20,6 +20,7 @@ namespace HireHub.Data.Entities
         public IdentityUser User { get; set; } = null!;
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
+        public string Requirements { get; set; } = null!;
         public int CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]

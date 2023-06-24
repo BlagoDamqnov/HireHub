@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using HireHub.Data;
+using HireHub.Web.Services.Data;
+using HireHub.Web.Services.Data.Interfaces;
+
 namespace HireHub
 {
     using HireHub.Data;
@@ -13,6 +16,8 @@ namespace HireHub
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            //Add services with DI
+            builder.Services.AddScoped<IJobService, JobService>();
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>

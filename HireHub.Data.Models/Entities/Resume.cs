@@ -11,7 +11,8 @@ namespace HireHub.Data.Entities
 
         [ForeignKey(nameof(CreatorId))]
         public IdentityUser IdentityUser { get; set; } = null!;
-        public ICollection<ApplicationResume> ApplicationResumes { get; set; } = new List<ApplicationResume>();
+
+        public ICollection<Application> Applications { get; set; } = new List<Application>();
 
     }
 }

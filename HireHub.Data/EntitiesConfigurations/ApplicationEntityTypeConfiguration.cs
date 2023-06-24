@@ -19,6 +19,11 @@ namespace HireHub.Data.EntitiesConfigurations
                 .HasForeignKey(a => a.JobId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasOne(a => a.Resume)
+                .WithMany(r => r.Applications)
+                .HasForeignKey(a => a.ResumeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

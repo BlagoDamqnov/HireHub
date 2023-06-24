@@ -18,7 +18,6 @@ namespace HireHub.Data
         {
             builder.ApplyConfiguration(new JobEntityTypeConfiguration());
             builder.ApplyConfiguration(new ApplicationEntityTypeConfiguration());
-            builder.ApplyConfiguration(new ApplicationResumeEntityTypeConfiguration());
 
             base.OnModelCreating(builder);
         }
@@ -29,7 +28,6 @@ namespace HireHub.Data
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<Town> Towns { get; set; } = null!;
-        public DbSet<ApplicationResume> ApplicationResumes { get; set; } = null!;
 
     }
 }

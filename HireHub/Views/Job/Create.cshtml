@@ -1,0 +1,86 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using HireHub.Web.Services.Data.Interfaces
+@using HireHub.Data.Entities
+@model HireHub.Web.ViewModels.Jobs.CreateJobVM
+
+@{
+    ViewBag.Title = "Add a new job";
+}
+
+<h1 class="text-center">@ViewBag.Title</h1>
+<hr />
+<div class="create-container">
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="@Model.Logo">Logo:</label>
+            <input asp-for="@Model.Logo"type="text" class="form-control">
+            <span asp-validation-for="@Model.Logo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Title">Title:</label>
+            <input asp-for="@Model.Title" type="text" class="form-control">
+            <span asp-validation-for="@Model.Title" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.CategoryId">Category:</label>
+            <select asp-for="@Model.CategoryId" class="form-control">
+                <option value="" selected disabled>Select Category</option>
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.Description">Description:</label>
+            <textarea asp-for="@Model.Description" class="form-control"></textarea>
+            <span asp-validation-for="@Model.Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Requirements">Requirements:</label>
+            <textarea asp-for="@Model.Requirements" class="form-control"></textarea>
+            <span asp-validation-for="@Model.Requirements" class="text-danger"></span>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="@Model.MinSalary">Min Salary:</label>
+                <input asp-for="@Model.MinSalary" type="number" class="form-control">
+                <span asp-validation-for="@Model.MinSalary" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="@Model.MaxSalary">Max Salary:</label>
+                <input asp-for="@Model.MaxSalary" type="number" class="form-control">
+                <span asp-validation-for="@Model.MaxSalary" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.CountryId">Country:</label>
+            <select asp-for="@Model.CountryId" class="form-control">
+                <option value="" selected disabled>Select Country</option>
+                @foreach (var country in Model.Countries)
+                {
+                    <option value="@country.CountryId">@country.Name</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.CountryId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="@Model.TownId">Town:</label>
+            <select asp-for="@Model.TownId" class="form-control">
+                <option value="" selected disabled>Select Town</option>
+                @foreach (var country in Model.Towns)
+                {
+                    <option value="@country.TownId">@country.Name</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.TownId" class="text-danger"></span>
+        </div>
+
+        <div class="btn-container">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>

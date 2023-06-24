@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HireHub.Data.Models\HireHub.Data.Models.csproj" />
+    <ProjectReference Include="..\HireHub.Data\HireHub.Data.csproj" />
+    <ProjectReference Include="..\HireHub.Web.ViewModels\HireHub.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

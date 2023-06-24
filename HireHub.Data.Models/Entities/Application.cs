@@ -22,8 +22,12 @@ namespace HireHub.Data.Entities
 
         [ForeignKey(nameof(JobId))]
         public Job Job { get; set; } = null!;
+
+        public int ResumeId { get; set; }
+
+        [ForeignKey(nameof(ResumeId))]
+        public Resume Resume { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; } = false;
-        public ICollection<ApplicationResume> ApplicationResumes { get; set; } = new List<ApplicationResume>();
     }
 }

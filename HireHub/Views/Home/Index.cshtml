@@ -2,7 +2,11 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="content">
+        <img src="https://source.unsplash.com/800x400/?job" alt="Job Image">
+        <h1>Welcome to Job Portal</h1>
+        <p>Find your dream job today!</p>
+        <a class="apply-btn" asp-action="Explore" asp-controller="Job">Explore for a job</a>
+    </div>
 </div>

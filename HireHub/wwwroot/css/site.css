@@ -19,6 +19,38 @@ body {
     padding: 0;
     background-color: #F5FBFF;
 }
+.content {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.content h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.content p {
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #555;
+}
+
+.content img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: #ff6f00;
+    border-color: #ff6f00;
+}
+
+.btn-primary:hover {
+    background-color: #ff8124;
+    border-color: #ff8124;
+}
 .job-card {
     background-color: #fff;
     border: 1px solid #e2e2e2;

@@ -30,7 +30,7 @@ namespace HireHub.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create(int countryId)
+        public async Task<IActionResult> Create()
         {
             CreateJobVM model = await _jobService.GetNewJobAsync();
 

@@ -1,59 +1,12 @@
-﻿<style>
-    .apply-form {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #eaeaea;
-        border-radius: 4px;
-        background-color: #f9f9f9;
-    }
-
-    .apply-form h2 {
-        font-size: 24px;
-        margin-bottom: 10px;
-    }
-
-    .apply-form p {
-        margin: 5px 0;
-    }
-
-    .apply-form label {
-        font-weight: bold;
-    }
-
-    .apply-form input[type="text"],
-    .apply-form textarea {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        resize: vertical;
-    }
-
-    .apply-form .submit-button {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .apply-form .submit-button button {
-        padding: 10px 20px;
-        background-color: #3498db;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-</style>
-@model HireHub.Web.ViewModels.Application.ApplyForJobVM
+﻿@model HireHub.Web.ViewModels.Application.ApplyForJobVM
 
 <div class="apply-form">
     <h2>Apply for Job</h2>
-    <p>Please provide the URL to your resume below:</p>
     <form asp-action="Apply" method="post">
         <div class="form-group">
-            <label asp-for="@Model.ResumeId">Town:</label>
+            <label asp-for="@Model.ResumeId">Select your CV:</label>
             <select asp-for="@Model.ResumeId" class="form-control">
-                <option value="" selected disabled>Select Town</option>
+                <option value="" selected disabled>Select CV</option>
                 @foreach (var resume in Model.Resumes)
                 {
                     <option value="@resume.Id">@resume.Name</option>

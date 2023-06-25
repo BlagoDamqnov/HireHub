@@ -45,7 +45,7 @@ namespace HireHub.Web.Services.Data
         public async Task AddApply(ApplyForJobVM model,Guid jobId,string userId)
         {
             var isApply = await _context.Applications
-                .AnyAsync(x => x.ApplierId == userId && x.JobId == jobId);
+                .AnyAsync(x =>x.IsDeleted == true || x.IsApproved == true);
 
             if (isApply == false)
             {

@@ -29,5 +29,6 @@ namespace HireHub.Data.Entities
         public Resume Resume { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; } = false;
+        public bool IsApproved { get; set; } = false;
     }
 }

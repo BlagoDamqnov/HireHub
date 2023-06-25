@@ -33,7 +33,7 @@ namespace HireHub.Controllers
         {
             CreateJobVM model = await _jobService.GetNewJobAsync();
 
-            var job = await _jobService.GetTownsByCountryId(model,1);
+            var job = await _jobService.GetTownsByCountryId(model, 1);
 
             return View(job);
         }
@@ -58,7 +58,7 @@ namespace HireHub.Controllers
             {
                 return RedirectToAction("Create");
             }
-           
+
             return RedirectToAction("Explore");
         }
 
@@ -66,6 +66,40 @@ namespace HireHub.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> AllJobsForApprove()
+        {
+            var jobs = await _jobService.GetAllJobsForApprove();
+            return View(jobs);
+        }
+
+        public async Task<IActionResult> ApproveJob(Guid id)
+        {
+            try
+            {
+                await _jobService.ApproveJob(id);
+            }
+            catch
+            {
+                return RedirectToAction("AllJobsForApprove");
+            }
+
+            return RedirectToAction("AllJobsForApprove");
+        }
+
+        public async Task<IActionResult> RejectJob(Guid id)
+        {
+            try{
+                await _jobService.RejectJob(id);
+            }
+            catch (InvalidOperationException)
+            {
+                return RedirectToAction("AllJobsForApprove");
+            }
+            
+            return RedirectToAction("AllJobsForApprove");
+            
         }
     }
 }

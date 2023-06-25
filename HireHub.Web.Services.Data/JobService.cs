@@ -27,6 +27,7 @@ namespace HireHub.Web.Services.Data
         public async Task<IEnumerable<GetLastFiveJobsVM>> GetLastFiveJobs()
         {
             var jobs = await _context.Jobs
+                .Where(j => j.IsDeleted == false && j.IsApproved == true)
                 .Select(j => new GetLastFiveJobsVM()
                 {
                     Id = j.Id,
@@ -39,6 +40,7 @@ namespace HireHub.Web.Services.Data
                     LogoUrl = j.LogoUrl
                 })
                 .OrderByDescending(j => j.CreatedOn)
+                .Take(5)
                 .ToListAsync();
 
             return jobs;
@@ -107,6 +109,57 @@ namespace HireHub.Web.Services.Data
 
             await _context.Jobs.AddAsync(jobToAdd);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<GetLastFiveJobsVM>> GetAllJobsForApprove()
+        {
+            var jobs = await _context.Jobs
+                .Where(j => j.IsDeleted == false && j.IsApproved == false)
+                .Select(j => new GetLastFiveJobsVM()
+                {
+                    Id = j.Id,
+                    Title = j.Title,
+                    Town = j.Location.TownName,
+                    CompanyName = j.User.UserName,
+                    MinSalary = j.MinSalary,
+                    MaxSalary = j.MaxSalary,
+                    CreatedOn = j.CreatedOn,
+                    LogoUrl = j.LogoUrl
+                })
+                .OrderByDescending(j => j.CreatedOn)
+                .ToListAsync();
+
+            return jobs;
+        }
+
+        public async Task ApproveJob(Guid id)
+        {
+            var job = _context.Jobs.FirstOrDefault(j => j.Id == id);
+
+            if (job != null)
+            {
+                job.IsApproved = true;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("Job not found");
+            }
+        }
+
+        public async Task RejectJob(Guid id)
+        {
+            var job = _context.Jobs.FirstOrDefault(j => j.Id == id);
+
+            if(job != null)
+            {
+                job.IsDeleted = true;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("Job not found");
+            }
         }
     }
 }

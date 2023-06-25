@@ -1,0 +1,53 @@
+﻿@model IEnumerable<HireHub.Web.ViewModels.Jobs.GetLastFiveJobsVM>
+
+
+<h2>Job Position Approval</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Logo</th>
+            <th>Position</th>
+            <th>CompanyName</th>
+            <th>Town</th>
+            <th>MinSalary</th>
+            <th>MaxSalary</th>
+            <th>Created on</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var job in Model)
+        {
+            <tr>
+                <td class="img-approve">
+                    <img class="logo" src="@job.LogoUrl" alt="Company Logo">
+                </td>
+                <td>@job.Title</td>
+                <td>@job.CompanyName</td>
+                <td>@job.Town</td>
+                <td>@job.MinSalary.ToString("0")</td>
+                @if (job.MaxSalary != null)
+                {
+                    <td>@job.MaxSalary.Value.ToString("0")</td>
+                }
+                else
+                {
+                    <td> - </td>
+                }
+                <td>@job.CreatedOn</td>
+                <td>
+                    <div class="btn-group">
+                        <form asp-route-id="@job.Id" asp-action="ApproveJob" asp-controller="Job" method="post" class="btn-group">
+                            <button type="submit" class="app-btn btn-approve" name="approveButton">Approve</button>
+                        </form>
+                        <form asp-route-id="@job.Id" asp-action="RejectJob" asp-controller="Job" method="post" class="btn-group">
+                            <button type="submit" class="app-btn btn-reject">Reject</button>
+                        </form>
+                        <a asp-route-id="@job.Id" asp-action="Index" asp-controller="Home" class="btn btn-details">Details</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -18,6 +18,8 @@ namespace HireHub
 
             //Add services with DI
             builder.Services.AddScoped<IJobService, JobService>();
+            builder.Services.AddScoped<IResumeService, ResumeService>();
+            builder.Services.AddScoped<IApplicationService, ApplicationService>();
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>

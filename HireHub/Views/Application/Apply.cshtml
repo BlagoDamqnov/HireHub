@@ -1,6 +1,4 @@
-﻿
-
-<style>
+﻿<style>
     .apply-form {
         max-width: 600px;
         margin: 0 auto;
@@ -46,14 +44,22 @@
         cursor: pointer;
     }
 </style>
+@model HireHub.Web.ViewModels.Application.ApplyForJobVM
 
 <div class="apply-form">
     <h2>Apply for Job</h2>
     <p>Please provide the URL to your resume below:</p>
-    <form method="post">
+    <form asp-action="Apply" method="post">
         <div class="form-group">
-            <label for="resumeUrl">Resume URL:</label>
-            <input type="text" id="resumeUrl" name="ResumeUrl" required />
+            <label asp-for="@Model.ResumeId">Town:</label>
+            <select asp-for="@Model.ResumeId" class="form-control">
+                <option value="" selected disabled>Select Town</option>
+                @foreach (var resume in Model.Resumes)
+                {
+                    <option value="@resume.Id">@resume.Name</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.ResumeId" class="text-danger"></span>
         </div>
         <div class="submit-button">
             <button type="submit">Submit</button>

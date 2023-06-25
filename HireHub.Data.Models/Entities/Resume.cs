@@ -6,6 +6,7 @@ namespace HireHub.Data.Entities
     public class Resume
     {
         public int Id { get; set; }
+        public string Name { get; set; } = null!;
         public string ResumePath { get; set; } = null!;
         public string CreatorId { get; set; } = null!;
 

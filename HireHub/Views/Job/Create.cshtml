@@ -84,3 +84,45 @@
         </div>
     </form>
 </div>
+
+
+
+<script>
+    $(document).ready(function () {
+        // Load towns when the page loads
+        
+
+        // Load towns whenever the country selection changes
+        $("#CountryId").change(function () {
+            loadTowns();
+        });
+    });
+
+    function loadTowns() {
+        var countryId = $("#CountryId").val();
+
+        $.ajax({
+            url: `/Job/GetTownsByCountryId`,
+            type: "GET",
+            data: { countryId: countryId },
+            success: function (response) {
+                populateTownDropdown(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Failed to load town data: " + status);
+            }
+        });
+    }
+
+    function populateTownDropdown(towns) {
+        var townDropdown = $("#TownId");
+        townDropdown.empty();
+        townDropdown.append('<option value="" selected disabled>Select Town</option>');
+
+        $.each(towns, function (i, town) {
+           console.log(town);
+            townDropdown.append('<option value="' + town.townId + '">' + town.name + '</option>');
+        });
+    }
+
+</script>

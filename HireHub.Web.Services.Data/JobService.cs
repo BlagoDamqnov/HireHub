@@ -73,7 +73,7 @@ namespace HireHub.Web.Services.Data
             return job;
         }
 
-        public async Task<CreateJobVM> GetTownsByCountryId(CreateJobVM job , int countryId)
+        public async Task<IEnumerable<TownVM>> GetTownsByCountryId( int countryId)
         {
             var towns = await _context.Towns
                 .Where(t => t.CountryId == countryId)
@@ -84,9 +84,7 @@ namespace HireHub.Web.Services.Data
                 })
                 .ToListAsync();
 
-             job.Towns = towns;
-
-            return job;
+            return towns;
         }
 
         public async Task AddJobAsync(CreateJobVM job, string creatorId)

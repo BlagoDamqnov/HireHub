@@ -34,11 +34,15 @@ namespace HireHub.Controllers
         {
             CreateJobVM model = await _jobService.GetNewJobAsync();
 
-            var job = await _jobService.GetTownsByCountryId(model, 1);
-
-            return View(job);
+            return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetTownsByCountryId(int countryId)
+        {
+            var towns = await _jobService.GetTownsByCountryId(countryId);
+            return Json(towns);
+        }
         [HttpPost]
         public async Task<IActionResult> Create(CreateJobVM model)
         {

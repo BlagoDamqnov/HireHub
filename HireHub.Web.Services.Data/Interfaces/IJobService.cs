@@ -19,5 +19,6 @@ namespace HireHub.Web.Services.Data.Interfaces
         Task ApproveJob(Guid id);
         Task RejectJob(Guid id);
         Task<DetailsJobVM?> GetJobDetails(Guid id);
+        Task DeleteJob(Guid id);
     }
 }

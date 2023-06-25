@@ -126,5 +126,20 @@ namespace HireHub.Controllers
             }
             return RedirectToAction("Explore");
         }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _jobService.DeleteJob(id);
+            }
+            catch (Exception)
+            {
+                TempData[ErrorMessage] = "Error during delete a job!";
+            }
+
+            TempData[SuccessMessage] = "You have successfully deleted a job offer.";
+            return RedirectToAction("Explore");
+        }
     }
 }

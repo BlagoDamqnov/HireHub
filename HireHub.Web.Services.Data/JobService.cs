@@ -183,5 +183,21 @@ namespace HireHub.Web.Services.Data
 
             return job;
         }
+
+        public async Task DeleteJob(Guid id)
+        {
+            var isExist = await _context.Jobs.AnyAsync(j => j.Id == id);
+
+            if (isExist)
+            {
+                var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == id);
+                job.IsDeleted = true;
+               await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("Job not found");
+            }
+        }
     }
 }

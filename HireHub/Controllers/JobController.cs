@@ -101,5 +101,15 @@ namespace HireHub.Controllers
             return RedirectToAction("AllJobsForApprove");
             
         }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            var job = await _jobService.GetJobDetails(id);
+            if (job != null)
+            {
+                return View(job);
+            }
+           return RedirectToAction("Explore");
+        }
     }
 }

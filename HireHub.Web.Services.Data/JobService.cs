@@ -161,5 +161,29 @@ namespace HireHub.Web.Services.Data
                 throw new InvalidOperationException("Job not found");
             }
         }
+
+        public async Task<DetailsJobVM?> GetJobDetails(Guid id)
+        {
+            var job = await _context.Jobs
+                .Where(j => j.Id == id)
+                .Select(j => new DetailsJobVM()
+                {
+                    Id = j.Id,
+                    CreatorId = j.CreatorId,
+                    Title = j.Title,
+                    Description = j.Description,
+                    MinSalary = j.MinSalary,
+                    MaxSalary = j.MaxSalary,
+                    Location = j.Location.TownName,
+                    Category = j.Category.CategoryName,
+                    CompanyName = j.User.UserName,
+                    LogoUrl = j.LogoUrl,
+                    Requirements = j.Requirements,
+                    CreatedOn = j.CreatedOn
+                })
+                .FirstOrDefaultAsync();
+
+            return job;
+        }
     }
 }

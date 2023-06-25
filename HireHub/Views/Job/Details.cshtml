@@ -1,0 +1,91 @@
+﻿@model HireHub.Web.ViewModels.Jobs.DetailsJobVM
+<style>
+    .job-details {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #eaeaea;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    .job-details h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .job-details p {
+        margin: 5px 0;
+    }
+
+    .job-details hr {
+        margin: 20px 0;
+        border: none;
+        border-top: 1px solid #eaeaea;
+    }
+
+    .job-details .description {
+        margin-bottom: 20px;
+    }
+
+    .job-details .requirements {
+        margin-bottom: 20px;
+    }
+
+    .job-details .logo-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .job-details .logo {
+        max-width: 200px;
+        max-height: 200px;
+    }
+
+    .job-details .apply-button {
+        text-align: center;
+    }
+</style>
+
+<div class="job-details">
+    <div class="logo-container">
+        <img class="logo" src="@Model.LogoUrl" alt="Company Logo">
+    </div>
+    <h3>@Model.Title</h3>
+    <p>@Model.CompanyName - @Model.Location</p>
+    <p>Minimum Salary: @Model.MinSalary.ToString("0")</p>
+    <p>Maximum Salary: @(Model.MaxSalary != null ? Model.MaxSalary.Value.ToString("0") : "-")</p>
+    <p>Created on: @Model.CreatedOn</p>
+    <hr />
+    <div class="description">
+        <h4>Description</h4>
+        <p>@Model.Description</p>
+    </div>
+    <div class="requirements">
+        <h4>Requirements</h4>
+        <ul>
+            @foreach (var requirement in Model.Requirements.Split(new[] {';' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                <li>@requirement</li>
+            }
+        </ul>
+    </div>
+    <div class="apply-button">
+        @if (Model.CreatorId == "8a9119d5-0f83-4f9e-bc23-42175352cd40")
+        {
+            <div class="btn-group">
+                <form asp-route-id="@Model.Id" asp-action="ApproveJob" asp-controller="Job" method="post" class="btn-group">
+                    <button type="submit" class="app-btn btn-approve" name="approveButton">Approve</button>
+                </form>
+                <form asp-route-id="@Model.Id" asp-action="RejectJob" asp-controller="Job" method="post" class="btn-group">
+                    <button type="submit" class="app-btn btn-reject">Reject</button>
+                </form>
+                <a asp-route-id="@Model.Id" asp-action="AllJobsForApprove" asp-controller="Job" class="btn btn-details">Back</a>
+            </div>
+        }
+        else
+        {
+            <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Details" asp-controller="Job">Apply Now</a></button>
+        }
+    </div>
+</div>

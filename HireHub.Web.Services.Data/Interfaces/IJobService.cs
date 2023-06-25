@@ -18,5 +18,6 @@ namespace HireHub.Web.Services.Data.Interfaces
         Task<IEnumerable<GetLastFiveJobsVM>> GetAllJobsForApprove();
         Task ApproveJob(Guid id);
         Task RejectJob(Guid id);
+        Task<DetailsJobVM?> GetJobDetails(Guid id);
     }
 }

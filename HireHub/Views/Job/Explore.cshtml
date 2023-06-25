@@ -20,7 +20,7 @@
                         @($" - {job.MaxSalary.Value.ToString("0")} lv.")
                     }
                 </div>
-                <button class="apply-btn"><a class="apply-link" asp-route-id="@job.Id" asp-action="Index" asp-controller="Home">Apply Now</a></button>
+                <button class="apply-btn"><a class="apply-link" asp-route-id="@job.Id" asp-action="Details" asp-controller="Job">Apply Now</a></button>
             </div>
         </div>
     }

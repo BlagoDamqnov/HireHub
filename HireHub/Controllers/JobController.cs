@@ -111,5 +111,15 @@ namespace HireHub.Controllers
             }
            return RedirectToAction("Explore");
         }
+
+        public async Task<IActionResult> DetailsForAdmin(Guid id)
+        {
+            var job = await _jobService.GetJobDetails(id);
+            if (job != null)
+            {
+                return View(job);
+            }
+            return RedirectToAction("Explore");
+        }
     }
 }

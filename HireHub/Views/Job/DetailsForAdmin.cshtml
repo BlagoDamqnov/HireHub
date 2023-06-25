@@ -24,6 +24,19 @@
         </ul>
     </div>
     <div class="apply-button">
-        <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Apply" asp-controller="Application">Apply Now</a></button>
+        <td>
+            <div class="btn-group">
+                <form asp-route-id="@Model.Id" asp-action="ApproveJob" asp-controller="Job"  class="btn-group">
+                    <button type="submit" class="app-btn btn-approve" name="approveButton">Approve</button>
+                </form>
+                <form asp-route-id="@Model.Id" asp-action="RejectJob" asp-controller="Job" class="btn-group">
+                    <button type="submit" class="app-btn btn-reject">Reject</button>
+                </form>
+                <form asp-route-id="@Model.Id" asp-action="AllJobsForApprove" asp-controller="Job" class="btn-group">
+                    <button type="submit" class="app-btn btn-details">Back</button>
+                </form>
+                    
+            </div>
+        </td>
     </div>
 </div>

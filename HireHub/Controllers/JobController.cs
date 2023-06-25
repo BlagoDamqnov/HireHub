@@ -1,4 +1,5 @@
-﻿using HireHub.Web.Services.Data.Interfaces;
+﻿using HireHub.Web.Controllers;
+using HireHub.Web.Services.Data.Interfaces;
 using HireHub.Web.ViewModels.Jobs;
 using Microsoft.AspNetCore.Authorization;
 
@@ -12,7 +13,7 @@ namespace HireHub.Controllers
     using static Common.NotificationMessagesConstants;
 
     [Authorize]
-    public class JobController : Controller
+    public class JobController : UserController
     {
         private readonly IJobService _jobService;
 
@@ -41,7 +42,7 @@ namespace HireHub.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateJobVM model)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = GetUserId();
 
             if (!ModelState.IsValid)
             {

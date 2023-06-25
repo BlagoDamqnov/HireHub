@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
 
-    public class ApplicationController : Controller
+    public class ApplicationController : UserController
     {
         public IActionResult Apply()
         {

@@ -1,32 +1,95 @@
-﻿@model IEnumerable<HireHub.Web.ViewModels.Jobs.GetLastFiveJobsVM>
+﻿@using HireHub.Web.ViewModels.Resume
+@using HireHub.Web.ViewModels.Countries
+@model IEnumerable<HireHub.Web.ViewModels.Jobs.GetLastFiveJobsVM>
 @{
     ViewData["Title"] = "Explore Job";
 }
-@if (Model.Any())
-{
-    @foreach (var job in Model)
-    {
-        <div class="job-card">
-            <img class="logo" src="@job.LogoUrl" alt="Company Logo">
-            <div class="job-details">
-                <div class="created-date">@job.CreatedOn.ToString("dd - MMMM - yyyy")</div>
-                <div class="job-title">@job.Title</div>
-                <div class="company">Company: @job.CompanyName</div>
-                <div class="location">Location: @job.Town</div>
-                <div class="description">
-                    Salary: @job.MinSalary.ToString("0") lv.
-                    @if (job.MaxSalary != null)
-                    {
-                        @($" - {job.MaxSalary.Value.ToString("0")} lv.")
-                    }
-                </div>
-                <button class="apply-btn"><a class="apply-link" asp-route-id="@job.Id" asp-action="Details" asp-controller="Job">Apply Now</a></button>
-            </div>
-        </div>
-    }
 
+<div class="search-bar">
+    <form class="form-inline my-2 my-lg-0" id="search-form">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="search-input">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</div>
+
+<div id="jobs-container">
+    @if (Model.Any())
+    {
+        foreach (var job in Model)
+        {
+            <div class="job-card">
+                <img class="logo" src="@job.LogoUrl" alt="Company Logo">
+                <div class="job-details">
+                    <div class="created-date">@job.CreatedOn.ToString("dd - MMMM - yyyy")</div>
+                    <div class="job-title">@job.Title</div>
+                    <div class="company">Company: @job.CompanyName</div>
+                    <div class="location">Location: @job.Town</div>
+                    <div class="description">
+                        Salary: @job.MinSalary.ToString("0") lv.
+                        @if (job.MaxSalary != null)
+                        {
+                            @($" - {job.MaxSalary.Value.ToString("0")} lv.")
+                        }
+                    </div>
+                    <button class="apply-btn"><a class="apply-link" asp-route-id="@job.Id" asp-action="Details" asp-controller="Job">Apply Now</a></button>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h1>No Jobs Found</h1>
+    }
+</div>
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#search-form').submit(function (event) {
+                event.preventDefault(); // Prevent form submission
+
+                var searchInput = $('#search-input').val(); // Get the search input value
+
+                $.ajax({
+                    url: '@Url.Action("SearchJobs", "Job")', // Replace "YourControllerName" with your actual controller name
+                    type: 'GET',
+                    data: { search: searchInput }, 
+                    success: function (data) {
+                        console.log(data)
+                        $('#jobs-container').empty();
+                        
+                        if (data.length > 0) {
+                        
+                            for (var i = 0; i < data.length; i++) {
+                                var job = data[i];
+
+                                var jobCard = '<div class="job-card">';
+                                jobCard += '<img class="logo" src="' + job.logoUrl + '" alt="Company Logo">';
+                                jobCard += '<div class="job-details">';
+                                jobCard += '<div class="created-date">' + new Date(job.createdOn).toLocaleDateString("en-US", { day: 'numeric', month: 'long', year: 'numeric' }) + '</div>';
+                                jobCard += '<div class="job-title">' + job.title + '</div>';
+                                jobCard += '<div class="company">Company: ' + job.companyName + '</div>';
+                                jobCard += '<div class="location">Location: ' + job.town + '</div>';
+                                jobCard += '<div class="description">Salary: ' + job.minSalary.toFixed(0) + ' lv.';
+                                jobCard += (job.MaxSalary != null) ? ' - ' + job.maxSalary.toFixed(0) + ' lv.' : '';
+                                jobCard += '</div>';
+                                jobCard += '<button class="apply-btn"><a class="apply-link" href="/Job/Details/' + job.id + '">Apply Now</a></button>';
+                                jobCard += '</div>';
+                                jobCard += '</div>';
+
+                                $('#jobs-container').append(jobCard);
+                            }
+                        } else {
+                            $('#jobs-container').html('<h1>No Jobs Found</h1>');
+                        }
+                    },
+                    error: function () {
+                        console.log('An error occurred during the AJAX request.');
+                    }
+                });
+            });
+        });
+    </script>
 }
-else
-{
-    <h1>No Jobs Found</h1>
-}
+

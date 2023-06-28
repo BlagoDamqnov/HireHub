@@ -40,7 +40,7 @@ namespace HireHub.Web.Services.Data
                     LogoUrl = j.LogoUrl
                 })
                 .OrderByDescending(j => j.CreatedOn)
-                .Take(5)
+                .Take(10)
                 .ToListAsync();
 
             return jobs;
@@ -198,6 +198,27 @@ namespace HireHub.Web.Services.Data
             {
                 throw new InvalidOperationException("Job not found");
             }
+        }
+
+        public async Task<IEnumerable<GetLastFiveJobsVM>> SearchJobs(string search)
+        {
+            var result = await _context.Jobs
+                .Where(j => j.Title.Contains(search) || j.Description.Contains(search))
+                .Select(j => new GetLastFiveJobsVM()
+                {
+                    Id = j.Id,
+                    Title = j.Title,
+                    Town = j.Location.TownName,
+                    CompanyName = j.User.UserName,
+                    MinSalary = j.MinSalary,
+                    MaxSalary = j.MaxSalary,
+                    CreatedOn = j.CreatedOn,
+                    LogoUrl = j.LogoUrl
+                })
+                .OrderByDescending(j => j.CreatedOn)
+                .Take(10)
+                .ToListAsync();
+            return result;
         }
     }
 }

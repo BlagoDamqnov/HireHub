@@ -67,6 +67,13 @@ namespace HireHub.Controllers
             return RedirectToAction("Explore");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> SearchJobs(string search)
+        {
+            var jobs = await _jobService.SearchJobs(search);
+            return Json(jobs);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

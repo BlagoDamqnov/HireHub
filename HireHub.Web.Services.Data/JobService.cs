@@ -101,7 +101,7 @@ namespace HireHub.Web.Services.Data
                 LogoUrl = job.Logo,
                 CategoryId = job.CategoryId,
                 IsDeleted = false,
-                IsApproved = true,
+                IsApproved = false,
                 Requirements = job.Requirements
             };
 

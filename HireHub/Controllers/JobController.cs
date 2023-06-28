@@ -68,6 +68,7 @@ namespace HireHub.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> SearchJobs(string search)
         {
             var jobs = await _jobService.SearchJobs(search);

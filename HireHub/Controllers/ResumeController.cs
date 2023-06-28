@@ -30,7 +30,7 @@ namespace HireHub.Web.Controllers
 
             await _resumeService.AddResumeAsync(resume, GetUserId());
             TempData["SuccessMessage"] = "Resume added successfully";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Explore", "Job");
         }
     }
 }

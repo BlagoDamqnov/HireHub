@@ -36,7 +36,7 @@ namespace HireHub.Web.Controllers
                 TempData["SuccessMessage"] = "You have successfully applied for this job.";
                 return RedirectToAction("Explore", "Job");
             }
-            catch (Exception e)
+            catch (InvalidOperationException)
             {
                 TempData["ErrorMessage"] = "You already applied for this job.";
                 return RedirectToAction("Apply");

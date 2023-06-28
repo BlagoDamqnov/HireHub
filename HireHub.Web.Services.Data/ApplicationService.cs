@@ -45,6 +45,7 @@ namespace HireHub.Web.Services.Data
         public async Task AddApply(ApplyForJobVM model,Guid jobId,string userId)
         {
             var isApply = await _context.Applications
+                .Where(x => x.ApplierId == userId && x.JobId == jobId)
                 .AnyAsync(x =>x.IsDeleted == true || x.IsApproved == true);
 
             if (isApply == false)
@@ -53,6 +54,7 @@ namespace HireHub.Web.Services.Data
                 {
                     JobId = jobId,
                     ResumeId = model.ResumeId,
+                    IsApproved = true,
                     ApplierId = userId,
                     CreatedOn = DateTime.UtcNow
                 };
@@ -62,7 +64,7 @@ namespace HireHub.Web.Services.Data
             }
             else
             {
-                throw new Exception("You have already applied for this job!");
+                throw new InvalidOperationException("You have already applied for this job!");
             }
           
         }

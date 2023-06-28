@@ -203,7 +203,7 @@ namespace HireHub.Web.Services.Data
         public async Task<IEnumerable<GetLastFiveJobsVM>> SearchJobs(string search)
         {
             var result = await _context.Jobs
-                .Where(j => j.Title.Contains(search) || j.Description.Contains(search))
+                .Where(j => (j.Title.Contains(search) || j.Description.Contains(search)) && j.IsApproved == true)
                 .Select(j => new GetLastFiveJobsVM()
                 {
                     Id = j.Id,

@@ -14,7 +14,10 @@
     <hr />
     <div class="description">
         <h4>Description</h4>
-        <p>@Model.Description</p>
+        @foreach (var description in Model.Description.Split(new[] { ' '}, StringSplitOptions.RemoveEmptyEntries))
+        {
+            <p>@description</p>
+        }
     </div>
     <div class="requirements">
         <h4>Requirements</h4>

@@ -21,7 +21,7 @@
             public const int MaxSalaryMinValue = 0;
             public const int MaxSalaryMaxValue = 1000000;
             public const int LogoUrlMinLength = 10;
-            public const int LogoUrlMaxLength = 200;
+            public const int LogoUrlMaxLength = 2000;
         }
     }
 }

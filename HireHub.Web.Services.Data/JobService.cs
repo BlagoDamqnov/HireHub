@@ -37,6 +37,7 @@ namespace HireHub.Web.Services.Data
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
                     CreatedOn = j.CreatedOn,
+                    CreatorId = j.CreatorId,
                     LogoUrl = j.LogoUrl
                 })
                 .OrderByDescending(j => j.CreatedOn)
@@ -128,6 +129,7 @@ namespace HireHub.Web.Services.Data
                     Id = j.Id,
                     Title = j.Title,
                     Town = j.Location.TownName,
+                    CreatorId = j.CreatorId,
                     CompanyName = j.Company.Name,
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
@@ -220,6 +222,7 @@ namespace HireHub.Web.Services.Data
                     Title = j.Title,
                     Town = j.Location.TownName,
                     CompanyName = j.Company.Name,
+                    CreatorId = j.CreatorId,
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
                     CreatedOn = j.CreatedOn,

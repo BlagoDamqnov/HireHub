@@ -8,7 +8,7 @@ namespace HireHub.Data
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -31,6 +31,7 @@ namespace HireHub.Data
         public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<Town> Towns { get; set; } = null!;
         public DbSet<Company> Companies { get; set; } = null!;
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; } = null!;
 
     }
 }

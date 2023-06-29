@@ -2,8 +2,9 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using HireHub.Web.Services.Data.Interfaces
 @using System.Security.Claims
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using HireHub.Data.Models.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @inject ICompanyService CompanyService
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))

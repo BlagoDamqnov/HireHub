@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using HireHub.Data.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace HireHub.Data.Entities
@@ -11,7 +12,7 @@ namespace HireHub.Data.Entities
         public string CreatorId { get; set; } = null!;
 
         [ForeignKey(nameof(CreatorId))]
-        public IdentityUser IdentityUser { get; set; } = null!;
+        public ApplicationUser IdentityUser { get; set; } = null!;
 
         public ICollection<Application> Applications { get; set; } = new List<Application>();
 

@@ -19,11 +19,8 @@
             </td>
             <td>@job.Title</td>
             <td>@job.CreatedOn</td>
-          @*  @foreach (var applicant in job.Applicants)
-            {
-                <td>@applicant.FirstName</td>
-                <td><a href="@applicant.Resume">Click here!</a></td>
-            }*@
+            <td>@job.Username</td>
+            <td><a href="@job.Resume">Click here!</a></td>
             <td>
                 <div class="btn-group">
                     <form asp-route-id="@job.Id" asp-action="ApproveJob" asp-controller="Job" class="btn-group">

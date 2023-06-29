@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HireHub.Data.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace HireHub.Data.Entities
@@ -17,7 +18,7 @@ namespace HireHub.Data.Entities
         public string ApplierId { get; set; } = null!;
 
         [ForeignKey(nameof(ApplierId))]
-        public IdentityUser IdentityUser { get; set; } = null!;
+        public ApplicationUser ApplicationUser { get; set; } = null!;
         public Guid JobId { get; set; } 
 
         [ForeignKey(nameof(JobId))]

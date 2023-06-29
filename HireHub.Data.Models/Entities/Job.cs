@@ -19,7 +19,7 @@ namespace HireHub.Data.Entities
         public string CreatorId { get; set; } = null!;
 
         [ForeignKey(nameof(CreatorId))]
-        public IdentityUser User { get; set; } = null!;
+        public ApplicationUser User { get; set; } = null!;
 
         [StringLength(TitleMaxLength, MinimumLength = TitleMinLength,ErrorMessage= "Title must be between {2} and {1} length")]
         public string Title { get; set; } = null!;

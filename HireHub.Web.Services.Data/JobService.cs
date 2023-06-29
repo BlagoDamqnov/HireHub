@@ -219,7 +219,7 @@ namespace HireHub.Web.Services.Data
                     Id = j.Id,
                     Title = j.Title,
                     Town = j.Location.TownName,
-                    CompanyName = j.User.UserName,
+                    CompanyName = j.Company.Name,
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
                     CreatedOn = j.CreatedOn,

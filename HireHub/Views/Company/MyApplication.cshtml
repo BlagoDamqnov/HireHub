@@ -1,0 +1,38 @@
+﻿@model IEnumerable<HireHub.Web.ViewModels.Company.GetAllApplications>
+<table>
+    <thead>
+        <tr>
+            <th>Logo</th>
+            <th>Position</th>
+            <th>Created on</th>
+            <th>Applicant Username</th>
+            <th>Applicant Resume</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var job in Model)
+        {
+            <tr>
+                <td class="img-approve">
+                    <img class="logo" src="@job.LogoUrl" alt="Company Logo">
+                </td>
+                <td>@job.Title</td>
+                <td>@job.CreatedOn</td>
+                <td>@job.Username</td>
+                <td><a href="@job.Resume">Click here!</a></td>
+
+                <td>
+                    <div class="btn-group">
+                        <form asp-route-id="@job.Id" asp-action="ApproveJob" asp-controller="Job" class="btn-group">
+                            <button type="submit" class="app-btn btn-approve" name="approveButton">Hire</button>
+                        </form>
+                        <form asp-route-id="@job.Id" asp-action="RejectJob" asp-controller="Job" class="btn-group">
+                            <button type="submit" class="app-btn btn-reject">Reject</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

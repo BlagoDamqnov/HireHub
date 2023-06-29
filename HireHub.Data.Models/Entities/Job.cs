@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HireHub.Data.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace HireHub.Data.Entities
@@ -36,6 +37,10 @@ namespace HireHub.Data.Entities
 
         [ForeignKey(nameof(LocationId))]
         public Town Location { get; set; } = null!;
+        public int CompanyId { get; set; }
+
+        [ForeignKey(nameof(CompanyId))]
+        public Company Company { get; set; } = null!;
 
         [StringLength(MinSalaryMaxValue, MinimumLength = MinSalaryMinValue,ErrorMessage = "Min. Salary must be between {2} and {1} range")]
         public decimal MinSalary { get; set; }

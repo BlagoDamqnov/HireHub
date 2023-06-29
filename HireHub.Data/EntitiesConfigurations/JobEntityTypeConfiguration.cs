@@ -20,6 +20,7 @@ namespace HireHub.Data.EntitiesConfigurations
 
             builder.Property(j => j.MaxSalary)
                 .HasColumnType("money");
+
         }
     }
 }

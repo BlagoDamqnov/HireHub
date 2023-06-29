@@ -1,5 +1,6 @@
 ﻿using HireHub.Data.Entities;
 using HireHub.Data.EntitiesConfigurations;
+using HireHub.Data.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace HireHub.Data
@@ -18,6 +19,7 @@ namespace HireHub.Data
         {
             builder.ApplyConfiguration(new JobEntityTypeConfiguration());
             builder.ApplyConfiguration(new ApplicationEntityTypeConfiguration());
+            builder.ApplyConfiguration(new CompanyEntityTypeConfiguration());
 
             base.OnModelCreating(builder);
         }
@@ -28,6 +30,7 @@ namespace HireHub.Data
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Country> Countries { get; set; } = null!;
         public DbSet<Town> Towns { get; set; } = null!;
+        public DbSet<Company> Companies { get; set; } = null!;
 
     }
 }

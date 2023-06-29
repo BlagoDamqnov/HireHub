@@ -16,10 +16,11 @@ namespace HireHub.Controllers
     public class JobController : UserController
     {
         private readonly IJobService _jobService;
-
-        public JobController(IJobService jobService)
+        private readonly ICompanyService _companyService;
+        public JobController(IJobService jobService, ICompanyService companyService)
         {
             _jobService = jobService;
+            _companyService = companyService;
         }
 
         [AllowAnonymous]
@@ -27,6 +28,12 @@ namespace HireHub.Controllers
         {
             var jobs = await _jobService.GetLastFiveJobs();
             return View(jobs);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetTownsByCountryId(int countryId)
+        {
+            var towns = await _jobService.GetTownsByCountryId(countryId);
+            return Json(towns);
         }
 
         [HttpGet]
@@ -37,16 +44,11 @@ namespace HireHub.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetTownsByCountryId(int countryId)
-        {
-            var towns = await _jobService.GetTownsByCountryId(countryId);
-            return Json(towns);
-        }
         [HttpPost]
         public async Task<IActionResult> Create(CreateJobVM model)
         {
             var userId = GetUserId();
+            var companyId = await _companyService.GetCompanyIdByUserId(userId);
 
             if (!ModelState.IsValid)
             {
@@ -56,11 +58,12 @@ namespace HireHub.Controllers
 
             try
             {
-                await _jobService.AddJobAsync(model, userId);
+                await _jobService.AddJobAsync(model, userId,companyId);
                 TempData[SuccessMessage] = "You have successfully created a job offer.";
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
+                TempData[ErrorMessage] = $"{ex.Message}";
                 return RedirectToAction("Create");
             }
 

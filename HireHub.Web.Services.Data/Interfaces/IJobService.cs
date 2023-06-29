@@ -14,7 +14,7 @@ namespace HireHub.Web.Services.Data.Interfaces
         public Task<IEnumerable<GetLastFiveJobsVM>> GetLastFiveJobs();
         public Task<CreateJobVM> GetNewJobAsync();
         Task<IEnumerable<TownVM>> GetTownsByCountryId(int countryId);
-        Task AddJobAsync(CreateJobVM job, string creatorId);
+        Task AddJobAsync(CreateJobVM job, string creatorId,int companyId);
         Task<IEnumerable<GetLastFiveJobsVM>> GetAllJobsForApprove();
         Task ApproveJob(Guid id);
         Task RejectJob(Guid id);

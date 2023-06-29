@@ -33,7 +33,7 @@ namespace HireHub.Web.Services.Data
                     Id = j.Id,
                     Title = j.Title,
                     Town = j.Location.TownName,
-                    CompanyName = j.User.UserName,
+                    CompanyName = j.Company.Name,
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
                     CreatedOn = j.CreatedOn,
@@ -87,27 +87,37 @@ namespace HireHub.Web.Services.Data
             return towns;
         }
 
-        public async Task AddJobAsync(CreateJobVM job, string creatorId)
+        public async Task AddJobAsync(CreateJobVM job, string creatorId, int companyId)
         {
-            var jobToAdd = new Job()
+            try
             {
-                Title = job.Title,
-                Description = job.Description,
-                MinSalary = job.MinSalary,
-                MaxSalary = job?.MaxSalary,
-                LocationId = job.TownId,
-                CreatorId = creatorId,
-                CreatedOn = DateTime.UtcNow,
-                LogoUrl = job.Logo,
-                CategoryId = job.CategoryId,
-                IsDeleted = false,
-                IsApproved = false,
-                Requirements = job.Requirements
-            };
+                var jobToAdd = new Job()
+                {
+                    Title = job.Title,
+                    Description = job.Description,
+                    LogoUrl = job.Logo,
+                    MinSalary = job.MinSalary,
+                    MaxSalary = job?.MaxSalary,
+                    LocationId = job.TownId,
+                    CreatorId = creatorId,
+                    CreatedOn = DateTime.UtcNow,
+                    CategoryId = job.CategoryId,
+                    IsDeleted = false,
+                    IsApproved = false,
+                    CompanyId = companyId,
+                    Requirements = job.Requirements
+                };
 
-            await _context.Jobs.AddAsync(jobToAdd);
-            await _context.SaveChangesAsync();
+                _context.Jobs.Add(jobToAdd);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
         }
+
 
         public async Task<IEnumerable<GetLastFiveJobsVM>> GetAllJobsForApprove()
         {
@@ -118,7 +128,7 @@ namespace HireHub.Web.Services.Data
                     Id = j.Id,
                     Title = j.Title,
                     Town = j.Location.TownName,
-                    CompanyName = j.User.UserName,
+                    CompanyName = j.Company.Name,
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
                     CreatedOn = j.CreatedOn,
@@ -174,7 +184,7 @@ namespace HireHub.Web.Services.Data
                     MaxSalary = j.MaxSalary,
                     Location = j.Location.TownName,
                     Category = j.Category.CategoryName,
-                    CompanyName = j.User.UserName,
+                    CompanyName = j.Company.Name,
                     LogoUrl = j.LogoUrl,
                     Requirements = j.Requirements,
                     CreatedOn = j.CreatedOn

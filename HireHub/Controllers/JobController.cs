@@ -55,6 +55,14 @@ namespace HireHub.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateJobVM model)
         {
+            var isCategoryExist = await _categoryService.IsExist(model.CategoryId);
+
+            if (isCategoryExist == false)
+            {
+                TempData[ErrorMessage] = "Category is invalid!";
+                return RedirectToAction("Create");
+            }
+
             var userId = GetUserId();
             var companyId = await _companyService.GetCompanyIdByUserId(userId);
 

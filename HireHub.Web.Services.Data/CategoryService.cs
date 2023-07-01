@@ -28,5 +28,12 @@ namespace HireHub.Web.Services.Data
 
             return names;
         }
+
+        public Task<bool> IsExist(int id)
+        {
+            var isExist = _context.Categories.AnyAsync(c => c.Id == id);
+
+            return isExist;
+        }
     }
 }

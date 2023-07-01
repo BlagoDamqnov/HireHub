@@ -55,20 +55,20 @@ namespace HireHub.Web.Services.Data
             };
 
             IEnumerable<GetLastFiveJobsVM> allHouses = await jobsQuery
-                .Where(h => h.IsDeleted == false)
-                .Select(h => new GetLastFiveJobsVM()
+                .Where(j => j.IsDeleted == false && j.IsApproved == true)
+                .Select(j => new GetLastFiveJobsVM()
                 {
-                  Id = h.Id,
-                  Title = h.Title,
-                  Town = h.Location.TownName,
-                  CreatorId = h.CreatorId,
-                  CompanyName = h.Company.Name,
-                  MinSalary = h.MinSalary,
-                  MaxSalary = h.MaxSalary,
-                  CreatedOn = h.CreatedOn,
-                  LogoUrl = h.LogoUrl
+                  Id = j.Id,
+                  Title = j.Title,
+                  Town = j.Location.TownName,
+                  CreatorId = j.CreatorId,
+                  CompanyName = j.Company.Name,
+                  MinSalary = j.MinSalary,
+                  MaxSalary = j.MaxSalary,
+                  CreatedOn = j.CreatedOn,
+                  LogoUrl = j.LogoUrl
                 })
-                .Take(5)
+                .Take(100)
                 .ToArrayAsync();
             
             return new AllJobsFilteredServiceModel()

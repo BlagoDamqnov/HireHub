@@ -33,12 +33,14 @@ namespace HireHub.Web.Controllers
             try
             {
                 await _applicationService.AddApply(model, id, GetUserId());
+
                 TempData["SuccessMessage"] = "You have successfully applied for this job.";
                 return RedirectToAction("Explore", "Job");
             }
             catch (InvalidOperationException)
             {
                 TempData["ErrorMessage"] = "You already applied for this job.";
+
                 return RedirectToAction("Apply");
             }
            

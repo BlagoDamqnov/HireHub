@@ -9,5 +9,6 @@
     public interface ICategoryService
     {
         Task<IEnumerable<string>> GetAllCategoryNames();
+        Task<bool> IsExist(int id);
     }
 }

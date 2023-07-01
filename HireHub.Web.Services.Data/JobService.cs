@@ -1,8 +1,10 @@
 ﻿using HireHub.Data;
 using HireHub.Web.Services.Data.Interfaces;
+using HireHub.Web.Services.Data.Models.House;
 using HireHub.Web.ViewModels.Categories;
 using HireHub.Web.ViewModels.Countries;
 using HireHub.Web.ViewModels.Jobs;
+using HireHub.Web.ViewModels.Jobs.Enums;
 using HireHub.Web.ViewModels.Towns;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,27 +26,55 @@ namespace HireHub.Web.Services.Data
             _context = context;
         }
 
-        public async Task<IEnumerable<GetLastFiveJobsVM>> GetLastFiveJobs()
+        public async Task<AllJobsFilteredServiceModel> GetLastFiveJobs(AllJobsQueryModel queryModel)
         {
-            var jobs = await _context.Jobs
-                .Where(j => j.IsDeleted == false && j.IsApproved == true)
-                .Select(j => new GetLastFiveJobsVM()
-                {
-                    Id = j.Id,
-                    Title = j.Title,
-                    Town = j.Location.TownName,
-                    CompanyName = j.Company.Name,
-                    MinSalary = j.MinSalary,
-                    MaxSalary = j.MaxSalary,
-                    CreatedOn = j.CreatedOn,
-                    CreatorId = j.CreatorId,
-                    LogoUrl = j.LogoUrl
-                })
-                .OrderByDescending(j => j.CreatedOn)
-                .Take(10)
-                .ToListAsync();
+            IQueryable<Job> jobsQuery = this._context
+                .Jobs
+                .AsQueryable();
 
-            return jobs;
+            if (!string.IsNullOrWhiteSpace(queryModel.Category))
+            {
+               jobsQuery = jobsQuery.Where(j => j.Category.CategoryName == queryModel.Category);
+            }
+
+            if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
+            {
+                string wildCard = $"%{queryModel.SearchString.ToLower()}%";
+
+                jobsQuery = jobsQuery
+                    .Where(h => EF.Functions.Like(h.Title, wildCard) ||
+                                EF.Functions.Like(h.Description, wildCard));
+            }
+
+            jobsQuery = queryModel.JobSorting switch
+            {
+                JobSorting.Newest => jobsQuery.OrderByDescending(h => h.CreatedOn),
+                JobSorting.Oldest => jobsQuery.OrderBy(h => h.CreatedOn),
+                JobSorting.SalaryDescending => jobsQuery.OrderByDescending(h => h.MinSalary),
+                JobSorting.SalaryAscending => jobsQuery.OrderBy(h => h.MinSalary),
+            };
+
+            IEnumerable<GetLastFiveJobsVM> allHouses = await jobsQuery
+                .Where(h => h.IsDeleted == false)
+                .Select(h => new GetLastFiveJobsVM()
+                {
+                  Id = h.Id,
+                  Title = h.Title,
+                  Town = h.Location.TownName,
+                  CreatorId = h.CreatorId,
+                  CompanyName = h.Company.Name,
+                  MinSalary = h.MinSalary,
+                  MaxSalary = h.MaxSalary,
+                  CreatedOn = h.CreatedOn,
+                  LogoUrl = h.LogoUrl
+                })
+                .Take(5)
+                .ToArrayAsync();
+            
+            return new AllJobsFilteredServiceModel()
+            {
+                Jobs = allHouses
+            };
         }
 
         public async Task<CreateJobVM> GetNewJobAsync()
@@ -142,9 +172,9 @@ namespace HireHub.Web.Services.Data
             return jobs;
         }
 
-        public async Task ApproveJob(Guid id)
+        public async Task ApproveJob(string id)
         {
-            var job = _context.Jobs.FirstOrDefault(j => j.Id == id);
+            var job = _context.Jobs.FirstOrDefault(j => j.Id == Guid.Parse(id));
 
             if (job != null)
             {
@@ -157,9 +187,9 @@ namespace HireHub.Web.Services.Data
             }
         }
 
-        public async Task RejectJob(Guid id)
+        public async Task RejectJob(string id)
         {
-            var job = _context.Jobs.FirstOrDefault(j => j.Id == id);
+            var job = _context.Jobs.FirstOrDefault(j => j.Id == Guid.Parse(id));
 
             if(job != null)
             {
@@ -172,10 +202,11 @@ namespace HireHub.Web.Services.Data
             }
         }
 
-        public async Task<DetailsJobVM?> GetJobDetails(Guid id)
+        public async Task<DetailsJobVM?> GetJobDetails(string id)
         {
+            var parsedJobId = Guid.Parse(id);
             var job = await _context.Jobs
-                .Where(j => j.Id == id)
+                .Where(j => j.Id == parsedJobId)
                 .Select(j => new DetailsJobVM()
                 {
                     Id = j.Id,
@@ -196,13 +227,14 @@ namespace HireHub.Web.Services.Data
             return job;
         }
 
-        public async Task DeleteJob(Guid id)
+        public async Task DeleteJob(string id)
         {
-            var isExist = await _context.Jobs.AnyAsync(j => j.Id == id);
+            var parsedJobId = Guid.Parse(id);
+            var isExist = await _context.Jobs.AnyAsync(j => j.Id == parsedJobId);
 
             if (isExist)
             {
-                var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == id);
+                var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == parsedJobId);
                 job.IsDeleted = true;
                await _context.SaveChangesAsync();
             }

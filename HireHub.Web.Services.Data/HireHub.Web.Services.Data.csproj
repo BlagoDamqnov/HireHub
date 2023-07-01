@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HireHub.Data.Models\HireHub.Data.Models.csproj" />
     <ProjectReference Include="..\HireHub.Data\HireHub.Data.csproj" />
+    <ProjectReference Include="..\HireHub.Web.Services.Data.Models\HireHub.Web.Services.Data.Models.csproj" />
     <ProjectReference Include="..\HireHub.Web.ViewModels\HireHub.Web.ViewModels.csproj" />
   </ItemGroup>
 

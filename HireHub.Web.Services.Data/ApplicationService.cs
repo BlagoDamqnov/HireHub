@@ -42,17 +42,18 @@ namespace HireHub.Web.Services.Data
             return app;
         }
 
-        public async Task AddApply(ApplyForJobVM model,Guid jobId,string userId)
+        public async Task AddApply(ApplyForJobVM model,string jobId,string userId)
         {
+            var parseJobId = Guid.Parse(jobId);
             var isApply = await _context.Applications
-                .Where(x => x.ApplierId == userId && x.JobId == jobId)
+                .Where(x => x.ApplierId == userId && x.JobId == parseJobId)
                 .AnyAsync(x =>x.IsDeleted == true || x.IsApproved == true);
 
             if (isApply == false)
             {
                 var application = new Application
                 {
-                    JobId = jobId,
+                    JobId = parseJobId,
                     ResumeId = model.ResumeId,
                     IsApproved = true,
                     ApplierId = userId,

@@ -1,5 +1,6 @@
 ﻿using HireHub.Web.Controllers;
 using HireHub.Web.Services.Data.Interfaces;
+using HireHub.Web.Services.Data.Models.House;
 using HireHub.Web.ViewModels.Jobs;
 using Microsoft.AspNetCore.Authorization;
 
@@ -17,17 +18,24 @@ namespace HireHub.Controllers
     {
         private readonly IJobService _jobService;
         private readonly ICompanyService _companyService;
-        public JobController(IJobService jobService, ICompanyService companyService)
+        private readonly ICategoryService _categoryService;
+        public JobController(IJobService jobService, ICompanyService companyService, ICategoryService categoryService)
         {
             _jobService = jobService;
             _companyService = companyService;
+            _categoryService = categoryService;
         }
 
+        [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Explore()
+        public async Task<IActionResult> Explore([FromQuery] AllJobsQueryModel queryModel)
         {
-            var jobs = await _jobService.GetLastFiveJobs();
-            return View(jobs);
+            AllJobsFilteredServiceModel jobs = await _jobService.GetLastFiveJobs(queryModel);
+            queryModel.Jobs = jobs.Jobs;
+
+            queryModel.Categories = await _categoryService.GetAllCategoryNames();
+
+            return View(queryModel);
         }
         [HttpGet]
         public async Task<IActionResult> GetTownsByCountryId(int countryId)
@@ -90,7 +98,7 @@ namespace HireHub.Controllers
             return View(jobs);
         }
 
-        public async Task<IActionResult> ApproveJob(Guid id)
+        public async Task<IActionResult> ApproveJob(string id)
         {
             try
             {
@@ -104,7 +112,7 @@ namespace HireHub.Controllers
             return RedirectToAction("AllJobsForApprove");
         }
 
-        public async Task<IActionResult> RejectJob(Guid id)
+        public async Task<IActionResult> RejectJob(string id)
         {
             try{
                 await _jobService.RejectJob(id);
@@ -118,7 +126,7 @@ namespace HireHub.Controllers
             
         }
 
-        public async Task<IActionResult> Details(Guid id)
+        public async Task<IActionResult> Details(string id)
         {
             var job = await _jobService.GetJobDetails(id);
             if (job != null)
@@ -128,7 +136,7 @@ namespace HireHub.Controllers
            return RedirectToAction("Explore");
         }
 
-        public async Task<IActionResult> DetailsForAdmin(Guid id)
+        public async Task<IActionResult> DetailsForAdmin(string id)
         {
             var job = await _jobService.GetJobDetails(id);
             if (job != null)
@@ -138,7 +146,7 @@ namespace HireHub.Controllers
             return RedirectToAction("Explore");
         }
 
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(string id)
         {
             try
             {

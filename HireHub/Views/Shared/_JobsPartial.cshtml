@@ -1,0 +1,33 @@
+﻿@model HireHub.Web.ViewModels.Jobs.GetLastFiveJobsVM
+
+
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+<div id="jobs-container">
+
+        <div class="job-card">
+            <img class="logo" src="@Model.LogoUrl" alt="Company Logo">
+            <div class="job-details">
+                <div class="created-date">@Model.CreatedOn.ToString("dd - MMMM - yyyy")</div>
+                <div class="job-title">@Model.Title</div>
+                <div class="company">Company: @Model.CompanyName</div>
+                <div class="location">Location: @Model.Town</div>
+                <div class="description">
+                    Salary: @Model.MinSalary.ToString("0") lv.
+                    @if (Model.MaxSalary != null)
+                    {
+                        @($" - {Model.MaxSalary.Value.ToString("0")} lv.")
+                    }
+                </div>
+                @if(Model.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                {
+                    <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Details" asp-controller="Job">Details</a></button>
+                }
+                else
+                {
+                    <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Details" asp-controller="Job">Apply Now</a></button>
+                }
+            </div>
+        </div>
+ 
+</div>

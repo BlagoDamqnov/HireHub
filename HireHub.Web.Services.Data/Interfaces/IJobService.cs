@@ -3,6 +3,7 @@ using HireHub.Web.ViewModels.Towns;
 
 namespace HireHub.Web.Services.Data.Interfaces
 {
+    using HireHub.Web.Services.Data.Models.House;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,15 +12,15 @@ namespace HireHub.Web.Services.Data.Interfaces
 
     public interface IJobService
     {
-        public Task<IEnumerable<GetLastFiveJobsVM>> GetLastFiveJobs();
+        Task<AllJobsFilteredServiceModel> GetLastFiveJobs(AllJobsQueryModel queryModel);
         public Task<CreateJobVM> GetNewJobAsync();
         Task<IEnumerable<TownVM>> GetTownsByCountryId(int countryId);
         Task AddJobAsync(CreateJobVM job, string creatorId,int companyId);
         Task<IEnumerable<GetLastFiveJobsVM>> GetAllJobsForApprove();
-        Task ApproveJob(Guid id);
-        Task RejectJob(Guid id);
-        Task<DetailsJobVM?> GetJobDetails(Guid id);
-        Task DeleteJob(Guid id);
+        Task ApproveJob(string id);
+        Task RejectJob(string id);
+        Task<DetailsJobVM?> GetJobDetails(string id);
+        Task DeleteJob(string id);
         Task<IEnumerable<GetLastFiveJobsVM>> SearchJobs(string search);
     }
 }

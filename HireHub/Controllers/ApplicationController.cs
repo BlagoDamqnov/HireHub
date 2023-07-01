@@ -23,7 +23,7 @@ namespace HireHub.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Apply(ApplyForJobVM model, Guid id)
+        public async Task<IActionResult> Apply(ApplyForJobVM model, string id)
         {
             if (!ModelState.IsValid)
             {

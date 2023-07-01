@@ -1,104 +1,62 @@
-﻿@using HireHub.Web.ViewModels.Resume
-@using HireHub.Web.ViewModels.Countries
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@using System.Security.Claims
-@model IEnumerable<HireHub.Web.ViewModels.Jobs.GetLastFiveJobsVM>
+﻿@model HireHub.Web.ViewModels.Jobs.AllJobsQueryModel
+
 @{
-    ViewData["Title"] = "Explore Job";
+    ViewBag.Title = "All Jobs";
 }
 
-<div class="search-bar">
-    <form class="form-inline my-2 my-lg-0" id="search-form">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="search-input">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
-</div>
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
 
-<div id="jobs-container">
-    @if (Model.Any())
-    {
-        foreach (var job in Model)
-        {
-            <div class="job-card">
-                <img class="logo" src="@job.LogoUrl" alt="Company Logo">
-                <div class="job-details">
-                    <div class="created-date">@job.CreatedOn.ToString("dd - MMMM - yyyy")</div>
-                    <div class="job-title">@job.Title</div>
-                    <div class="company">Company: @job.CompanyName</div>
-                    <div class="location">Location: @job.Town</div>
-                    <div class="description">
-                        Salary: @job.MinSalary.ToString("0") lv.
-                        @if (job.MaxSalary != null)
-                        {
-                            @($" - {job.MaxSalary.Value.ToString("0")} lv.")
-                        }
-                    </div>
-                    @if(job.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+<form method="get">
+    <div class="row">
+        <div class="form-group col-md-3 d-flex justify-content-between">
+            <div class="form-group">
+                <label asp-for="Category"></label>
+                <select asp-for="Category" class="form-control">
+                    <option value="">All</option>
+                    @foreach (var category in Model.Categories)
                     {
-                        <button class="apply-btn"><a class="apply-link" asp-route-id="@job.Id" asp-action="Details" asp-controller="Job">Details</a></button>
+                        <option value="@category">@category</option>
                     }
-                    else
-                    {
-                        <button class="apply-btn"><a class="apply-link" asp-route-id="@job.Id" asp-action="Details" asp-controller="Job">Apply Now</a></button>
-                    }
-                </div>
+                </select>
             </div>
-        }
-    }
-    else
-    {
-        <h1>No Jobs Found</h1>
-    }
-</div>
+        </div>
+
+        <div class="form-group col-md-3">
+            <label asp-for="SearchString"></label>
+            <input asp-for="SearchString" class="form-control" placeholder="...">
+        </div>
+
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="JobSorting"></label>
+                <select asp-for="JobSorting" class="form-control">
+                    <option value="0">Newest</option>
+                    <option value="1">Oldest</option>
+                    <option value="2">Min Salary</option>
+                    <option value="3">Max Salary</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group mt-4 p-2">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
 
 
-@section scripts {
-    <script>
-        $(document).ready(function () {
-            $('#search-form').submit(function (event) {
-                event.preventDefault(); // Prevent form submission
 
-                var searchInput = $('#search-input').val(); // Get the search input value
-
-                $.ajax({
-                    url: '@Url.Action("SearchJobs", "Job")', // Replace "YourControllerName" with your actual controller name
-                    type: 'GET',
-                    data: { search: searchInput }, 
-                    success: function (data) {
-                        console.log(data)
-                        $('#jobs-container').empty();
-                        
-                        if (data.length > 0) {
-                        
-                            for (var i = 0; i < data.length; i++) {
-                                var job = data[i];
-
-                                var jobCard = '<div class="job-card">';
-                                jobCard += '<img class="logo" src="' + job.logoUrl + '" alt="Company Logo">';
-                                jobCard += '<div class="job-details">';
-                                jobCard += '<div class="created-date">' + new Date(job.createdOn).toLocaleDateString("en-US", { day: 'numeric', month: 'long', year: 'numeric' }) + '</div>';
-                                jobCard += '<div class="job-title">' + job.title + '</div>';
-                                jobCard += '<div class="company">Company: ' + job.companyName + '</div>';
-                                jobCard += '<div class="location">Location: ' + job.town + '</div>';
-                                jobCard += '<div class="description">Salary: ' + job.minSalary.toFixed(0) + ' lv.';
-                                jobCard += (job.MaxSalary != null) ? ' - ' + job.maxSalary.toFixed(0) + ' lv.' : '';
-                                jobCard += '</div>';
-                                jobCard += '<button class="apply-btn"><a class="apply-link" href="/Job/Details/' + job.id + '">Apply Now</a></button>';
-                                jobCard += '</div>';
-                                jobCard += '</div>';
-
-                                $('#jobs-container').append(jobCard);
-                            }
-                        } else {
-                            $('#jobs-container').html('<h1>No Jobs Found</h1>');
-                        }
-                    },
-                    error: function () {
-                        console.log('An error occurred during the AJAX request.');
-                    }
-                });
-            });
-        });
-    </script>
+@if (!Model.Jobs.Any())
+{
+    <h2 class="text-center">No houses found by the given criteria!</h2>
 }
 
+<div class="row">
+    @foreach (var job in Model.Jobs)
+    {
+        <partial name="_JobsPartial" model="@job" />
+    }
+</div>

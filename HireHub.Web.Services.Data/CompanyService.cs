@@ -64,9 +64,7 @@ namespace HireHub.Web.Services.Data
 
         public async Task<ICollection<GetAllApplications>> MyApplication(int companyId)
         {
-            var applications = await _context.Applications.Where(a => a.Job.Company.Id == companyId).ToListAsync();
-
-            var jobs = await _context.Applications
+            var app = await _context.Applications
                 .Where(j => j.Job.CompanyId == companyId)
                 .Select(j => new GetAllApplications()
                 {
@@ -77,8 +75,8 @@ namespace HireHub.Web.Services.Data
                     Username = j.ApplicationUser.UserName,
                     Resume = j.Resume.ResumePath
                 }).ToListAsync();
-
-            return jobs;
+            
+            return app;
                 
         }
     }

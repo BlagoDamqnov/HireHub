@@ -20,7 +20,8 @@ namespace HireHub.Data
             builder.ApplyConfiguration(new JobEntityTypeConfiguration());
             builder.ApplyConfiguration(new ApplicationEntityTypeConfiguration());
             builder.ApplyConfiguration(new CompanyEntityTypeConfiguration());
-
+            builder.ApplyConfiguration(new UserEntityTypeConfiguration());
+            builder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
             base.OnModelCreating(builder);
         }
 

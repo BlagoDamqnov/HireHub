@@ -9,6 +9,8 @@ namespace HireHub.Controllers
     using HireHub.Models;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
+    using System.Net.Mail;
+    using System.Net;
     using System.Security.Claims;
 
     using static Common.NotificationMessagesConstants;
@@ -27,7 +29,6 @@ namespace HireHub.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> Explore([FromQuery] AllJobsQueryModel queryModel)
         {
             AllJobsFilteredServiceModel jobs = await _jobService.GetLastFiveJobs(queryModel);
@@ -53,6 +54,7 @@ namespace HireHub.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreateJobVM model)
         {
             var isCategoryExist = await _categoryService.IsExist(model.CategoryId);
@@ -85,26 +87,19 @@ namespace HireHub.Controllers
 
             return RedirectToAction("Explore");
         }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> SearchJobs(string search)
-        {
-            var jobs = await _jobService.SearchJobs(search);
-            return Json(jobs);
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AllJobsForApprove()
         {
             var jobs = await _jobService.GetAllJobsForApprove();
             return View(jobs);
         }
+       
 
         public async Task<IActionResult> ApproveJob(string id)
         {

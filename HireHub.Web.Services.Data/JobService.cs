@@ -52,6 +52,7 @@ namespace HireHub.Web.Services.Data
                 JobSorting.Oldest => jobsQuery.OrderBy(h => h.CreatedOn),
                 JobSorting.SalaryDescending => jobsQuery.OrderByDescending(h => h.MinSalary),
                 JobSorting.SalaryAscending => jobsQuery.OrderBy(h => h.MinSalary),
+                _ => throw new NotImplementedException(),
             };
 
             IEnumerable<GetLastFiveJobsVM> allHouses = await jobsQuery
@@ -129,7 +130,7 @@ namespace HireHub.Web.Services.Data
                     LogoUrl = job.Logo,
                     MinSalary = job.MinSalary,
                     MaxSalary = job?.MaxSalary,
-                    LocationId = job.TownId,
+                    LocationId = job!.TownId,
                     CreatorId = creatorId,
                     CreatedOn = DateTime.UtcNow,
                     CategoryId = job.CategoryId,
@@ -235,35 +236,13 @@ namespace HireHub.Web.Services.Data
             if (isExist)
             {
                 var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == parsedJobId);
-                job.IsDeleted = true;
+                job!.IsDeleted = true;
                await _context.SaveChangesAsync();
             }
             else
             {
                 throw new InvalidOperationException("Job not found");
             }
-        }
-
-        public async Task<IEnumerable<GetLastFiveJobsVM>> SearchJobs(string search)
-        {
-            var result = await _context.Jobs
-                .Where(j => (j.Title.Contains(search) || j.Description.Contains(search)) && j.IsApproved == true)
-                .Select(j => new GetLastFiveJobsVM()
-                {
-                    Id = j.Id,
-                    Title = j.Title,
-                    Town = j.Location.TownName,
-                    CompanyName = j.Company.Name,
-                    CreatorId = j.CreatorId,
-                    MinSalary = j.MinSalary,
-                    MaxSalary = j.MaxSalary,
-                    CreatedOn = j.CreatedOn,
-                    LogoUrl = j.LogoUrl
-                })
-                .OrderByDescending(j => j.CreatedOn)
-                .Take(10)
-                .ToListAsync();
-            return result;
         }
     }
 }

@@ -7,47 +7,55 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-<form method="get">
-    <div class="row">
-        <div class="form-group col-md-3">
-            <div class="form-group">
-                <label asp-for="Category"></label>
-                <select asp-for="Category" class="form-control">
-                    <option value="">All</option>
-                    @foreach (var category in Model.Categories)
-                    {
-                        <option value="@category">@category</option>
-                    }
-                </select>
-            </div>
-        </div>
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#searchModal">
+    <span class="bi bi-funnel-fill"></span> Filter
+</button>
 
-        <div class="form-group col-md-3">
-                <label asp-for="SearchString"></label>
-                <input asp-for="SearchString" class="form-control" placeholder="...">
-        </div>
-
-        <div class="form-group col-md-3">
-            <div class="form-group">
-                <label asp-for="JobSorting"></label>
-                <select asp-for="JobSorting" class="form-control">
-                    <option value="0">Newest</option>
-                    <option value="1">Oldest</option>
-                    <option value="2">Min Salary</option>
-                    <option value="3">Max Salary</option>
-                </select>
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="searchModalLabel">Search Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </div>
+            <form method="get">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label asp-for="Category">Category</label>
+                            <select asp-for="Category" class="form-control">
+                                <option value="">All</option>
+                                @foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category">@category</option>
+                                }
+                            </select>
+                        </div>
 
-        <div class="col-md-3">
-            <div class="form-group mt-4 p-1">
-                <input type="submit" value="Search" class="btn btn-primary" />
-            </div>
+                        <div class="form-group col-md-4">
+                            <label asp-for="SearchString">Search</label>
+                            <input asp-for="SearchString" class="form-control" placeholder="...">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label asp-for="JobSorting">Sort By</label>
+                            <select asp-for="JobSorting" class="form-control">
+                                <option value="0">Newest</option>
+                                <option value="1">Oldest</option>
+                                <option value="2">Min Salary</option>
+                                <option value="3">Max Salary</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
         </div>
     </div>
-</form>
-
-
+</div>
 
 @if (!Model.Jobs.Any())
 {

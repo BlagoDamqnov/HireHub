@@ -29,6 +29,7 @@ namespace HireHub.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Explore([FromQuery] AllJobsQueryModel queryModel)
         {
             AllJobsFilteredServiceModel jobs = await _jobService.GetLastFiveJobs(queryModel);

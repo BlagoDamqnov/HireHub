@@ -49,6 +49,13 @@ namespace HireHub.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            var canCreate = await _companyService.IsUserHaveCompany(GetUserId());
+
+            if (!canCreate)
+            {
+                TempData[InformationMessage] = "You must have a company to create a job offer.";
+                return RedirectToAction("Explore");
+            }
             CreateJobVM model = await _jobService.GetNewJobAsync();
 
             return View(model);

@@ -7,6 +7,7 @@ using HireHub.Web.ViewModels.Jobs;
 using HireHub.Web.ViewModels.Jobs.Enums;
 using HireHub.Web.ViewModels.Towns;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Signing;
 
 namespace HireHub.Web.Services.Data
 {
@@ -17,7 +18,7 @@ namespace HireHub.Web.Services.Data
     using System.Text;
     using System.Threading.Tasks;
 
-    public class JobService:IJobService
+    public class JobService : IJobService
     {
         private readonly ApplicationDbContext _context;
 
@@ -34,7 +35,7 @@ namespace HireHub.Web.Services.Data
 
             if (!string.IsNullOrWhiteSpace(queryModel.Category))
             {
-               jobsQuery = jobsQuery.Where(j => j.Category.CategoryName == queryModel.Category);
+                jobsQuery = jobsQuery.Where(j => j.Category.CategoryName == queryModel.Category);
             }
 
             if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
@@ -59,19 +60,19 @@ namespace HireHub.Web.Services.Data
                 .Where(j => j.IsDeleted == false && j.IsApproved == true)
                 .Select(j => new GetLastFiveJobsVM()
                 {
-                  Id = j.Id,
-                  Title = j.Title,
-                  Town = j.Location.TownName,
-                  CreatorId = j.CreatorId,
-                  CompanyName = j.Company.Name,
-                  MinSalary = j.MinSalary,
-                  MaxSalary = j.MaxSalary,
-                  CreatedOn = j.CreatedOn,
-                  LogoUrl = j.LogoUrl
+                    Id = j.Id,
+                    Title = j.Title,
+                    Town = j.Location.TownName,
+                    CreatorId = j.CreatorId,
+                    CompanyName = j.Company.Name,
+                    MinSalary = j.MinSalary,
+                    MaxSalary = j.MaxSalary,
+                    CreatedOn = j.CreatedOn,
+                    LogoUrl = j.LogoUrl
                 })
                 .Take(100)
                 .ToArrayAsync();
-            
+
             return new AllJobsFilteredServiceModel()
             {
                 Jobs = allHouses
@@ -84,7 +85,7 @@ namespace HireHub.Web.Services.Data
                 .Select(c => new CountryVM()
                 {
                     CountryId = c.Id,
-                    Name =c.CountryName
+                    Name = c.CountryName
                 })
                 .ToListAsync();
 
@@ -105,7 +106,7 @@ namespace HireHub.Web.Services.Data
             return job;
         }
 
-        public async Task<IEnumerable<TownVM>> GetTownsByCountryId( int countryId)
+        public async Task<IEnumerable<TownVM>> GetTownsByCountryId(int countryId)
         {
             var towns = await _context.Towns
                 .Where(t => t.CountryId == countryId)
@@ -192,7 +193,7 @@ namespace HireHub.Web.Services.Data
         {
             var job = _context.Jobs.FirstOrDefault(j => j.Id == Guid.Parse(id));
 
-            if(job != null)
+            if (job != null)
             {
                 job.IsDeleted = true;
                 await _context.SaveChangesAsync();
@@ -237,12 +238,95 @@ namespace HireHub.Web.Services.Data
             {
                 var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == parsedJobId);
                 job!.IsDeleted = true;
-               await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             else
             {
                 throw new InvalidOperationException("Job not found");
             }
+        }
+
+        public async Task<EditJobVM> GetJobDetailsForEdit(string id, string userId)
+        {
+            var isExist = await _context.Jobs.AnyAsync(j => j.Id == Guid.Parse(id));
+            if (isExist)
+            {
+                var getJobForCheck = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == Guid.Parse(id));
+
+                if (getJobForCheck?.CreatorId != userId)
+                {
+                    throw new InvalidOperationException("You are not creator of this job");
+                }
+                var job = await _context.Jobs.Where(j => j.Id == Guid.Parse(id))
+                   .Select(j => new EditJobVM()
+                   {
+                       Id = j.Id,
+                       Title = j.Title,
+                       Logo = j.LogoUrl,
+                       CategoryId = j.CategoryId,
+                       TownName = j.Location.TownName,
+                       CountryName = j.Location.Country.CountryName,
+                       CountryId = j.Location.CountryId,
+                       TownId = j.LocationId,
+                       Description = j.Description,
+                       MinSalary = j.MinSalary,
+                       MaxSalary = j.MaxSalary,
+                       Requirements = j.Requirements
+                   })
+                   .FirstOrDefaultAsync();
+
+                var categories = await _context.Categories
+                    .Select(c => new CategoryVM()
+                    {
+                        Id = c.Id,
+                        Name = c.CategoryName
+                    })
+                    .ToListAsync();
+
+                job!.Categories = categories;
+
+                var countries = await _context.Countries
+                    .Select(c => new CountryVM()
+                    {
+                        CountryId = c.Id,
+                        Name = c.CountryName
+                    })
+                    .ToListAsync();
+
+                job!.Countries = countries;
+
+                job!.Towns = await _context.Towns.Where(t => t.CountryId == job.CountryId)
+                    .Select(t => new TownVM()
+                    {
+                        TownId = t.Id,
+                        Name = t.TownName
+                    })
+                    .ToListAsync();
+
+                return job!;
+            }
+            return null!;
+        }
+
+        public async Task EditJob(EditJobVM model)
+        {
+            var jobForEdit = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == model.Id);
+
+            if (jobForEdit == null)
+            {
+                throw new InvalidOperationException("Job not found");
+            }
+
+            jobForEdit.Title = model.Title;
+            jobForEdit.LogoUrl = model.Logo;
+            jobForEdit.CategoryId = model.CategoryId;
+            jobForEdit.LocationId = model.TownId;
+            jobForEdit.Description = model.Description;
+            jobForEdit.MinSalary = model.MinSalary;
+            jobForEdit.MaxSalary = model.MaxSalary;
+            jobForEdit.Requirements = model.Requirements;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -21,5 +21,8 @@ namespace HireHub.Web.Services.Data.Interfaces
         Task RejectJob(string id);
         Task<DetailsJobVM?> GetJobDetails(string id);
         Task DeleteJob(string id);
+        Task<EditJobVM> GetJobDetailsForEdit(string id, string userId);
+
+        Task EditJob(EditJobVM model);
     }
 }

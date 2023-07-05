@@ -164,5 +164,45 @@ namespace HireHub.Controllers
             TempData[SuccessMessage] = "You have successfully deleted a job offer.";
             return RedirectToAction("Explore");
         }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            try
+            {
+                var job = await _jobService.GetJobDetailsForEdit(id, GetUserId());
+                if (job == null)
+                {
+                    TempData[ErrorMessage] = "Error during edit a job!";
+                    return RedirectToAction("Explore");
+                }
+
+                return View(job);
+            }
+            catch (InvalidOperationException e)
+            {
+                TempData[ErrorMessage] = e.Message;
+            }
+            return RedirectToAction("Explore");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditJobVM model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData[ErrorMessage] = "Error during edit a job!";
+                return RedirectToAction("Edit");
+            }
+            try
+            {
+                await _jobService.EditJob(model);
+            }
+            catch (InvalidOperationException)
+            {
+                TempData[ErrorMessage] = "Error during edit a job!";
+            }
+
+            return RedirectToAction("Explore");
+        }
     }
 }

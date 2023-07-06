@@ -4,6 +4,7 @@ using HireHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HireHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230706143957_SeedUserAdminData")]
+    partial class SeedUserAdminData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,16 +278,16 @@ namespace HireHub.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e332f872-2826-4cd4-a64b-65f82014f1af",
+                            Id = "4aa6831b-552e-473b-b40e-f71d5b8a5b44",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b6ed66f0-d3ef-4b08-8d68-2b3851a65cf4",
+                            ConcurrencyStamp = "59a2e2b7-c2e7-4e32-aa50-29c06b717ae2",
                             Email = "admin@abv.bg",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE5psutPCWSYgyQfbjNf+Pv8qL/3bYP+2L8c5+3h69c5CDWKMZ0IaudQZzMGYGiW9w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOpxfsFY/n27EsHUW+5XGTbldIWULQcLrDAV8dXxNLqoscSJ4w7E5qqnoBV84mISUA==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "6278cca0-385d-468e-b9ed-daa48828c13e",
+                            SecurityStamp = "d72a7eee-7646-496a-98a0-abd8afe4f00c",
                             TwoFactorEnabled = false,
                             UserName = "admin@abv.bg"
                         });
@@ -444,13 +446,6 @@ namespace HireHub.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "4aa6831b-552e-473b-b40e-f71d5b8a5b44",
-                            RoleId = "ef4c3c3e-8d45-4f36-92a8-994ce2d811fe"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

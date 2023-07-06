@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HireHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230703150512_AddUserToRole")]
+    [Migration("20230706144420_AddUserToRole")]
     partial class AddUserToRole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -274,6 +274,23 @@ namespace HireHub.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "e332f872-2826-4cd4-a64b-65f82014f1af",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b6ed66f0-d3ef-4b08-8d68-2b3851a65cf4",
+                            Email = "admin@abv.bg",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "ADMIN@ABV.BG",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE5psutPCWSYgyQfbjNf+Pv8qL/3bYP+2L8c5+3h69c5CDWKMZ0IaudQZzMGYGiW9w==",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "6278cca0-385d-468e-b9ed-daa48828c13e",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@abv.bg"
+                        });
                 });
 
             modelBuilder.Entity("HireHub.Data.Models.Entities.Company", b =>
@@ -433,7 +450,7 @@ namespace HireHub.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "ff7240f7-02d0-4d9f-aab9-43b759a328df",
+                            UserId = "4aa6831b-552e-473b-b40e-f71d5b8a5b44",
                             RoleId = "ef4c3c3e-8d45-4f36-92a8-994ce2d811fe"
                         });
                 });

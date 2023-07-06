@@ -11,7 +11,7 @@ namespace HireHub.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "ef4c3c3e-8d45-4f36-92a8-994ce2d811fe", "ff7240f7-02d0-4d9f-aab9-43b759a328df" });
+                values: new object[] { "ef4c3c3e-8d45-4f36-92a8-994ce2d811fe", "4aa6831b-552e-473b-b40e-f71d5b8a5b44" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -19,7 +19,13 @@ namespace HireHub.Data.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetUserRoles",
                 keyColumns: new[] { "RoleId", "UserId" },
-                keyValues: new object[] { "ef4c3c3e-8d45-4f36-92a8-994ce2d811fe", "ff7240f7-02d0-4d9f-aab9-43b759a328df" });
+                keyValues: new object[] { "ef4c3c3e-8d45-4f36-92a8-994ce2d811fe", "4aa6831b-552e-473b-b40e-f71d5b8a5b44" });
+
+            migrationBuilder.DeleteData(
+                table: "AspNetUsers",
+                keyColumn: "Id",
+                keyValue: "e332f872-2826-4cd4-a64b-65f82014f1af");
+
         }
     }
 }

@@ -14,7 +14,7 @@
     <hr />
     <div class="description">
         <h4>Description</h4>
-        @foreach (var description in Model.Description.Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries))
+        @foreach (var description in Model.Description.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
         {
             <p>@description</p>
         }
@@ -29,15 +29,18 @@
         </ul>
     </div>
     <div class="apply-button">
-        @if(Model.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+        @if (!User.IsInRole("Admin"))
         {
-            <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Job">Edit</a></button>
-            <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Delete" asp-controller="Job">Delete</a></button>
+            if (Model.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Edit" asp-controller="Job">Edit</a></button>
+                <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Delete" asp-controller="Job">Delete</a></button>
+            }
+            else
+            {
+                <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Apply" asp-controller="Application">Apply Now</a></button>
+            }
         }
-        else
-        {
-            <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Apply" asp-controller="Application">Apply Now</a></button>
-        }
-        
+
     </div>
 </div>

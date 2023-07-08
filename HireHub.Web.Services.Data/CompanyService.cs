@@ -27,9 +27,9 @@ namespace HireHub.Web.Services.Data
         {
             var company = new Company()
             {
-                Name = createCompanyVM.Name,
-                ContactEmail = createCompanyVM.ContactEmail,
-                ContactPhone = createCompanyVM.ContactPhone,
+                Name = createCompanyVM.Name.Trim(),
+                ContactEmail = createCompanyVM.ContactEmail.Trim(),
+                ContactPhone = createCompanyVM.ContactPhone!.Trim(),
                 UserId = userId
             };
 

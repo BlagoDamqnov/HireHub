@@ -126,9 +126,9 @@ namespace HireHub.Web.Services.Data
             {
                 var jobToAdd = new Job()
                 {
-                    Title = job.Title,
-                    Description = job.Description,
-                    LogoUrl = job.Logo,
+                    Title = job.Title.Trim(),
+                    Description = job.Description.Trim(),
+                    LogoUrl = job.Logo.Trim(),
                     MinSalary = job.MinSalary,
                     MaxSalary = job?.MaxSalary,
                     LocationId = job!.TownId,
@@ -138,7 +138,7 @@ namespace HireHub.Web.Services.Data
                     IsDeleted = false,
                     IsApproved = false,
                     CompanyId = companyId,
-                    Requirements = job.Requirements
+                    Requirements = job.Requirements.Trim()
                 };
 
                 _context.Jobs.Add(jobToAdd);
@@ -317,14 +317,14 @@ namespace HireHub.Web.Services.Data
                 throw new InvalidOperationException("Job not found");
             }
 
-            jobForEdit.Title = model.Title;
-            jobForEdit.LogoUrl = model.Logo;
+            jobForEdit.Title = model.Title.Trim();
+            jobForEdit.LogoUrl = model.Logo.Trim();
             jobForEdit.CategoryId = model.CategoryId;
             jobForEdit.LocationId = model.TownId;
-            jobForEdit.Description = model.Description;
+            jobForEdit.Description = model.Description.Trim();
             jobForEdit.MinSalary = model.MinSalary;
             jobForEdit.MaxSalary = model.MaxSalary;
-            jobForEdit.Requirements = model.Requirements;
+            jobForEdit.Requirements = model.Requirements.Trim();
 
             await _context.SaveChangesAsync();
         }

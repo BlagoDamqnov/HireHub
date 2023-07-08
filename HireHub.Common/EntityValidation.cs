@@ -23,5 +23,39 @@
             public const int LogoUrlMinLength = 10;
             public const int LogoUrlMaxLength = 2000;
         }
+        public static class Resume
+        {
+            public const int NameMinLength = 5;
+            public const int NameMaxLength = 50;
+            public const int ResumePathMinLength = 10;
+            public const int ResumePathMaxLength = 2000;
+        }
+
+        public static class Town
+        {
+            public const int TownNameMinLength = 5;
+            public const int TownNameMaxLength = 50;
+        }
+        public static class Country
+        {
+            public const int CountryNameMinLength = 5;
+            public const int CountryNameMaxLength = 50;
+        }
+
+        public static class Company
+        {
+            public const int CompanyNameMinLength = 5;
+            public const int CompanyNameMaxLength = 50;
+            public const int ContactEmailMinLength = 5;
+            public const int ContactEmailMaxLength = 50;
+            public const int ContactPhoneMinLength = 5;
+            public const int ContactPhoneMaxLength = 50;
+        }
+
+        public static class Category
+        {
+            public const int CategoryNameMinLength = 5;
+            public const int CategoryNameMaxLength = 50;
+        }
     }
 }

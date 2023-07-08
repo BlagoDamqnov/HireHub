@@ -24,8 +24,8 @@ namespace HireHub.Web.Services.Data
         {
             var resume = new Resume
             {
-                Name = model.Name,
-                ResumePath = model.ResumePath,
+                Name = model.Name.Trim(),
+                ResumePath = model.ResumePath.Trim(),
                 CreatorId = userId
             };
 

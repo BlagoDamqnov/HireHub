@@ -29,8 +29,8 @@ namespace HireHub.Web.Services.Data
                 .Select(r => new GetResumeVM()
                 {
                     Id = r.Id,
-                    Name = r.Name,
-                    ResumePath = r.ResumePath,
+                    Name = r.Name.Trim(),
+                    ResumePath = r.ResumePath.Trim(),
                     CreatorId = r.CreatorId
                 }).Where(x => x.CreatorId == userId).ToListAsync();
 

@@ -25,7 +25,9 @@ namespace HireHub.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index","Home");
+                var error = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault();
+                TempData["ErrorMessage"] = error!.ErrorMessage;
+                return RedirectToAction("Add","Resume");
             }
 
             await _resumeService.AddResumeAsync(resume, GetUserId());

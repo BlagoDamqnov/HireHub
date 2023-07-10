@@ -14,7 +14,7 @@ namespace HireHub.Web.Services.Data
     using System.Text;
     using System.Threading.Tasks;
 
-    public class CompanyService:ICompanyService
+    public class CompanyService : ICompanyService
     {
         private readonly ApplicationDbContext _context;
 
@@ -23,18 +23,27 @@ namespace HireHub.Web.Services.Data
             _context = context;
         }
 
-        public async Task CreateCompanyAsync(CreateCompanyVM createCompanyVM,string userId)
+        public async Task CreateCompanyAsync(CreateCompanyVM createCompanyVM, string userId)
         {
-            var company = new Company()
-            {
-                Name = createCompanyVM.Name.Trim(),
-                ContactEmail = createCompanyVM.ContactEmail.Trim(),
-                ContactPhone = createCompanyVM.ContactPhone!.Trim(),
-                UserId = userId
-            };
+            var isExistWithSameName = await _context.Companies.AnyAsync(c => c.Name == createCompanyVM.Name.Trim());
 
-            await _context.Companies.AddAsync(company);
-            await _context.SaveChangesAsync();
+           if(isExistWithSameName)
+            {
+                throw new ArgumentException("Company with same name already exist!");
+            }
+            else
+            {
+                var company = new Company()
+                {
+                    Name = createCompanyVM.Name.Trim(),
+                    ContactEmail = createCompanyVM.ContactEmail.Trim(),
+                    ContactPhone = createCompanyVM.ContactPhone!.Trim(),
+                    UserId = userId
+                };
+
+                await _context.Companies.AddAsync(company);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<int> GetCompanyIdByUserId(string userId)
@@ -46,13 +55,9 @@ namespace HireHub.Web.Services.Data
 
         public async Task<bool> IsUserHaveCompany(string userId)
         {
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId);
+            var company = await _context.Companies.AnyAsync(c => c.UserId == userId);
 
-            if (company == null)
-            {
-                return false;
-            }
-            return true;
+            return company;
         }
 
         public async Task<string?> GetCompanyNameByUserId(string id)
@@ -65,7 +70,7 @@ namespace HireHub.Web.Services.Data
         public async Task<ICollection<GetAllApplications>> MyApplication(int companyId)
         {
             var app = await _context.Applications
-                .Where(j => j.Job.CompanyId == companyId)
+                .Where(j => j.Job.CompanyId == companyId && j.IsDeleted == false)
                 .Select(j => new GetAllApplications()
                 {
                     Id = j.Job.Id,
@@ -75,9 +80,9 @@ namespace HireHub.Web.Services.Data
                     Username = j.ApplicationUser.UserName,
                     Resume = j.Resume.ResumePath
                 }).ToListAsync();
-            
+
             return app;
-                
+
         }
     }
 }

@@ -37,8 +37,17 @@ namespace HireHub.Web.Controllers
             {
                 return View(createCompanyVM);
             }
-            await _companyService.CreateCompanyAsync(createCompanyVM, GetUserId());
 
+            try
+            {
+                await _companyService.CreateCompanyAsync(createCompanyVM, GetUserId());
+            }
+            catch (ArgumentException e)
+            {
+                TempData["ErrorMessage"] = e.Message;
+                return View(createCompanyVM);
+            }
+           
             return RedirectToAction("Explore", "Job");
         }
 

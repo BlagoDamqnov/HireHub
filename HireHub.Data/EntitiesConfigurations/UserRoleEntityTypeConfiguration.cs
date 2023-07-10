@@ -17,11 +17,21 @@ namespace HireHub.Data.EntitiesConfigurations
         {
             builder.HasKey(x => new { x.UserId, x.RoleId });
 
-            builder.HasData(new IdentityUserRole<string>
+            builder.HasData(Seed());
+        }
+
+        private List<IdentityUserRole<string>> Seed()
+        {
+            var userToRole = new List<IdentityUserRole<string>>()
             {
-                RoleId = "ef4c3c3e-8d45-4f36-92a8-994ce2d811fe",
-                UserId = "4aa6831b-552e-473b-b40e-f71d5b8a5b44"
-            });
+                new IdentityUserRole<string>
+                {
+                    RoleId = "ef4c3c3e-8d45-4f36-92a8-994ce2d811fe",
+                    UserId = "4aa6831b-552e-473b-b40e-f71d5b8a5b44"
+                },
+            };
+
+            return userToRole;
         }
     }
 }

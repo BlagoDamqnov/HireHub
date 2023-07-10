@@ -14,8 +14,14 @@ namespace HireHub.Data.EntitiesConfigurations
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
-            var appUser = new ApplicationUser()
+            builder.HasData(Seed());
+        }
+
+        private ApplicationUser Seed()
+        {
+            var user = new ApplicationUser()
             {
+                Id = "4aa6831b-552e-473b-b40e-f71d5b8a5b44",
                 Email = "admin@abv.bg",
                 EmailConfirmed = true,
                 UserName = "admin@abv.bg",
@@ -26,10 +32,10 @@ namespace HireHub.Data.EntitiesConfigurations
                 NormalizedUserName = "ADMIN@ABV.BG"
             };
 
-            builder.HasData(appUser);
-
             PasswordHasher<ApplicationUser> ph = new PasswordHasher<ApplicationUser>();
-            appUser.PasswordHash = ph.HashPassword(appUser, "000000");
+            user.PasswordHash = ph.HashPassword(user, "000000");
+
+            return user;
         }
     }
 }

@@ -141,10 +141,6 @@ body {
     text-decoration: none;
 }
 
-.nav-bar-hire {
-    margin-left: 760px !important;
-}
-
 .create-container {
     max-width: 500px;
     margin: 0 auto;
@@ -233,6 +229,8 @@ th, td {
 .btn-group {
     display: flex;
     flex-direction: row;
+    margin-left: 25px;
+    padding-left: 23px;
 }
 
     .btn-group .app-btn {
@@ -524,11 +522,6 @@ body {
     color: white !important;
     text-decoration: none;
 }
-
-.nav-bar-hire {
-    margin-left: 700px !important;
-}
-
 .create-container {
     max-width: 500px;
     margin: 0 auto;

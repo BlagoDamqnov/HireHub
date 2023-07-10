@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 namespace HireHub.Web.Services.Data
 {
     using HireHub.Web.ViewModels.Application;
+    using HireHub.Web.ViewModels.Company;
+    using HireHub.Web.ViewModels.Jobs;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -42,12 +44,12 @@ namespace HireHub.Web.Services.Data
             return app;
         }
 
-        public async Task AddApply(ApplyForJobVM model,string jobId,string userId)
+        public async Task AddApply(ApplyForJobVM model, string jobId, string userId)
         {
             var parseJobId = Guid.Parse(jobId);
+
             var isApply = await _context.Applications
-                .Where(x => x.ApplierId == userId && x.JobId == parseJobId)
-                .AnyAsync(x =>x.IsDeleted == true || x.IsApproved == true);
+                .Where(x => x.ApplierId == userId && x.JobId == parseJobId && x.IsDeleted == false).AnyAsync();
 
             if (isApply == false)
             {
@@ -67,7 +69,40 @@ namespace HireHub.Web.Services.Data
             {
                 throw new InvalidOperationException("You have already applied for this job!");
             }
-          
+
+        }
+
+        public async Task<IEnumerable<GetAllApplications>> GetMyApplication(string userId)
+        {
+            var getAllApplications = await _context.Applications
+                 .Where(j => j.ApplierId == userId && j.IsDeleted == false)
+                 .Select(j => new GetAllApplications()
+                 {
+                     Id = j.Job.Id,
+                     Title = j.Job.Title,
+                     CreatedOn = j.Job.CreatedOn,
+                     LogoUrl = j.Job.LogoUrl,
+                     Resume = j.Resume.ResumePath
+                 }).ToListAsync();
+
+            return getAllApplications;
+        }
+
+        public Task RemoveApplication(string id, string userId)
+        {
+           var parseId = Guid.Parse(id);
+            var application = _context.Applications
+                .Where(x => x.ApplierId == userId && x.JobId == parseId && x.IsDeleted == false)
+                .FirstOrDefault();
+
+            if (application != null)
+            {
+                application.IsDeleted = true;
+                _context.Applications.Update(application);
+                _context.SaveChanges();
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

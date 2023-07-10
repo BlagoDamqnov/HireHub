@@ -6,14 +6,14 @@ namespace HireHub.Web.Controllers
     using HireHub.Controllers;
     using Microsoft.AspNetCore.Mvc;
 
-    public class ApplicationController:UserController
+    public class ApplicationController : UserController
     {
-      private readonly IApplicationService _applicationService;
+        private readonly IApplicationService _applicationService;
 
-      public ApplicationController(IApplicationService applicationService)
-      {
-          _applicationService = applicationService;
-      }
+        public ApplicationController(IApplicationService applicationService)
+        {
+            _applicationService = applicationService;
+        }
 
         [HttpGet]
         public async Task<IActionResult> Apply()
@@ -37,13 +37,50 @@ namespace HireHub.Web.Controllers
                 TempData["SuccessMessage"] = "You have successfully applied for this job.";
                 return RedirectToAction("Explore", "Job");
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException e)
             {
-                TempData["ErrorMessage"] = "You already applied for this job.";
+                TempData["ErrorMessage"] = e.Message;
 
                 return RedirectToAction("Apply");
             }
-           
+
         }
+
+        public async Task<IActionResult> GetMyApplication()
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Explore", "Job");
+            }
+
+            try
+            {
+                var myApplications = await _applicationService.GetMyApplication(GetUserId());
+                return View(myApplications);
+            }
+            catch (InvalidOperationException)
+            {
+                TempData["ErrorMessage"] = "You don't have any applications.";
+
+                return RedirectToAction("Explore", "Job");
+            }
+        }
+        public async Task<IActionResult> Remove(string id)
+        {
+            try
+            {
+                await _applicationService.RemoveApplication(id, GetUserId());
+
+                TempData["SuccessMessage"] = "You have successfully removed your application.";
+                return RedirectToAction("GetMyApplication");
+            }
+            catch (InvalidOperationException)
+            {
+                TempData["ErrorMessage"] = "You don't have any applications.";
+
+                return RedirectToAction("GetMyApplication");
+            }
+        }
+
     }
 }

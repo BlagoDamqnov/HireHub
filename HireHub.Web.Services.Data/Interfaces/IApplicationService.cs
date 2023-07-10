@@ -2,6 +2,7 @@
 
 namespace HireHub.Web.Services.Data.Interfaces
 {
+    using HireHub.Web.ViewModels.Company;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,5 +13,7 @@ namespace HireHub.Web.Services.Data.Interfaces
     {
         Task<ApplyForJobVM> AddApplicationAsync( string userId);
         Task AddApply(ApplyForJobVM model, string jobId, string userId);
+        Task<IEnumerable<GetAllApplications>> GetMyApplication(string userId);
+        Task RemoveApplication(string id, string userId);
     }
 }

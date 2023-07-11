@@ -214,6 +214,7 @@ namespace HireHub.Web.Services.Data
                     Id = j.Id,
                     CreatorId = j.CreatorId,
                     Title = j.Title,
+                    PhoneNumber = j.Company.ContactPhone,
                     Description = j.Description,
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,

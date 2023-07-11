@@ -1,0 +1,33 @@
+﻿@model HireHub.Web.ViewModels.Company.EditCompanyVM;
+
+<div class="container">
+    <h2>Edit Company Information</h2>
+    <form method="post" action="/Company/Edit">
+        <div class="form-group">
+            <label asp-for="@Model.Name">Company Name:</label>
+            <input asp-for="@Model.Name" type="text" class="form-control" value="@Model.Name" required>
+            <span asp-validation-for="@Model.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.ContactEmail">Contact Email:</label>
+            <input asp-for="@Model.ContactEmail" type="email" class="form-control" value="@Model.ContactEmail" required>
+            <span asp-validation-for="@Model.ContactEmail" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.ContactPhone">Contact Phone:</label>
+            <input asp-for="@Model.ContactPhone" type="tel" class="form-control" value="@Model.ContactPhone" required>
+            <span asp-validation-for="@Model.ContactPhone" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+
+    </form>
+</div>
+<form asp-route-id="@Model.Id" method="post" asp-action="Delete" asp-controller="Company" class="btn-group">
+    <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+</form>
+
+<!-- JavaScript dependencies for Bootstrap -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+

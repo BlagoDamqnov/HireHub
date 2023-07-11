@@ -25,11 +25,11 @@ namespace HireHub.Web.Services.Data
 
         public async Task CreateCompanyAsync(CreateCompanyVM createCompanyVM, string userId)
         {
-            var isExistWithSameData = await _context.Companies.AnyAsync(c => c.Name == createCompanyVM.Name.Trim() || c.ContactEmail == createCompanyVM.ContactEmail || c.ContactPhone == createCompanyVM.ContactPhone);
+            var isExistWithSameName = await _context.Companies.AnyAsync(c => c.Name == createCompanyVM.Name.Trim());
 
-            if (isExistWithSameData)
+           if(isExistWithSameName)
             {
-                throw new ArgumentException("Company with same data already exist!");
+                throw new ArgumentException("Company with same name already exist!");
             }
             else
             {
@@ -83,62 +83,6 @@ namespace HireHub.Web.Services.Data
 
             return app;
 
-        }
-
-        public async Task<EditCompanyVM> EditCompanyAsync(EditCompanyVM editCompanyVM, string userId)
-        {
-            var getCompanyByUserId = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId);
-
-            var isExistWithData = await _context.Companies.AnyAsync(c => c.Id != getCompanyByUserId!.Id && (c.Name == editCompanyVM.Name.Trim() || c.ContactEmail == editCompanyVM.ContactEmail || c.ContactPhone == editCompanyVM.ContactPhone));
-
-            if (isExistWithData)
-            {
-                throw new ArgumentException("Company with same22 data already exist!");
-            }
-
-            if (string.IsNullOrWhiteSpace(editCompanyVM.Name) || string.IsNullOrWhiteSpace(editCompanyVM.ContactEmail) || string.IsNullOrWhiteSpace(editCompanyVM.ContactPhone))
-            {
-                throw new ArgumentException("You have not changed anything!");
-            }
-            if (getCompanyByUserId == null) 
-            {
-                throw new ArgumentException("Company not found!");
-            }
-            getCompanyByUserId.Name = editCompanyVM.Name.Trim();
-            getCompanyByUserId.ContactEmail = editCompanyVM.ContactEmail.Trim();
-            getCompanyByUserId.ContactPhone = editCompanyVM.ContactPhone!.Trim();
-
-            await _context.SaveChangesAsync();
-
-            return editCompanyVM;
-        }
-
-        public async Task<EditCompanyVM> GetCompanyByUserId(string userId)
-        {
-            var company = await _context.Companies.Where(c => c.UserId == userId)
-                .Select(c => new EditCompanyVM()
-                {
-                    Id = c.Id,
-                    Name = c.Name,
-                    ContactEmail = c.ContactEmail,
-                    ContactPhone = c.ContactPhone
-                }).FirstOrDefaultAsync();
-
-            return company!;
-        }
-
-        public async  Task<bool> DeleteCompany(int id)
-        {
-           var company = _context.Companies.FirstOrDefault(c => c.Id == id);
-            if (company == null)
-            {
-                throw new ArgumentException("Company not found!");
-            }
-           
-            _context.Companies.Remove(company);
-            await _context.SaveChangesAsync();
-
-            return Task.CompletedTask.IsCompleted;
         }
     }
 }

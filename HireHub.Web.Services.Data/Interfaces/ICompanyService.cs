@@ -15,9 +15,7 @@ namespace HireHub.Web.Services.Data.Interfaces
         Task<int> GetCompanyIdByUserId(string userId);
         Task<bool> IsUserHaveCompany(string userId);
         Task<string?> GetCompanyNameByUserId(string id);
+
         Task<ICollection<GetAllApplications>> MyApplication(int companyId);
-        Task<EditCompanyVM> EditCompanyAsync(EditCompanyVM editCompanyVM, string userId);
-        Task<EditCompanyVM> GetCompanyByUserId(string userId);
-        Task<bool> DeleteCompany(int id);
     }
 }

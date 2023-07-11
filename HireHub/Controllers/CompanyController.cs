@@ -22,38 +22,13 @@ namespace HireHub.Web.Controllers
 
             if (isExist)
             {
-                return RedirectToAction("Edit", "Company");
+                return RedirectToAction("IsExist", "Company");
             }
             return View();
         }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit()
+        public IActionResult IsExist()
         {
-            var model  = await _companyService.GetCompanyByUserId(GetUserId());
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Edit(EditCompanyVM model)
-        {
-            if(!ModelState.IsValid)
-            {
-                TempData["ErrorMessage"] = "Enter invalid copmany data!";
-                return View();
-            }
-            try
-            {
-                var editCompanyVM = await _companyService.EditCompanyAsync(model, GetUserId());
-                TempData["SuccessMessage"] = "Company edited successfully!";
-                return RedirectToAction("Edit", "Company");
-            }
-            catch (ArgumentException e)
-            {
-                TempData["ErrorMessage"] = e.Message;
-                return RedirectToAction("Edit", "Company");
-            }
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> Create(CreateCompanyVM createCompanyVM)
@@ -66,14 +41,14 @@ namespace HireHub.Web.Controllers
             try
             {
                 await _companyService.CreateCompanyAsync(createCompanyVM, GetUserId());
-                TempData["SuccessMessage"] = "Company created successfully!";
-                return RedirectToAction("Explore", "Job");
             }
             catch (ArgumentException e)
             {
                 TempData["ErrorMessage"] = e.Message;
                 return View(createCompanyVM);
             }
+           
+            return RedirectToAction("Explore", "Job");
         }
 
         [HttpGet]
@@ -86,21 +61,6 @@ namespace HireHub.Web.Controllers
             return View(myApplication);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(int id)
-        {
-            try
-            {
-                await _companyService.DeleteCompany(id);
-                TempData["SuccessMessage"] = "Company deleted successfully!";
-                return RedirectToAction("Explore", "Job");
-            }
-            catch (ArgumentException e)
-            {
-                TempData["ErrorMessage"] = e.Message;
-                return RedirectToAction("Edit", "Company");
-            }
-        }
 
     }
 }

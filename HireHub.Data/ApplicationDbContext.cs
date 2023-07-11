@@ -18,6 +18,7 @@ namespace HireHub.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new CountryEntityTypeConfiguration());
+            builder.ApplyConfiguration(new CategoryEntityTypeConfiguration());
             builder.ApplyConfiguration(new UserAdminEntityTypeConfiguration());
             builder.ApplyConfiguration(new TownEntityTypeConfiguration());
             builder.ApplyConfiguration(new JobEntityTypeConfiguration());

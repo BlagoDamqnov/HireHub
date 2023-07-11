@@ -20,7 +20,10 @@
                 </td>
                 <td>@job.Title</td>
                 <td>@job.CreatedOn</td>
-                <td><a href="@job.Resume">Click here!</a></td>
+                <td>
+                    <img class="application_pdf-img" src="~/images/pdf.png">
+                    <a href="@job.Resume" target="_blank">View documents</a>
+                </td>
                 <td>
                     <div class="btn-group">
                         <form asp-route-id="@job.Id" asp-action="Remove" asp-controller="Application" class="btn-group">

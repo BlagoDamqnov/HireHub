@@ -751,3 +751,11 @@ th, td {
 .search-bar .form-control {
     margin-right: 10px;
 }
+.application_pdf-img{
+    width: 20px;
+    height: 100%;
+    object-fit: cover;
+}
+btn company=delete{
+    w
+}

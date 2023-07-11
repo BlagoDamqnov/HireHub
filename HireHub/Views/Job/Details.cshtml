@@ -6,7 +6,8 @@
     <div class="logo-container">
         <img class="logo" src="@Model.LogoUrl" alt="Company Logo">
     </div>
-    <h3>@Model.Title</h3>
+    <h3>@Model.Title</h3><br>
+    <p>Phone Number: @Model.PhoneNumber</p>
     <p>@Model.CompanyName - @Model.Location</p>
     <p>Minimum Salary: @Model.MinSalary.ToString("0")</p>
     <p>Maximum Salary: @(Model.MaxSalary != null ? Model.MaxSalary.Value.ToString("0") : "-")</p>

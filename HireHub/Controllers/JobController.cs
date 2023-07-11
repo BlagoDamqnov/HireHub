@@ -47,18 +47,21 @@ namespace HireHub.Controllers
         }
 
         [HttpGet]
-        public  async Task<IActionResult> Create()
+        public async Task<IActionResult> Create()
         {
-            var canCreate =  await _companyService.IsUserHaveCompany(GetUserId());
+            var canCreate = await _companyService.IsUserHaveCompany(GetUserId());
 
             if (!canCreate)
             {
                 TempData[InformationMessage] = "You must have a company to create a job offer.";
-                return RedirectToAction("Create","Company");
+                return RedirectToAction("Create", "Company");
             }
-            CreateJobVM model = await _jobService.GetNewJobAsync();
+            else
+            {
+                CreateJobVM model = await _jobService.GetNewJobAsync();
 
-            return View(model);
+                return View(model);
+            }
         }
 
         [HttpPost]
@@ -84,7 +87,7 @@ namespace HireHub.Controllers
 
             try
             {
-                await _jobService.AddJobAsync(model, userId,companyId);
+                await _jobService.AddJobAsync(model, userId, companyId);
                 TempData[SuccessMessage] = "You have successfully created a job offer.";
             }
             catch (System.Exception ex)
@@ -107,7 +110,7 @@ namespace HireHub.Controllers
             var jobs = await _jobService.GetAllJobsForApprove();
             return View(jobs);
         }
-       
+
 
         public async Task<IActionResult> ApproveJob(string id)
         {
@@ -125,16 +128,17 @@ namespace HireHub.Controllers
 
         public async Task<IActionResult> RejectJob(string id)
         {
-            try{
+            try
+            {
                 await _jobService.RejectJob(id);
             }
             catch (InvalidOperationException)
             {
                 return RedirectToAction("AllJobsForApprove");
             }
-            
+
             return RedirectToAction("AllJobsForApprove");
-            
+
         }
 
         public async Task<IActionResult> Details(string id)
@@ -144,7 +148,7 @@ namespace HireHub.Controllers
             {
                 return View(job);
             }
-           return RedirectToAction("Explore");
+            return RedirectToAction("Explore");
         }
 
         public async Task<IActionResult> DetailsForAdmin(string id)

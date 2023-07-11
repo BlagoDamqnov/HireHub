@@ -16,10 +16,19 @@ namespace HireHub.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Apply()
+        public async Task<IActionResult> Apply(string id)
         {
-            var resumes = await _applicationService.AddApplicationAsync(GetUserId());
-            return View(resumes);
+            try
+            {
+                var resumes = await _applicationService.AddApplicationAsync(GetUserId(),id);
+                return View(resumes);
+            }
+            catch (InvalidOperationException e)
+            {
+                TempData["ErrorMessage"] = e.Message;
+
+                return RedirectToAction("Explore", "Job");
+            }
         }
 
         [HttpPost]

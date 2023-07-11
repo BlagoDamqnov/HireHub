@@ -25,8 +25,15 @@ namespace HireHub.Web.Services.Data
             _context = context;
         }
 
-        public async Task<ApplyForJobVM> AddApplicationAsync(string userId)
+        public async Task<ApplyForJobVM> AddApplicationAsync(string userId,string jobId)
         {
+            var isOwner = await _context.Jobs
+    .AnyAsync(x => x.Id == Guid.Parse(jobId) && x.CreatorId == userId);
+
+            if (isOwner)
+            {
+                throw new InvalidOperationException("You can't apply for your own job!");
+            }
             var resumes = await _context.Resumes
                 .Select(r => new GetResumeVM()
                 {
@@ -50,6 +57,7 @@ namespace HireHub.Web.Services.Data
 
             var isApply = await _context.Applications
                 .Where(x => x.ApplierId == userId && x.JobId == parseJobId && x.IsDeleted == false).AnyAsync();
+
 
             if (isApply == false)
             {

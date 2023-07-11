@@ -4,6 +4,7 @@ using HireHub.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HireHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230711171641_FixedBugs")]
+    partial class FixedBugs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -429,14 +431,14 @@ namespace HireHub.Data.Migrations
                         {
                             Id = "4aa6831b-552e-473b-b40e-f71d5b8a5b44",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fa2c449e-9ff3-4dcb-877d-14900c6b944c",
+                            ConcurrencyStamp = "c755b83c-f287-4039-bede-70976326f509",
                             Email = "admin@abv.bg",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKKE8QE64+Df0pjxfZtV39JPGcqz6Vd95OeyhsG32m24E2ytUEU1tci9K/EZNERZAA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ4YWrNpR8R6w8Dcelxv44OyA+dYcqqTB+f4at4+3jWgO1v79696dqnTQ9Ju+g3WHg==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "ec103232-a0ca-422a-aefb-e7d7b784aff4",
+                            SecurityStamp = "72e91045-00a8-400f-a0df-3a2ba14c4dff",
                             TwoFactorEnabled = false,
                             UserName = "admin@abv.bg"
                         });
@@ -458,9 +460,6 @@ namespace HireHub.Data.Migrations
                     b.Property<string>("ContactPhone")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -679,7 +678,7 @@ namespace HireHub.Data.Migrations
                     b.HasOne("HireHub.Data.Models.Entities.Company", "Company")
                         .WithMany("Jobs")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("HireHub.Data.Models.Entities.ApplicationUser", "User")

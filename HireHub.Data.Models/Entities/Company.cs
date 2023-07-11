@@ -28,6 +28,7 @@ namespace HireHub.Data.Models.Entities
         [ForeignKey(nameof(UserId))]
         public ApplicationUser User { get; set; } = null!;
         public ICollection<Job> Jobs { get; set; } = new HashSet<Job>();
+        public bool IsDeleted { get; set; } = false;
         
     }
 }

@@ -57,7 +57,7 @@ namespace HireHub.Web.Services.Data
             };
 
             IEnumerable<GetLastFiveJobsVM> allHouses = await jobsQuery
-                .Where(j => j.IsDeleted == false && j.IsApproved == true)
+                .Where(j => j.IsDeleted == false && j.IsApproved == true && j.Company.IsDeleted == false)
                 .Select(j => new GetLastFiveJobsVM()
                 {
                     Id = j.Id,
@@ -155,7 +155,7 @@ namespace HireHub.Web.Services.Data
         public async Task<IEnumerable<GetLastFiveJobsVM>> GetAllJobsForApprove()
         {
             var jobs = await _context.Jobs
-                .Where(j => j.IsDeleted == false && j.IsApproved == false)
+                .Where(j => j.IsDeleted == false && j.IsApproved == false && j.Company.IsDeleted == false)
                 .Select(j => new GetLastFiveJobsVM()
                 {
                     Id = j.Id,

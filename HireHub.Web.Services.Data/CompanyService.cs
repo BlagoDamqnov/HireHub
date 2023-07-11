@@ -48,14 +48,14 @@ namespace HireHub.Web.Services.Data
 
         public async Task<int> GetCompanyIdByUserId(string userId)
         {
-            return await _context.Companies.Where(c => c.UserId == userId)
+            return await _context.Companies.Where(c => c.UserId == userId && c.IsDeleted == false)
                 .Select(c => c.Id)
                 .FirstOrDefaultAsync();
         }
 
         public async Task<bool> IsUserHaveCompany(string userId)
         {
-            var company = await _context.Companies.AnyAsync(c => c.UserId == userId);
+            var company = await _context.Companies.AnyAsync(c => c.UserId == userId && c.IsDeleted == false);
 
             return company;
         }
@@ -70,7 +70,7 @@ namespace HireHub.Web.Services.Data
         public async Task<ICollection<GetAllApplications>> MyApplication(int companyId)
         {
             var app = await _context.Applications
-                .Where(j => j.Job.CompanyId == companyId && j.IsDeleted == false)
+                .Where(j => j.Job.CompanyId == companyId && j.IsDeleted == false && j.Job.Company.IsDeleted == false)
                 .Select(j => new GetAllApplications()
                 {
                     Id = j.Job.Id,
@@ -86,7 +86,7 @@ namespace HireHub.Web.Services.Data
         }
         public async Task<EditCompanyVM> EditCompanyAsync(EditCompanyVM editCompanyVM, string userId)
         {
-            var getCompanyByUserId = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId);
+            var getCompanyByUserId = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId && c.IsDeleted == false);
 
             var isExistWithData = await _context.Companies.AnyAsync(c => c.Id != getCompanyByUserId!.Id && (c.Name == editCompanyVM.Name.Trim() || c.ContactEmail == editCompanyVM.ContactEmail || c.ContactPhone == editCompanyVM.ContactPhone));
 
@@ -114,7 +114,7 @@ namespace HireHub.Web.Services.Data
 
         public async Task<EditCompanyVM> GetCompanyByUserId(string userId)
         {
-            var company = await _context.Companies.Where(c => c.UserId == userId)
+            var company = await _context.Companies.Where(c => c.UserId == userId && c.IsDeleted == false)
                 .Select(c => new EditCompanyVM()
                 {
                     Id = c.Id,
@@ -128,13 +128,13 @@ namespace HireHub.Web.Services.Data
 
         public async Task<bool> DeleteCompany(int id)
         {
-            var company = _context.Companies.FirstOrDefault(c => c.Id == id);
+            var company = _context.Companies.FirstOrDefault(c => c.Id == id && c.IsDeleted == false);
             if (company == null)
             {
                 throw new ArgumentException("Company not found!");
             }
 
-            _context.Companies.Remove(company);
+           company.IsDeleted = true;
             await _context.SaveChangesAsync();
 
             return Task.CompletedTask.IsCompleted;

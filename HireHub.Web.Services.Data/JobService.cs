@@ -230,16 +230,24 @@ namespace HireHub.Web.Services.Data
             return job;
         }
 
-        public async Task DeleteJob(string id)
+        public async Task DeleteJob(string id,string userId)
         {
             var parsedJobId = Guid.Parse(id);
             var isExist = await _context.Jobs.AnyAsync(j => j.Id == parsedJobId);
-
+           
             if (isExist)
             {
                 var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == parsedJobId);
-                job!.IsDeleted = true;
-                await _context.SaveChangesAsync();
+                if(job!.CreatorId!= userId)
+                {
+                    throw new InvalidOperationException("You are not creator of this job");
+                }
+                else
+                {
+
+                    job!.IsDeleted = true;
+                    await _context.SaveChangesAsync();
+                }
             }
             else
             {

@@ -165,14 +165,14 @@ namespace HireHub.Controllers
         {
             try
             {
-                await _jobService.DeleteJob(id);
-            }
-            catch (Exception)
-            {
-                TempData[ErrorMessage] = "Error during delete a job!";
-            }
+                await _jobService.DeleteJob(id, GetUserId());
+                TempData[SuccessMessage] = "You have successfully deleted a job offer.";
 
-            TempData[SuccessMessage] = "You have successfully deleted a job offer.";
+            }
+            catch (InvalidOperationException e)
+            {
+                TempData[ErrorMessage] = e.Message;
+            }
             return RedirectToAction("Explore");
         }
 

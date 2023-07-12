@@ -6,15 +6,18 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject ICompanyService CompanyService
+
+
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
             @{
                 var name = await CompanyService.GetCompanyNameByUserId(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var isHaveCompany = await CompanyService.IsUserHaveCompany(User.FindFirstValue(ClaimTypes.NameIdentifier));
             }
 
-            @if (name == null)
+            @if (name == null || isHaveCompany == false)
             {
                 <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @(User?.Identity?.Name)!</a>
             }

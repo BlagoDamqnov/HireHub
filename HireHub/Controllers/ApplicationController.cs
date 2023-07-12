@@ -9,15 +9,24 @@ namespace HireHub.Web.Controllers
     public class ApplicationController : UserController
     {
         private readonly IApplicationService _applicationService;
+        private readonly ICompanyService _companyService;
 
-        public ApplicationController(IApplicationService applicationService)
+        public ApplicationController(IApplicationService applicationService, ICompanyService companyService)
         {
             _applicationService = applicationService;
+            _companyService = companyService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Apply(string id)
         {
+            var userId = GetUserId();
+            var isHaveCompany = await _companyService.IsUserHaveCompany(userId);
+            if (isHaveCompany)
+            {
+                TempData["ErrorMessage"] = "You can't apply for a job because you have a company.";
+                return RedirectToAction("Explore", "Job");
+            }
             try
             {
                 var resumes = await _applicationService.AddApplicationAsync(GetUserId(),id);

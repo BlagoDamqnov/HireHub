@@ -319,7 +319,7 @@ namespace HireHub.Web.Services.Data
 
         public async Task EditJob(EditJobVM model)
         {
-            var jobForEdit = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == model.Id);
+            var jobForEdit = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == model.Id && j.IsDeleted == false);
 
             if (jobForEdit == null)
             {

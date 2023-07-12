@@ -1,21 +1,25 @@
 ﻿@model HireHub.Web.ViewModels.Application.ApplyForJobVM
 
-<div class="apply-form">
-    <h2>Apply for Job</h2>
-    <form asp-action="Apply" method="post">
-        <div class="form-group">
-            <label asp-for="@Model.ResumeId">Select your CV:</label>
-            <select asp-for="@Model.ResumeId" class="form-control">
-                <option value="" selected disabled>Select CV</option>
-                @foreach (var resume in Model.Resumes)
-                {
-                    <option value="@resume.Id">@resume.Name</option>
-                }
-            </select>
-            <span asp-validation-for="@Model.ResumeId" class="text-danger"></span>
+<div class="container p-5">
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <h2 class="h4 mb-4">Apply for Job</h2>
+            <form asp-action="Apply" method="post">
+                <div class="form-group">
+                    <label for="resumeId">Select your CV:</label>
+                    <select id="resumeId" name="resumeId" class="form-control">
+                        <option value="" selected disabled>Select CV</option>
+                        @foreach (var resume in Model.Resumes)
+                        {
+                            <option value="@resume.Id">@resume.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="ResumeId" class="text-danger"></span>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="apply-btn">Submit</button>
+                </div>
+            </form>
         </div>
-        <div class="submit-button">
-            <button type="submit">Submit</button>
-        </div>
-    </form>
+    </div>
 </div>

@@ -62,7 +62,7 @@ namespace HireHub.Web.Services.Data
 
         public async Task<string?> GetCompanyNameByUserId(string id)
         {
-            return await _context.Companies.Where(c => c.UserId == id)
+            return await _context.Companies.Where(c => c.UserId == id && c.IsDeleted == false)
                 .Select(c => c.Name)
                 .FirstOrDefaultAsync();
         }

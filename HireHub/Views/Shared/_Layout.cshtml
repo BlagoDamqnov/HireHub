@@ -1,4 +1,9 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using HireHub.Web.Services.Data.Interfaces;
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims;
+
+@inject ICompanyService ICompanyService;
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,24 +36,38 @@
                         }
                         else if (User?.Identity?.IsAuthenticated ?? false)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Job" asp-action="Explore">Find a Job</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Job" asp-action="Create">Create a Job</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Resume" asp-action="Add">Add CV</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Application" asp-action="GetMyApplication">My Applications</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Company" asp-action="Create">Company</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Company" asp-action="MyApplication">Applicants</a>
-                            </li>
+                            var isHaveCompany = await ICompanyService.IsUserHaveCompany(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+                            @if (isHaveCompany)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Job" asp-action="Explore">Jobs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Job" asp-action="Create">Create a Job</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Company" asp-action="MyApplication">Applicants</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Company" asp-action="Create">My Company</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Job" asp-action="Explore">Find a Job</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Resume" asp-action="Add">Add CV</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Application" asp-action="GetMyApplication">My Applications</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Company" asp-action="Create">Create a Company</a>
+                                </li>
+                            }
                         }
                     </ul>
                     <partial name="_LoginPartial" />

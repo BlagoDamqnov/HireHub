@@ -9,6 +9,7 @@ namespace HireHub
 {
     using HireHub.Data;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
     public class Program
@@ -40,7 +41,11 @@ namespace HireHub
                 })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddControllersWithViews(option =>
+            {
+                option.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
 
             var app = builder.Build();
 

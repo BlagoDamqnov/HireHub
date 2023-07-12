@@ -56,7 +56,7 @@ namespace HireHub.Web.Services.Data
                 _ => throw new NotImplementedException(),
             };
 
-            IEnumerable<GetLastFiveJobsVM> allHouses = await jobsQuery
+            IEnumerable<GetLastFiveJobsVM> allJobs = await jobsQuery
                 .Where(j => j.IsDeleted == false && j.IsApproved == true && j.Company.IsDeleted == false)
                 .Select(j => new GetLastFiveJobsVM()
                 {
@@ -75,7 +75,7 @@ namespace HireHub.Web.Services.Data
 
             return new AllJobsFilteredServiceModel()
             {
-                Jobs = allHouses
+                Jobs = allJobs
             };
         }
 

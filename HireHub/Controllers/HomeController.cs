@@ -21,12 +21,13 @@
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int statusCode)
         {
-            if(statusCode == 404)
+            if (statusCode == 404)
             {
                 return View("404");
             }
 
             return View();
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

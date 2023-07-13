@@ -3,26 +3,40 @@ using HireHub.Web.ViewModels.Resume;
 
 namespace HireHub.Web.Controllers
 {
+    using HireHub.Web.Services.Data;
     using Microsoft.AspNetCore.Mvc;
 
     public class ResumeController : UserController
     {
         private readonly IResumeService _resumeService;
-
-        public ResumeController(IResumeService resumeService)
+        private readonly ICompanyService _companyService;
+        public ResumeController(IResumeService resumeService, ICompanyService companyService)
         {
             _resumeService = resumeService;
+            _companyService = companyService;
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
+            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
+            if (isHaveCompany)
+            {
+                TempData["ErrorMessage"] = "You can't add CV because you have a company";
+                return RedirectToAction("Create", "Company");
+            }
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(AddResumeVM resume)
         {
+            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
+            if (isHaveCompany)
+            {
+                TempData["ErrorMessage"] = "You can't add CV because you have a company";
+                return RedirectToAction("Create", "Company");
+            }
             if (!ModelState.IsValid)
             {
                 var error = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault();

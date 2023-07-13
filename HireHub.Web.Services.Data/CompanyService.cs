@@ -168,7 +168,7 @@ namespace HireHub.Web.Services.Data
 
         public async Task<string> GetUserIdByEmail(string? email)
         {
-            var user = await _context.ApplicationUsers.FirstOrDefaultAsync(x=>x.Email.ToLower().Trim() == email.ToLower().Trim());
+            var user = await _context.ApplicationUsers.FirstOrDefaultAsync(x=>x.Email.ToLower().Trim() == email!.ToLower().Trim());
 
             return user!.Id;
         }

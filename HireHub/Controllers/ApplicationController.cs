@@ -47,7 +47,12 @@ namespace HireHub.Web.Controllers
             {
                 return RedirectToAction("Apply");
             }
-
+            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
+            if (isHaveCompany)
+            {
+                TempData["ErrorMessage"] = "You can't apply for a job because you have a company.";
+                return RedirectToAction("Explore", "Job");
+            }
             try
             {
                 await _applicationService.AddApply(model, id, GetUserId());
@@ -70,7 +75,12 @@ namespace HireHub.Web.Controllers
             {
                 return RedirectToAction("Explore", "Job");
             }
-
+            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
+            if (isHaveCompany)
+            {
+                TempData["ErrorMessage"] = "You can't view your application because you are company.";
+                return RedirectToAction("Explore", "Job");
+            }
             try
             {
                 var myApplications = await _applicationService.GetMyApplication(GetUserId());
@@ -85,6 +95,12 @@ namespace HireHub.Web.Controllers
         }
         public async Task<IActionResult> Remove(string id)
         {
+            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
+            if (isHaveCompany)
+            {
+                TempData["ErrorMessage"] = "You can't remove your application because you are company.";
+                return RedirectToAction("Explore", "Job");
+            }
             try
             {
                 await _applicationService.RemoveApplication(id, GetUserId());

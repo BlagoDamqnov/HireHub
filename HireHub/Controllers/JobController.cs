@@ -68,6 +68,13 @@ namespace HireHub.Controllers
         [Authorize]
         public async Task<IActionResult> Create(CreateJobVM model)
         {
+            var canCreate = await _companyService.IsUserHaveCompany(GetUserId());
+
+            if (!canCreate)
+            {
+                TempData[InformationMessage] = "You must have a company to create a job offer.";
+                return RedirectToAction("Create", "Company");
+            }
             var isCategoryExist = await _categoryService.IsExist(model.CategoryId);
 
             if (isCategoryExist == false)
@@ -111,7 +118,7 @@ namespace HireHub.Controllers
             return View(jobs);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ApproveJob(string id)
         {
             try
@@ -125,7 +132,7 @@ namespace HireHub.Controllers
 
             return RedirectToAction("AllJobsForApprove");
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RejectJob(string id)
         {
             try
@@ -151,6 +158,7 @@ namespace HireHub.Controllers
             return RedirectToAction("Explore");
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DetailsForAdmin(string id)
         {
             var job = await _jobService.GetJobDetails(id);

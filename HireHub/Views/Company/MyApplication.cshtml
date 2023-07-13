@@ -1,5 +1,9 @@
-﻿@model IEnumerable<HireHub.Web.ViewModels.Company.GetAllApplications>
+﻿@using HireHub.Web.Services.Data.Interfaces;
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims;
 
+@model IEnumerable<HireHub.Web.ViewModels.Company.GetAllApplications>
+@inject ICompanyService companyService
 
 <table>
     <thead>
@@ -9,7 +13,7 @@
             <th>Created on</th>
             <th>Applicant Username</th>
             <th>Applicant Resume</th>
-            <th>Actions</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody>
@@ -28,12 +32,29 @@
                 </td>
                 <td>
                     <div class="btn-group">
-                        <form asp-route-id="@job.Id" asp-action="ApproveJob" asp-controller="Job" class="btn-group">
-                            <button type="submit" class="app-btn btn-approve" name="approveButton">Hire</button>
-                        </form>
-                        <form asp-route-id="@job.Id" asp-action="RejectJob" asp-controller="Job" class="btn-group">
-                            <button type="submit" class="app-btn btn-reject">Reject</button>
-                        </form>
+                        @{
+                            var userId = await companyService.GetUserIdByEmail(job.Username);
+                            bool? isHiring = await companyService.IsHire(userId, job.Id.ToString());
+
+                            if (isHiring == null)
+                            {
+                                <form asp-route-id="@job.Id" asp-route-email="@job.Username" asp-action="Hire" asp-controller="Company" class="btn-group">
+                                    <button type="submit" class="app-btn btn-approve" name="approveButton">Hire</button>
+                                </form>
+                                <form asp-route-id="@job.Id" asp-route-email="@job.Username" asp-action="Reject" asp-controller="Company" class="btn-group">
+                                    <button type="submit" class="app-btn btn-reject">Reject</button>
+                                </form>
+                            }
+                            if (isHiring == true)
+                            {
+                                <a class=" btn apply-btn">Already Hired</a>
+                            }
+                            else if(isHiring == false)
+                            {
+                                <a class=" btn btn-danger">User Rejected</a>
+                            }
+                        }
+                       
                     </div>
                 </td>
             </tr>

@@ -139,5 +139,52 @@ namespace HireHub.Web.Services.Data
 
             return Task.CompletedTask.IsCompleted;
         }
+
+        public async Task HireUser(string userId, string jobId)
+        {
+           var hiring = new HiringRecord()
+           {
+               CandidateId = userId,
+               JobId = Guid.Parse(jobId),
+               DateOfHiring = DateTime.Now,
+               IsHired = true
+           };
+
+            await _context.HiringRecords.AddAsync(hiring);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool?> IsHire(string userId, string jobId)
+        {
+           var user =  await _context.HiringRecords.FirstOrDefaultAsync(h=>h.JobId == Guid.Parse(jobId) && h.CandidateId == userId);
+
+           if(user != null)
+            {
+               return user.IsHired;
+           }
+
+            return null;
+        }
+
+        public async Task<string> GetUserIdByEmail(string? email)
+        {
+            var user = await _context.ApplicationUsers.FirstOrDefaultAsync(x=>x.Email.ToLower().Trim() == email.ToLower().Trim());
+
+            return user!.Id;
+        }
+
+        public async Task RejectUser(string userId, string jobId)
+        {
+            var hiring = new HiringRecord()
+            {
+                CandidateId = userId,
+                JobId = Guid.Parse(jobId),
+                DateOfHiring = DateTime.Now,
+                IsHired = false
+            };
+
+            await _context.HiringRecords.AddAsync(hiring);
+            await _context.SaveChangesAsync();
+        }
     }
 }

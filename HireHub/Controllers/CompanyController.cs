@@ -4,15 +4,20 @@ using HireHub.Web.ViewModels.Company;
 
 namespace HireHub.Web.Controllers
 {
+    using HireHub.Web.Services.Data;
     using Microsoft.AspNetCore.Mvc;
+    using System.Text.Encodings.Web;
 
     public class CompanyController : UserController
     {
         private readonly ICompanyService _companyService;
-
-        public CompanyController(ICompanyService companyService)
+        private readonly IEmailService _emailService;
+        private readonly IJobService _jobService;
+        public CompanyController(ICompanyService companyService, IEmailService emailService,IJobService jobService)
         {
             _companyService = companyService;
+            _emailService = emailService;
+            _jobService = jobService;
         }
 
         [HttpGet]
@@ -56,7 +61,7 @@ namespace HireHub.Web.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Create(CreateCompanyVM createCompanyVM)
-        { 
+        {
             if (!ModelState.IsValid)
             {
                 return View(createCompanyVM);
@@ -71,14 +76,14 @@ namespace HireHub.Web.Controllers
                 TempData["ErrorMessage"] = e.Message;
                 return View(createCompanyVM);
             }
-           
+
             return RedirectToAction("Explore", "Job");
         }
 
         [HttpGet]
         public async Task<IActionResult> MyApplication()
         {
-           int companyId = await _companyService.GetCompanyIdByUserId(GetUserId());
+            int companyId = await _companyService.GetCompanyIdByUserId(GetUserId());
 
             var myApplication = await _companyService.MyApplication(companyId);
 
@@ -99,6 +104,69 @@ namespace HireHub.Web.Controllers
                 TempData["ErrorMessage"] = e.Message;
                 return RedirectToAction("Edit", "Company");
             }
+        }
+
+        public async Task<IActionResult> Hire(string id,string email)
+        {
+            var getJob = await _jobService.GetJobDetails(id);
+            string subject = $"Congratulations! You've been hired as a {getJob!.Title}";
+            string message = $"Dear {email},<br/>" +
+                $"Congratulations! You've been hired as a {getJob!.Title} at {getJob!.CompanyName}.<br/>" +
+                $"Please contact us for more information.<br/>" +
+                $"Best regards,<br/>" +
+                $"HireHub Team";
+
+            var userId = await _companyService.GetUserIdByEmail(email);
+            var isApplicantHasCompany = await _companyService.IsUserHaveCompany(userId);
+            if (isApplicantHasCompany)
+            {
+                TempData["ErrorMessage"] = "User already has a company!";
+                return RedirectToAction("MyApplication", "Company");
+            }
+            var company= await _companyService.GetCompanyByUserId(GetUserId());
+
+
+            bool? isHiring = await _companyService.IsHire(userId, id);
+
+
+            if (isHiring==false)
+            {
+                TempData["ErrorMessage"] = "User is already rejected!";
+                return RedirectToAction("MyApplication", "Company");
+            }else if(isHiring == true)
+            {
+                TempData["ErrorMessage"] = "User is already hired!";
+                return RedirectToAction("MyApplication", "Company");
+            }
+
+            await _emailService.SendEmailAsync(email, subject, message, "sandbox.smtp.mailtrap.io", 587, "0d230816b7e5c4", "6d99f5faff7358", $"{company.ContactEmail}");
+            var applicantId = await _companyService.GetUserIdByEmail(email);
+
+            await _companyService.HireUser(applicantId, id);
+            TempData["SuccessMessage"] = "Email sent successfully!";
+            return RedirectToAction("MyApplication", "Company");
+
+        }
+
+        public async Task<IActionResult> Reject(string id , string email)
+        {
+            var userId = await _companyService.GetUserIdByEmail(email);
+
+            bool? isHiring = await _companyService.IsHire(userId, id);
+
+            if(isHiring == false)
+            {
+                TempData["ErrorMessage"] = "User is already rejected!";
+                return RedirectToAction("MyApplication", "Company");
+            }else if (isHiring == true)
+            {
+                TempData["ErrorMessage"] = "User is already hired!";
+                return RedirectToAction("MyApplication", "Company");
+            }
+
+            await _companyService.RejectUser(userId, id);
+            TempData["SuccessMessage"] = "User rejected successfully!";
+            return RedirectToAction("MyApplication", "Company");
         }
     }
 }

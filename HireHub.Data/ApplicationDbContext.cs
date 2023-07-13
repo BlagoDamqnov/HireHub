@@ -26,6 +26,7 @@ namespace HireHub.Data
             builder.ApplyConfiguration(new CompanyEntityTypeConfiguration());
             builder.ApplyConfiguration(new UserEntityTypeConfiguration());
             builder.ApplyConfiguration(new UserRoleEntityTypeConfiguration());
+            builder.ApplyConfiguration(new HiringEntityTypeConfiguration());
             base.OnModelCreating(builder);
         }
 
@@ -37,6 +38,7 @@ namespace HireHub.Data
         public DbSet<Town> Towns { get; set; } = null!;
         public DbSet<Company> Companies { get; set; } = null!;
         public DbSet<ApplicationUser> ApplicationUsers { get; set; } = null!;
+        public DbSet<HiringRecord> HiringRecords { get; set; } = null!;
 
     }
 }

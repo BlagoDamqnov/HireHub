@@ -21,11 +21,12 @@ namespace HireHub.Web.Services.Data
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
-
-        public CompanyService(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        public CompanyService(ApplicationDbContext context,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task CreateCompanyAsync(CreateCompanyVM createCompanyVM, string userId)
@@ -59,6 +60,9 @@ namespace HireHub.Web.Services.Data
                 await _userManager.ReplaceClaimAsync(user, oldClaim, newClaim);
 
                 await _context.SaveChangesAsync();
+
+                await _signInManager.SignOutAsync();
+                await _signInManager.SignInAsync(user, isPersistent: false);
             }
         }
 
@@ -162,6 +166,9 @@ namespace HireHub.Web.Services.Data
             await _userManager.ReplaceClaimAsync(user,oldClaim,newClaim);
 
             await _context.SaveChangesAsync();
+
+            await _signInManager.SignOutAsync();
+            await _signInManager.SignInAsync(user, isPersistent: false);
             return Task.CompletedTask.IsCompleted;
         }
 

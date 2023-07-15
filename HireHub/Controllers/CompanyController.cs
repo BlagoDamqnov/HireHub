@@ -9,6 +9,7 @@ namespace HireHub.Web.Controllers
     using Microsoft.AspNetCore.Mvc;
     using System.Text.Encodings.Web;
 
+    [Authorize]
     public class CompanyController : UserController
     {
         private readonly ICompanyService _companyService;

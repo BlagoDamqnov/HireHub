@@ -17,7 +17,7 @@ body {
     font-family: 'Montserrat', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #F5FBFF;
+    background-color: #f8f9fa;
 }
 
 .home-img {
@@ -49,12 +49,12 @@ body {
     }
 
 .btn-primary {
-    background-color: #ff6f00;
+    background-color: #4CAF50;
     border-color: #ff6f00;
 }
 
     .btn-primary:hover {
-        background-color: #ff8124;
+        background-color: #45a049;
         border-color: #ff8124;
     }
 
@@ -185,7 +185,7 @@ textarea {
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -194,7 +194,7 @@ textarea {
 }
 
     .btn-primary:hover {
-        background-color: #0069d9;
+        background-color: #45a049;
     }
 
 .text-danger {
@@ -433,12 +433,12 @@ body {
     }
 
 .btn-primary {
-    background-color: #ff6f00;
+    background-color: #4CAF50;
     border-color: #ff6f00;
 }
 
     .btn-primary:hover {
-        background-color: #ff8124;
+        background-color: #45a049;
         border-color: #ff8124;
     }
 
@@ -566,7 +566,7 @@ textarea {
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -575,7 +575,7 @@ textarea {
 }
 
     .btn-primary:hover {
-        background-color: #0069d9;
+        background-color: #45a049;
     }
 
 .text-danger {

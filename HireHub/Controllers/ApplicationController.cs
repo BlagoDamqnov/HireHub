@@ -7,6 +7,7 @@ namespace HireHub.Web.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
     public class ApplicationController : UserController
     {
         private readonly IApplicationService _applicationService;

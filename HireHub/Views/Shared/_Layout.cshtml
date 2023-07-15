@@ -40,7 +40,7 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Job" asp-action="AllJobsForApprove">Approve Jobs</a>
+                                <a class="nav-link" asp-area="" asp-controller="Admin" asp-action="AllJobsForApprove">Approve Jobs</a>
                             </li>
                         }
                         else if (User?.Identity?.IsAuthenticated ?? false)

@@ -35,13 +35,13 @@
                 <td>@job.CreatedOn</td>
                 <td>
                     <div class="btn-group">
-                        <form asp-route-id="@job.Id" asp-action="ApproveJob" asp-controller="Job" class="btn-group">
+                        <form asp-route-id="@job.Id" asp-action="ApproveJob" asp-controller="Admin" class="btn-group">
                             <button type="submit" class="app-btn btn-approve" name="approveButton">Approve</button>
                         </form>
-                        <form asp-route-id="@job.Id" asp-action="RejectJob" asp-controller="Job" class="btn-group">
+                        <form asp-route-id="@job.Id" asp-action="RejectJob" asp-controller="Admin" class="btn-group">
                             <button type="submit" class="app-btn btn-reject">Reject</button>
                         </form>
-                        <a asp-route-id="@job.Id" asp-action="DetailsForAdmin" asp-controller="Job" class="btn btn-details">Details</a>
+                        <a asp-route-id="@job.Id" asp-action="DetailsForAdmin" asp-controller="Admin" class="btn btn-details">Details</a>
                     </div>
                 </td>
             </tr>

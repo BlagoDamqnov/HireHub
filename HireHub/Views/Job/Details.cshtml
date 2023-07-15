@@ -49,7 +49,7 @@
                 @if (!User.IsInRole("Admin"))
                 {
                     var isHaveCompany = await CompanyService.IsUserHaveCompany(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    if (!isHaveCompany)
+                    if (isHaveCompany)
                     {
                         if (Model.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
                         {
@@ -60,10 +60,10 @@
                             </button>
 
                         }
-                        else
-                        {
-                            <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Apply" asp-controller="Application">Apply Now</a></button>
-                        }
+                    }
+                    else
+                    {
+                        <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Apply" asp-controller="Application">Apply Now</a></button>
                     }
 
                 }

@@ -94,66 +94,6 @@ namespace HireHub.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        [Authorize(Roles = "Admin")]
-
-        public async Task<IActionResult> AllJobsForApprove()
-        {
-            var jobs = await _jobService.GetAllJobsForApprove();
-            return View(jobs);
-        }
-
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ApproveJob(string id)
-        {
-            try
-            {
-                await _jobService.ApproveJob(id);
-            }
-            catch
-            {
-                return RedirectToAction("AllJobsForApprove");
-            }
-
-            return RedirectToAction("AllJobsForApprove");
-        }
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> RejectJob(string id)
-        {
-            try
-            {
-                await _jobService.RejectJob(id);
-            }
-            catch (InvalidOperationException)
-            {
-                return RedirectToAction("AllJobsForApprove");
-            }
-
-            return RedirectToAction("AllJobsForApprove");
-
-        }
-
-        public async Task<IActionResult> Details(string id)
-        {
-            var job = await _jobService.GetJobDetails(id);
-            if (job != null)
-            {
-                return View(job);
-            }
-            return RedirectToAction("Explore");
-        }
-
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DetailsForAdmin(string id)
-        {
-            var job = await _jobService.GetJobDetails(id);
-            if (job != null)
-            {
-                return View(job);
-            }
-            return RedirectToAction("Explore");
-        }
-
         public async Task<IActionResult> Delete(string id)
         {
             try
@@ -208,7 +148,15 @@ namespace HireHub.Controllers
 
             return RedirectToAction("Explore");
         }
-
+        public async Task<IActionResult> Details(string id)
+        {
+            var job = await _jobService.GetJobDetails(id);
+            if (job != null)
+            {
+                return View(job);
+            }
+            return RedirectToAction("Explore");
+        }
         [HttpGet]
         public async Task<IActionResult> GetCompanyJobs([FromQuery] AllJobsQueryModel queryModel)
         {

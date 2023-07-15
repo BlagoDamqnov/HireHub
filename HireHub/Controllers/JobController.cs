@@ -32,7 +32,7 @@ namespace HireHub.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Explore([FromQuery] AllJobsQueryModel queryModel)
         {
-            AllJobsFilteredServiceModel jobs = await _jobService.GetLastFiveJobs(queryModel);
+            AllJobsFilteredServiceModel jobs = await _jobService.GetJobs(queryModel);
             queryModel.Jobs = jobs.Jobs;
 
             queryModel.Categories = await _categoryService.GetAllCategoryNames();
@@ -47,34 +47,18 @@ namespace HireHub.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "CompanyOnly")]
         public async Task<IActionResult> Create()
         {
-            var canCreate = await _companyService.IsUserHaveCompany(GetUserId());
+            CreateJobVM model = await _jobService.GetNewJobAsync();
 
-            if (!canCreate)
-            {
-                TempData[InformationMessage] = "You must have a company to create a job offer.";
-                return RedirectToAction("Create", "Company");
-            }
-            else
-            {
-                CreateJobVM model = await _jobService.GetNewJobAsync();
-
-                return View(model);
-            }
+            return View(model);
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Policy = "CompanyOnly")]
         public async Task<IActionResult> Create(CreateJobVM model)
         {
-            var canCreate = await _companyService.IsUserHaveCompany(GetUserId());
-
-            if (!canCreate)
-            {
-                TempData[InformationMessage] = "You must have a company to create a job offer.";
-                return RedirectToAction("Create", "Company");
-            }
             var isCategoryExist = await _categoryService.IsExist(model.CategoryId);
 
             if (isCategoryExist == false)
@@ -112,6 +96,7 @@ namespace HireHub.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+
         public async Task<IActionResult> AllJobsForApprove()
         {
             var jobs = await _jobService.GetAllJobsForApprove();
@@ -222,6 +207,18 @@ namespace HireHub.Controllers
             }
 
             return RedirectToAction("Explore");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCompanyJobs([FromQuery] AllJobsQueryModel queryModel)
+        {
+            var companyId = await _companyService.GetCompanyIdByUserId(GetUserId());
+            AllJobsFilteredServiceModel jobs = await _jobService.GetJobsByCompanyId(companyId, queryModel);
+            queryModel.Jobs = jobs.Jobs;
+
+            queryModel.Categories = await _categoryService.GetAllCategoryNames();
+
+            return View(queryModel);
         }
     }
 }

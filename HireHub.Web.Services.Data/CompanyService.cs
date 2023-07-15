@@ -4,23 +4,28 @@ using HireHub.Web.Services.Data.Interfaces;
 using HireHub.Web.ViewModels.Company;
 using HireHub.Web.ViewModels.Jobs;
 using HireHub.Web.ViewModels.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HireHub.Web.Services.Data
 {
+    using Microsoft.AspNetCore.Identity;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
 
     public class CompanyService : ICompanyService
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public CompanyService(ApplicationDbContext context)
+        public CompanyService(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task CreateCompanyAsync(CreateCompanyVM createCompanyVM, string userId)
@@ -42,6 +47,17 @@ namespace HireHub.Web.Services.Data
                 };
 
                 await _context.Companies.AddAsync(company);
+
+
+                var newClaim = new Claim("Company", company.Name);
+
+                var user = await _userManager.FindByIdAsync(userId);
+
+                var getClaims = await _userManager.GetClaimsAsync(user);
+                var oldClaim = getClaims.FirstOrDefault(c => c.Type == "Worker");
+               
+                await _userManager.ReplaceClaimAsync(user, oldClaim, newClaim);
+
                 await _context.SaveChangesAsync();
             }
         }
@@ -129,14 +145,23 @@ namespace HireHub.Web.Services.Data
         public async Task<bool> DeleteCompany(int id)
         {
             var company = _context.Companies.FirstOrDefault(c => c.Id == id && c.IsDeleted == false);
+            var userId  = company!.UserId;
             if (company == null)
             {
                 throw new ArgumentException("Company not found!");
             }
 
-           company.IsDeleted = true;
-            await _context.SaveChangesAsync();
+            company.IsDeleted = true;
 
+            var newClaim = new Claim("Worker", company.Name);
+            var user = await _userManager.FindByIdAsync(userId);
+            var getClaims = await _userManager.GetClaimsAsync(user);
+
+            var oldClaim = getClaims.FirstOrDefault(c => c.Type == "Company");
+
+            await _userManager.ReplaceClaimAsync(user,oldClaim,newClaim);
+
+            await _context.SaveChangesAsync();
             return Task.CompletedTask.IsCompleted;
         }
 

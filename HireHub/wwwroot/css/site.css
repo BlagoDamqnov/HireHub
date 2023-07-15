@@ -758,3 +758,13 @@ th, td {
     height: 100%;
     object-fit: cover;
 }
+.filter-icon {
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+}
+
+.button-text {
+    display: flex;
+    align-items: center;
+}

@@ -27,7 +27,7 @@ namespace HireHub.Web.Services.Data
             _context = context;
         }
 
-        public async Task<AllJobsFilteredServiceModel> GetLastFiveJobs(AllJobsQueryModel queryModel)
+        public async Task<AllJobsFilteredServiceModel> GetJobs(AllJobsQueryModel queryModel)
         {
             IQueryable<Job> jobsQuery = this._context
                 .Jobs
@@ -336,6 +336,58 @@ namespace HireHub.Web.Services.Data
             jobForEdit.Requirements = model.Requirements.Trim();
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<AllJobsFilteredServiceModel> GetJobsByCompanyId(int companyId, AllJobsQueryModel queryModel)
+        {
+            IQueryable<Job> jobsQuery = this._context
+                .Jobs.Where(j => j.CompanyId == companyId && j.IsDeleted == false)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(queryModel.Category))
+            {
+                jobsQuery = jobsQuery.Where(j => j.Category.CategoryName == queryModel.Category);
+            }
+
+            if (!string.IsNullOrWhiteSpace(queryModel.SearchString))
+            {
+                string wildCard = $"%{queryModel.SearchString.ToLower()}%";
+
+                jobsQuery = jobsQuery
+                    .Where(h => EF.Functions.Like(h.Title, wildCard) ||
+                                EF.Functions.Like(h.Description, wildCard));
+            }
+
+            jobsQuery = queryModel.JobSorting switch
+            {
+                JobSorting.Newest => jobsQuery.OrderByDescending(h => h.CreatedOn),
+                JobSorting.Oldest => jobsQuery.OrderBy(h => h.CreatedOn),
+                JobSorting.SalaryDescending => jobsQuery.OrderByDescending(h => h.MinSalary),
+                JobSorting.SalaryAscending => jobsQuery.OrderBy(h => h.MinSalary),
+                _ => throw new NotImplementedException(),
+            };
+
+            IEnumerable<GetLastFiveJobsVM> allJobs = await jobsQuery
+                .Where(j => j.IsDeleted == false && j.IsApproved == true && j.Company.IsDeleted == false)
+                .Select(j => new GetLastFiveJobsVM()
+                {
+                    Id = j.Id,
+                    Title = j.Title,
+                    Town = j.Location.TownName,
+                    CreatorId = j.CreatorId,
+                    CompanyName = j.Company.Name,
+                    MinSalary = j.MinSalary,
+                    MaxSalary = j.MaxSalary,
+                    CreatedOn = j.CreatedOn,
+                    LogoUrl = j.LogoUrl
+                })
+                .Take(100)
+                .ToArrayAsync();
+
+            return new AllJobsFilteredServiceModel()
+            {
+                Jobs = allJobs
+            };
         }
     }
 }

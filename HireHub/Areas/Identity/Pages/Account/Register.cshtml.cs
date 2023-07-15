@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
@@ -135,6 +136,9 @@ namespace HireHub.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    var createClaim = new Claim("Worker", user.Email);
+                    await _userManager.AddClaimAsync(user, createClaim);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

@@ -11,6 +11,7 @@ namespace HireHub
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Caching.Memory;
 
     public class Program
     {
@@ -42,6 +43,13 @@ namespace HireHub
                 })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddAuthorization(options =>
+            {
+
+                options.AddPolicy("WorkerOnly", policy => policy.RequireClaim("Worker"));
+                options.AddPolicy("CompanyOnly", policy => policy.RequireClaim("Company"));
+            });
 
             builder.Services.AddControllersWithViews(option =>
             {

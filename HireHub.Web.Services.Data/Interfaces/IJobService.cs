@@ -12,7 +12,7 @@ namespace HireHub.Web.Services.Data.Interfaces
 
     public interface IJobService
     {
-        Task<AllJobsFilteredServiceModel> GetLastFiveJobs(AllJobsQueryModel queryModel);
+        Task<AllJobsFilteredServiceModel> GetJobs(AllJobsQueryModel queryModel);
         public Task<CreateJobVM> GetNewJobAsync();
         Task<IEnumerable<TownVM>> GetTownsByCountryId(int countryId);
         Task AddJobAsync(CreateJobVM job, string creatorId,int companyId);
@@ -22,7 +22,7 @@ namespace HireHub.Web.Services.Data.Interfaces
         Task<DetailsJobVM?> GetJobDetails(string id);
         Task DeleteJob(string id, string userId);
         Task<EditJobVM> GetJobDetailsForEdit(string id, string userId);
-
         Task EditJob(EditJobVM model);
+        Task<AllJobsFilteredServiceModel> GetJobsByCompanyId(int companyId, AllJobsQueryModel queryModel);
     }
 }

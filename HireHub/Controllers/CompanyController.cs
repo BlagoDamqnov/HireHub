@@ -5,6 +5,7 @@ using HireHub.Web.ViewModels.Company;
 namespace HireHub.Web.Controllers
 {
     using HireHub.Web.Services.Data;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using System.Text.Encodings.Web;
 
@@ -41,28 +42,18 @@ namespace HireHub.Web.Controllers
             }
         }
         [HttpGet]
+        [Authorize(Policy = "CompanyOnly")]
         public async Task<IActionResult> Edit()
         {
-            var isExist = await _companyService.IsUserHaveCompany(GetUserId());
-            if (!isExist)
-            {
-                TempData["ErrorMessage"] = "You need to have a company";
-                return RedirectToAction("Create", "Company");
-            }
             var model = await _companyService.GetCompanyByUserId(GetUserId());
 
             return View(model);
         }
 
         [HttpPost]
+        [Authorize(Policy = "CompanyOnly")]
         public async Task<IActionResult> Edit(EditCompanyVM model)
         {
-            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
-            if (!isHaveCompany)
-            {
-                TempData["ErrorMessage"] = "You need to have a company to edit!";
-                return RedirectToAction("Create", "Company");
-            }
             if (!ModelState.IsValid)
             {
                 TempData["ErrorMessage"] = "Enter invalid copmany data!";
@@ -81,14 +72,9 @@ namespace HireHub.Web.Controllers
             }
         }
         [HttpPost]
+        [Authorize(Policy = "WorkerOnly")]
         public async Task<IActionResult> Create(CreateCompanyVM createCompanyVM)
         {
-            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
-            if (isHaveCompany)
-            {
-                TempData["ErrorMessage"] = "You alreay have a company";
-                return RedirectToAction("Explore", "Job");
-            }
             if (!ModelState.IsValid)
             {
                 return View(createCompanyVM);
@@ -108,14 +94,9 @@ namespace HireHub.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "CompanyOnly")]
         public async Task<IActionResult> MyApplication()
         {
-            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
-            if (!isHaveCompany)
-            {
-                TempData["ErrorMessage"] = "You need to have a company!";
-                return RedirectToAction("Create", "Company");
-            }
             int companyId = await _companyService.GetCompanyIdByUserId(GetUserId());
 
             var myApplication = await _companyService.MyApplication(companyId);
@@ -124,14 +105,9 @@ namespace HireHub.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "CompanyOnly")]
         public async Task<IActionResult> Delete(int id)
         {
-            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
-            if (!isHaveCompany)
-            {
-                TempData["ErrorMessage"] = "You need to have a company!";
-                return RedirectToAction("Create", "Company");
-            }
             try
             {
                 await _companyService.DeleteCompany(id);
@@ -145,14 +121,9 @@ namespace HireHub.Web.Controllers
             }
         }
 
+        [Authorize(Policy = "CompanyOnly")]
         public async Task<IActionResult> Hire(string id,string email)
         {
-            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
-            if (!isHaveCompany)
-            {
-                TempData["ErrorMessage"] = "You need to have a company!";
-                return RedirectToAction("Create", "Company");
-            }
             var getJob = await _jobService.GetJobDetails(id);
             string subject = $"Congratulations! You've been hired as a {getJob!.Title}";
             string message = $"Dear {email},<br/>" +
@@ -192,15 +163,9 @@ namespace HireHub.Web.Controllers
             return RedirectToAction("MyApplication", "Company");
 
         }
-
+        [Authorize(Policy = "CompanyOnly")]
         public async Task<IActionResult> Reject(string id , string email)
         {
-            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
-            if (!isHaveCompany)
-            {
-                TempData["ErrorMessage"] = "You need to have a company!";
-                return RedirectToAction("Create", "Company");
-            }
             var userId = await _companyService.GetUserIdByEmail(email);
 
             bool? isHiring = await _companyService.IsHire(userId, id);

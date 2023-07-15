@@ -4,6 +4,7 @@ using HireHub.Web.ViewModels.Application;
 namespace HireHub.Web.Controllers
 {
     using HireHub.Controllers;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class ApplicationController : UserController
@@ -18,15 +19,9 @@ namespace HireHub.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy ="WorkerOnly")]
         public async Task<IActionResult> Apply(string id)
         {
-            var userId = GetUserId();
-            var isHaveCompany = await _companyService.IsUserHaveCompany(userId);
-            if (isHaveCompany)
-            {
-                TempData["ErrorMessage"] = "You can't apply for a job because you have a company.";
-                return RedirectToAction("Explore", "Job");
-            }
             try
             {
                 var resumes = await _applicationService.AddApplicationAsync(GetUserId(),id);
@@ -41,18 +36,14 @@ namespace HireHub.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "WorkerOnly")]
         public async Task<IActionResult> Apply(ApplyForJobVM model, string id)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Apply");
             }
-            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
-            if (isHaveCompany)
-            {
-                TempData["ErrorMessage"] = "You can't apply for a job because you have a company.";
-                return RedirectToAction("Explore", "Job");
-            }
+            
             try
             {
                 await _applicationService.AddApply(model, id, GetUserId());
@@ -69,18 +60,14 @@ namespace HireHub.Web.Controllers
 
         }
 
+        [Authorize(Policy = "WorkerOnly")]
         public async Task<IActionResult> GetMyApplication()
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("Explore", "Job");
             }
-            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
-            if (isHaveCompany)
-            {
-                TempData["ErrorMessage"] = "You can't view your application because you are company.";
-                return RedirectToAction("Explore", "Job");
-            }
+           
             try
             {
                 var myApplications = await _applicationService.GetMyApplication(GetUserId());
@@ -93,14 +80,10 @@ namespace HireHub.Web.Controllers
                 return RedirectToAction("Explore", "Job");
             }
         }
+
+        [Authorize(Policy = "WorkerOnly")]
         public async Task<IActionResult> Remove(string id)
         {
-            var isHaveCompany = await _companyService.IsUserHaveCompany(GetUserId());
-            if (isHaveCompany)
-            {
-                TempData["ErrorMessage"] = "You can't remove your application because you are company.";
-                return RedirectToAction("Explore", "Job");
-            }
             try
             {
                 await _applicationService.RemoveApplication(id, GetUserId());

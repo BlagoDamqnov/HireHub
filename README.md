@@ -23,15 +23,15 @@ Benefit from admin approval for posted ads.
 ## Database Diagram
 ![Alt Text](https://scontent.fsof8-1.fna.fbcdn.net/v/t1.15752-9/358765522_590504546605430_4132928912670426137_n.png?_nc_cat=101&cb=99be929b-59f725be&ccb=1-7&_nc_sid=ae9488&_nc_ohc=nalCKgGAGegAX95Fdcw&_nc_ht=scontent.fsof8-1.fna&oh=03_AdRAS2II2VEINA_Zr5WFl4ueR3e3QIvhzvEFa3FRQIpXYA&oe=64D9F3E7)
 ## Tech Stack
-- [ASP.NET Core Icon](https://example.com/aspnetcore-icon.png)
+- [ASP.NET Core](https://example.com/aspnetcore-icon.png)
 - [Toastr notification library](https://camo.githubusercontent.com/b162f25a90b082360cb0497a6f93effc06499a6c531109af06d4a126489a41c1/687474703a2f2f646f63732e6c6172616c6162732e756b2f746f61737465722f696d616765732f746f61737465725f6c6f676f5f746578742e706e67)
-- [ASP.NET Core Areas Icon](https://example.com/aspnetcoreareas-icon.png)
-- [Entity Framework Core Icon](https://example.com/entityframework-icon.png) 
-- [Bootstrap Icon](https://example.com/bootstrap-icon.png) 
-- [JavaScript Icon](https://example.com/javascript-icon.png)
-- [NUnit Icon](https://example.com/nunit-icon.png)
-- [HTML & CSS Icon](https://example.com/htmlcss-icon.png)
-- [Razor Pages Icon](https://example.com/razorpages-icon.png)
+- [ASP.NET Core Areas](https://example.com/aspnetcoreareas-icon.png)
+- [Entity Framework Core](https://example.com/entityframework-icon.png) 
+- [Bootstrap](https://example.com/bootstrap-icon.png) 
+- [JavaScript](https://example.com/javascript-icon.png)
+- [NUnit](https://example.com/nunit-icon.png)
+- [HTML & CSS](https://example.com/htmlcss-icon.png)
+- [Razor Pages](https://example.com/razorpages-icon.png)
 
 ## Images
 

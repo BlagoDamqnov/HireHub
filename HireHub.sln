@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HireHub.Web.Services.Data",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HireHub.Common", "HireHub.Common\HireHub.Common.csproj", "{7FB0C58D-2BF8-494A-AE09-8D845B40B11E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HireHub.Web.Services.Data.Models", "HireHub.Web.Services.Data.Models\HireHub.Web.Services.Data.Models.csproj", "{E0C0ABE2-33DA-43C9-9308-537056ED4938}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HireHub.Web.Services.Data.Models", "HireHub.Web.Services.Data.Models\HireHub.Web.Services.Data.Models.csproj", "{E0C0ABE2-33DA-43C9-9308-537056ED4938}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,6 @@
 ﻿namespace HireHub.Web.Services.Data.Interfaces
 {
+    using HireHub.Web.ViewModels.Categories;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -10,5 +11,6 @@
     {
         Task<IEnumerable<string>> GetAllCategoryNames();
         Task<bool> IsExist(int id);
+        Task Create(CreateVM model);
     }
 }

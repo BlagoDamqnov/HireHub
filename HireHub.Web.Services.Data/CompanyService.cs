@@ -42,6 +42,7 @@ namespace HireHub.Web.Services.Data
                 var company = new Company()
                 {
                     Name = createCompanyVM.Name.Trim(),
+                    LogoUrl = createCompanyVM.LogoUrl.Trim(),
                     ContactEmail = createCompanyVM.ContactEmail.Trim(),
                     ContactPhone = createCompanyVM.ContactPhone!.Trim(),
                     UserId = userId
@@ -96,7 +97,7 @@ namespace HireHub.Web.Services.Data
                     Id = j.Job.Id,
                     Title = j.Job.Title,
                     CreatedOn = j.Job.CreatedOn,
-                    LogoUrl = j.Job.LogoUrl,
+                    LogoUrl = j.Job.Company.LogoUrl,
                     Username = j.ApplicationUser.UserName,
                     Resume = j.Resume.ResumePath
                 }).ToListAsync();
@@ -106,31 +107,35 @@ namespace HireHub.Web.Services.Data
         }
         public async Task<EditCompanyVM> EditCompanyAsync(EditCompanyVM editCompanyVM, string userId)
         {
-            var getCompanyByUserId = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId && c.IsDeleted == false);
-
-            var isExistWithData = await _context.Companies.AnyAsync(c => c.Id != getCompanyByUserId!.Id && (c.Name == editCompanyVM.Name.Trim() || c.ContactEmail == editCompanyVM.ContactEmail || c.ContactPhone == editCompanyVM.ContactPhone));
-
-            if (isExistWithData)
-            {
-                throw new ArgumentException("Company with same22 data already exist!");
-            }
-
-            if (string.IsNullOrWhiteSpace(editCompanyVM.Name) || string.IsNullOrWhiteSpace(editCompanyVM.ContactEmail) || string.IsNullOrWhiteSpace(editCompanyVM.ContactPhone))
+            if (string.IsNullOrWhiteSpace(editCompanyVM.Name) || string.IsNullOrWhiteSpace(editCompanyVM.ContactEmail) || string.IsNullOrWhiteSpace(editCompanyVM.ContactPhone) || string.IsNullOrEmpty(editCompanyVM.LogoUrl))
             {
                 throw new ArgumentException("You have not changed anything!");
             }
+
+            var getCompanyByUserId = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId && c.IsDeleted == false);
+
             if (getCompanyByUserId == null)
             {
                 throw new ArgumentException("Company not found!");
             }
+
+            var isExistWithData = await _context.Companies.AnyAsync(c => c.Id != getCompanyByUserId.Id && (c.Name == editCompanyVM.Name.Trim() || c.ContactEmail == editCompanyVM.ContactEmail || c.ContactPhone == editCompanyVM.ContactPhone));
+
+            if (isExistWithData)
+            {
+                throw new ArgumentException("Company with the same data already exists!");
+            }
+
             getCompanyByUserId.Name = editCompanyVM.Name.Trim();
+            getCompanyByUserId.LogoUrl = editCompanyVM.LogoUrl.Trim();
             getCompanyByUserId.ContactEmail = editCompanyVM.ContactEmail.Trim();
-            getCompanyByUserId.ContactPhone = editCompanyVM.ContactPhone!.Trim();
+            getCompanyByUserId.ContactPhone = editCompanyVM.ContactPhone?.Trim();
 
             await _context.SaveChangesAsync();
 
             return editCompanyVM;
         }
+
 
         public async Task<EditCompanyVM> GetCompanyByUserId(string userId)
         {
@@ -139,6 +144,7 @@ namespace HireHub.Web.Services.Data
                 {
                     Id = c.Id,
                     Name = c.Name,
+                    LogoUrl = c.LogoUrl,
                     ContactEmail = c.ContactEmail,
                     ContactPhone = c.ContactPhone
                 }).FirstOrDefaultAsync();
@@ -217,6 +223,22 @@ namespace HireHub.Web.Services.Data
 
             await _context.HiringRecords.AddAsync(hiring);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<string> GetCompanyLogo(int companyId)
+        {
+            var isExist = await _context.Companies.AnyAsync(c => c.Id == companyId && c.IsDeleted == false);
+
+            if (isExist)
+            {
+                var logo = await _context.Companies.Where(c => c.Id == companyId && c.IsDeleted == false)
+                    .Select(c => c.LogoUrl)
+                    .FirstOrDefaultAsync();
+
+                return logo!;
+            }
+
+            return null!;
         }
     }
 }

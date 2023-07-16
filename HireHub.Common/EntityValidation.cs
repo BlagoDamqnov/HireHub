@@ -20,8 +20,6 @@
             public const int MinSalaryMaxValue = 1000000;
             public const int MaxSalaryMinValue = 0;
             public const int MaxSalaryMaxValue = 1000000;
-            public const int LogoUrlMinLength = 10;
-            public const int LogoUrlMaxLength = 2000;
         }
         public static class Resume
         {
@@ -50,6 +48,8 @@
             public const int ContactEmailMaxLength = 50;
             public const int ContactPhoneMinLength = 5;
             public const int ContactPhoneMaxLength = 50;
+            public const int LogoUrlMinLength = 10;
+            public const int LogoUrlMaxLength = 2000;
         }
 
         public static class Category

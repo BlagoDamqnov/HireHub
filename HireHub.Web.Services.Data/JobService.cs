@@ -21,10 +21,11 @@ namespace HireHub.Web.Services.Data
     public class JobService : IJobService
     {
         private readonly ApplicationDbContext _context;
-
-        public JobService(ApplicationDbContext context)
+        private readonly ICompanyService _companyService;
+        public JobService(ApplicationDbContext context, ICompanyService companyService)
         {
             _context = context;
+            _companyService = companyService;
         }
 
         public async Task<AllJobsFilteredServiceModel> GetJobs(AllJobsQueryModel queryModel)
@@ -68,7 +69,7 @@ namespace HireHub.Web.Services.Data
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
                     CreatedOn = j.CreatedOn,
-                    LogoUrl = j.LogoUrl
+                    LogoUrl = j.Company.LogoUrl
                 })
                 .Take(100)
                 .ToArrayAsync();
@@ -128,7 +129,6 @@ namespace HireHub.Web.Services.Data
                 {
                     Title = job.Title.Trim(),
                     Description = job.Description.Trim(),
-                    LogoUrl = job.Logo.Trim(),
                     MinSalary = job.MinSalary,
                     MaxSalary = job?.MaxSalary,
                     LocationId = job!.TownId,
@@ -166,7 +166,7 @@ namespace HireHub.Web.Services.Data
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
                     CreatedOn = j.CreatedOn,
-                    LogoUrl = j.LogoUrl
+                    LogoUrl = j.Company.LogoUrl
                 })
                 .OrderByDescending(j => j.CreatedOn)
                 .ToListAsync();
@@ -221,7 +221,7 @@ namespace HireHub.Web.Services.Data
                     Location = j.Location.TownName,
                     Category = j.Category.CategoryName,
                     CompanyName = j.Company.Name,
-                    LogoUrl = j.LogoUrl,
+                    LogoUrl = j.Company.LogoUrl,
                     Requirements = j.Requirements,
                     CreatedOn = j.CreatedOn
                 })
@@ -271,7 +271,6 @@ namespace HireHub.Web.Services.Data
                    {
                        Id = j.Id,
                        Title = j.Title,
-                       Logo = j.LogoUrl,
                        CategoryId = j.CategoryId,
                        TownName = j.Location.TownName,
                        CountryName = j.Location.Country.CountryName,
@@ -327,7 +326,6 @@ namespace HireHub.Web.Services.Data
             }
 
             jobForEdit.Title = model.Title.Trim();
-            jobForEdit.LogoUrl = model.Logo.Trim();
             jobForEdit.CategoryId = model.CategoryId;
             jobForEdit.LocationId = model.TownId;
             jobForEdit.Description = model.Description.Trim();
@@ -379,7 +377,7 @@ namespace HireHub.Web.Services.Data
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
                     CreatedOn = j.CreatedOn,
-                    LogoUrl = j.LogoUrl
+                    LogoUrl = j.Company.LogoUrl
                 })
                 .Take(100)
                 .ToArrayAsync();
@@ -389,5 +387,6 @@ namespace HireHub.Web.Services.Data
                 Jobs = allJobs
             };
         }
+
     }
 }

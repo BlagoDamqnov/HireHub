@@ -18,9 +18,6 @@ namespace HireHub.Web.ViewModels.Jobs
         [StringLength(TitleMaxLength, MinimumLength = TitleMinLength, ErrorMessage = "Title must be between {2} and {1} length")]
         public string Title { get; set; } = null!;
 
-        [StringLength(LogoUrlMaxLength, MinimumLength = LogoUrlMinLength, ErrorMessage = "Logo must be between {2} and {1} range")]
-        public string Logo { get; set; } = null!;
-
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength, ErrorMessage = "Description must be between {2} and {1} length")]
         public string Description { get; set; } = null!;
 

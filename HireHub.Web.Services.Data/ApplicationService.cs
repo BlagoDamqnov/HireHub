@@ -89,7 +89,7 @@ namespace HireHub.Web.Services.Data
                      Id = j.Job.Id,
                      Title = j.Job.Title,
                      CreatedOn = j.Job.CreatedOn,
-                     LogoUrl = j.Job.LogoUrl,
+                     LogoUrl = j.Job.Company.LogoUrl,
                      Resume = j.Resume.ResumePath
                  }).ToListAsync();
 

@@ -48,7 +48,6 @@ namespace HireHub.Data.Entities
         [StringLength(MaxSalaryMaxValue, MinimumLength = MaxSalaryMinValue,ErrorMessage = "Max. Salary must be between {2} and {1} range")]
         public decimal? MaxSalary { get; set; }
         public DateTime CreatedOn { get; set; }
-        public string LogoUrl { get; set; } = null!;
         public bool IsDeleted { get; set; } = false;
         public bool IsApproved { get; set; } = false;
         public ICollection<Application> Applications { get; set; } = new List<Application>();

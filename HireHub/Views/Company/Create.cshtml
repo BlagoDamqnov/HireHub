@@ -2,6 +2,11 @@
 
 <form method="post" asp-action="Create" class="my-4">
     <div class="form-group">
+        <label asp-for="@Model.LogoUrl">Company Logo:</label>
+        <input asp-for="@Model.LogoUrl" type="text" class="form-control" required>
+        <span asp-validation-for="@Model.LogoUrl" class="text-danger"></span>
+    </div>
+    <div class="form-group">
         <label asp-for="@Model.Name">Company Name:</label>
         <input asp-for="@Model.Name" type="text" class="form-control" required>
         <span asp-validation-for="@Model.Name" class="text-danger"></span>

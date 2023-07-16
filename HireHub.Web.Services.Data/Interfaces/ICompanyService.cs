@@ -23,5 +23,7 @@ namespace HireHub.Web.Services.Data.Interfaces
         Task<bool?> IsHire(string userId, string jobId);
         Task<string> GetUserIdByEmail(string? email);
         Task RejectUser(string userId, string jobId);
+
+        Task<string> GetCompanyLogo(int companyId);
     }
 }

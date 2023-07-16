@@ -20,7 +20,7 @@ namespace HireHub.Web.Controllers
 
         [HttpGet]
         [Authorize(Policy = "WorkerOnly")]
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         { 
             return View();
         }

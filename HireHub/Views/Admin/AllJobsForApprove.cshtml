@@ -36,12 +36,15 @@
                 <td>
                     <div class="btn-group">
                         <form asp-route-id="@job.Id" asp-action="ApproveJob" asp-controller="Admin" class="btn-group">
-                            <button type="submit" class="app-btn btn-approve" name="approveButton">Approve</button>
+                            <button type="submit" class="btn btn-primary btn btn-block" name="approveButton">Approve</button>
                         </form>
                         <form asp-route-id="@job.Id" asp-action="RejectJob" asp-controller="Admin" class="btn-group">
-                            <button type="submit" class="app-btn btn-reject">Reject</button>
+                            <button type="submit" class="btn btn-primary btn btn-block" style="background-color:#dc3545 !important">Reject</button>
                         </form>
-                        <a asp-route-id="@job.Id" asp-action="DetailsForAdmin" asp-controller="Admin" class="btn btn-details">Details</a>
+                        <form class ="btn-group">
+                            <a asp-route-id="@job.Id" asp-action="DetailsForAdmin" asp-controller="Admin" class="btn btn-primary btn btn-block" style="background-color:#007bff !important">Details</a>
+                        </form>
+                       
                     </div>
                 </td>
             </tr>

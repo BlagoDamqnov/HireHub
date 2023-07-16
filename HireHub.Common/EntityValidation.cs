@@ -42,7 +42,7 @@
 
         public static class Company
         {
-            public const int CompanyNameMinLength = 5;
+            public const int CompanyNameMinLength = 2;
             public const int CompanyNameMaxLength = 50;
             public const int ContactEmailMinLength = 5;
             public const int ContactEmailMaxLength = 50;

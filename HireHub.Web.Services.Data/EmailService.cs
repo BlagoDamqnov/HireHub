@@ -23,7 +23,7 @@ namespace HireHub.Web.Services.Data
                 EnableSsl = true
             };
 
-            MailMessage mailMessage = new MailMessage(mailMessageFrom, email, subject, message);
+            MailMessage mailMessage = new MailMessage(mailMessageFrom, email!, subject, message);
             mailMessage.IsBodyHtml = true;
 
             await client.SendMailAsync(mailMessage);

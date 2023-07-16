@@ -1,39 +1,50 @@
 ﻿@model HireHub.Web.ViewModels.Jobs.DetailsJobVM
 
-<div class="job-details">
-    <div class="logo-container">
-        <img class="logo" src="@Model.LogoUrl" alt="Company Logo">
-    </div>
-    <h3>@Model.Title</h3>
-    <p>@Model.CompanyName - @Model.Location</p>
-    <p>Minimum Salary: @Model.MinSalary.ToString("0")</p>
-    <p>Maximum Salary: @(Model.MaxSalary != null ? Model.MaxSalary.Value.ToString("0") : "-")</p>
-    <p>Created on: @Model.CreatedOn</p>
-    <hr />
-    <div class="description">
-        <h4>Description</h4>
-        <p>@Model.Description</p>
-    </div>
-    <div class="requirements">
-        <h4>Requirements</h4>
-        <ul>
-            @foreach (var requirement in Model.Requirements.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                <li>@requirement</li>
-            }
-        </ul>
-    </div>
-    <div class="apply-button">
-        <div class="btn-group">
-            <form asp-route-id="@Model.Id" asp-action="ApproveJob" asp-controller="Admin" class="btn-group">
-                <button type="submit" class="app-btn btn-approve" name="approveButton">Approve</button>
-            </form>
-            <form asp-route-id="@Model.Id" asp-action="RejectJob" asp-controller="Admin" class="btn-group">
-                <button type="submit" class="app-btn btn-reject">Reject</button>
-            </form>
-            <form asp-route-id="@Model.Id" asp-action="AllJobsForApprove" asp-controller="Admin" class="btn-group">
-                <button type="submit" class="app-btn btn-details">Back</button>
-            </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow">
+                <img class="card-img-top" src="@Model.LogoUrl" alt="Company Logo">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Title</h5>
+                    <p class="card-text">@Model.CompanyName - @Model.Location</p>
+                    <p class="card-text">Minimum Salary: @Model.MinSalary.ToString("0")</p>
+                    <p class="card-text">Maximum Salary: @(Model.MaxSalary != null ? Model.MaxSalary.Value.ToString("0") : "-")</p>
+                    <p class="card-text">Created on: @Model.CreatedOn</p>
+                    <hr />
+                    <h4 class="card-title">Description</h4>
+                    <p class="card-text">@Model.Description</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="card-title">Requirements</h4>
+                    <div class="description">
+                        <p>@Model.Description</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var requirement in Model.Requirements.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            <li class="list-group-item border-0">@requirement</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="btn-group">
+                    <form asp-route-id="@Model.Id" asp-action="ApproveJob" asp-controller="Admin" class="btn-group">
+                        <button type="submit" class="btn btn-primary btn-block" name="approveButton">Approve</button>
+                    </form>
+                    <form asp-route-id="@Model.Id" asp-action="RejectJob" asp-controller="Admin" class="btn-group">
+                        <button type="submit" class="btn btn-primary btn-block" style="background-color:#dc3545 !important">Reject</button>
+                    </form>
+                    <form asp-route-id="@Model.Id" asp-action="AllJobsForApprove" asp-controller="Admin" class="btn-group">
+                        <button type="submit" class="btn btn-primary btn-block" style="background-color:#007bff !important">Back</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>

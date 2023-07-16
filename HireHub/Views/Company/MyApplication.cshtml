@@ -39,10 +39,10 @@
                             if (isHiring == null)
                             {
                                 <form asp-route-id="@job.Id" asp-route-email="@job.Username" asp-action="Hire" asp-controller="Company" class="btn-group">
-                                    <button type="submit" class="app-btn btn-approve" name="approveButton">Hire</button>
+                                    <button type="submit" class="btn btn-primary btn btn-block" name="approveButton">Hire</button>
                                 </form>
                                 <form asp-route-id="@job.Id" asp-route-email="@job.Username" asp-action="Reject" asp-controller="Company" class="btn-group">
-                                    <button type="submit" class="app-btn btn-reject">Reject</button>
+                                    <button type="submit" class="btn btn-primary btn btn-block" style="background-color:#dc3545 !important">Reject</button>
                                 </form>
                             }
                             if (isHiring == true)

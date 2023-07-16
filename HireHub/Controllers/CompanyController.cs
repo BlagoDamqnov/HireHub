@@ -57,21 +57,23 @@ namespace HireHub.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Enter invalid copmany data!";
-                return View();
+                TempData["ErrorMessage"] = "Invalid company data!";
+                return View(model);
             }
+
             try
             {
-                var editCompanyVM = await _companyService.EditCompanyAsync(model, GetUserId());
+                var editedCompany = await _companyService.EditCompanyAsync(model, GetUserId());
                 TempData["SuccessMessage"] = "Company edited successfully!";
-                return RedirectToAction("Edit", "Company");
+                return RedirectToAction("Edit");
             }
             catch (ArgumentException e)
             {
                 TempData["ErrorMessage"] = e.Message;
-                return RedirectToAction("Edit", "Company");
+                return RedirectToAction("Edit");
             }
         }
+
         [HttpPost]
         [Authorize(Policy = "WorkerOnly")]
         public async Task<IActionResult> Create(CreateCompanyVM createCompanyVM)

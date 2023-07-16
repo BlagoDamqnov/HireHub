@@ -21,12 +21,16 @@
                 </div>
                 @if(Model.CreatorId == User.FindFirstValue(ClaimTypes.NameIdentifier))
                 {
-                    <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Details" asp-controller="Job">Details</a></button>
-                }
-                else
-                {
-                    <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Details" asp-controller="Job">Apply Now</a></button>
-                }
+                <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Details" asp-controller="Job">Details</a></button>
+            }
+            else if(!User.IsInRole("Admin"))
+            {
+                <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Details" asp-controller="Job">Apply Now</a></button>
+            }
+            else
+            {
+                <button class="apply-btn"><a class="apply-link" asp-route-id="@Model.Id" asp-action="Details" asp-controller="Job">See</a></button>
+            }
             </div>
         </div>
  

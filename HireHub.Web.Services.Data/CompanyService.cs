@@ -107,36 +107,33 @@ namespace HireHub.Web.Services.Data
         }
         public async Task<EditCompanyVM> EditCompanyAsync(EditCompanyVM editCompanyVM, string userId)
         {
-            if (string.IsNullOrWhiteSpace(editCompanyVM.Name) || string.IsNullOrWhiteSpace(editCompanyVM.ContactEmail) || string.IsNullOrWhiteSpace(editCompanyVM.ContactPhone) || string.IsNullOrEmpty(editCompanyVM.LogoUrl))
+            var getCompanyByUserId = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId && c.IsDeleted == false);
+
+            var isExistWithData = await _context.Companies.AnyAsync(c => c.Id != getCompanyByUserId!.Id && (c.Name == editCompanyVM.Name.Trim() || c.ContactEmail == editCompanyVM.ContactEmail || c.ContactPhone == editCompanyVM.ContactPhone));
+
+            if (isExistWithData)
+            {
+                throw new ArgumentException("Company with same22 data already exist!");
+            }
+
+            if (string.IsNullOrWhiteSpace(editCompanyVM.Name) || string.IsNullOrWhiteSpace(editCompanyVM.ContactEmail) || string.IsNullOrWhiteSpace(editCompanyVM.ContactPhone)
+                || string.IsNullOrEmpty(editCompanyVM.LogoUrl))
             {
                 throw new ArgumentException("You have not changed anything!");
             }
-
-            var getCompanyByUserId = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId && c.IsDeleted == false);
-
             if (getCompanyByUserId == null)
             {
                 throw new ArgumentException("Company not found!");
             }
-
-            var isExistWithData = await _context.Companies.AnyAsync(c => c.Id != getCompanyByUserId.Id && (c.Name == editCompanyVM.Name.Trim() || c.ContactEmail == editCompanyVM.ContactEmail || c.ContactPhone == editCompanyVM.ContactPhone));
-
-            if (isExistWithData)
-            {
-                throw new ArgumentException("Company with the same data already exists!");
-            }
-
             getCompanyByUserId.Name = editCompanyVM.Name.Trim();
             getCompanyByUserId.LogoUrl = editCompanyVM.LogoUrl.Trim();
             getCompanyByUserId.ContactEmail = editCompanyVM.ContactEmail.Trim();
-            getCompanyByUserId.ContactPhone = editCompanyVM.ContactPhone?.Trim();
+            getCompanyByUserId.ContactPhone = editCompanyVM.ContactPhone!.Trim();
 
             await _context.SaveChangesAsync();
 
             return editCompanyVM;
         }
-
-
         public async Task<EditCompanyVM> GetCompanyByUserId(string userId)
         {
             var company = await _context.Companies.Where(c => c.UserId == userId && c.IsDeleted == false)

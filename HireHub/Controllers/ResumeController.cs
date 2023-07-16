@@ -20,8 +20,8 @@ namespace HireHub.Web.Controllers
 
         [HttpGet]
         [Authorize(Policy = "WorkerOnly")]
-        public IActionResult Add()
-        { 
+        public async Task<IActionResult> Add()
+        {
             return View();
         }
 
@@ -33,7 +33,7 @@ namespace HireHub.Web.Controllers
             {
                 var error = ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault();
                 TempData["ErrorMessage"] = error!.ErrorMessage;
-                return RedirectToAction("Add","Resume");
+                return RedirectToAction("Add", "Resume");
             }
 
             await _resumeService.AddResumeAsync(resume, GetUserId());

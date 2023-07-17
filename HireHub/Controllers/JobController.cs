@@ -117,7 +117,7 @@ namespace HireHub.Controllers
                 if (job == null)
                 {
                     TempData[ErrorMessage] = "Error during edit a job!";
-                    return RedirectToAction("Explore");
+                    return RedirectToAction("GetCompanyJobs");
                 }
 
                 return View(job);
@@ -126,7 +126,7 @@ namespace HireHub.Controllers
             {
                 TempData[ErrorMessage] = e.Message;
             }
-            return RedirectToAction("Explore");
+            return RedirectToAction("GetCompanyJobs");
         }
 
         [HttpPost]
@@ -140,13 +140,13 @@ namespace HireHub.Controllers
             try
             {
                 await _jobService.EditJob(model);
+                TempData[SuccessMessage] = "You have successfully edited a job offer.";
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException e)
             {
-                TempData[ErrorMessage] = "Error during edit a job!";
+                TempData[ErrorMessage] = e.Message;
             }
-
-            return RedirectToAction("Explore");
+            return RedirectToAction("Edit");
         }
         public async Task<IActionResult> Details(string id)
         {

@@ -113,7 +113,7 @@ namespace HireHub.Web.Services.Data
 
             if (isExistWithData)
             {
-                throw new ArgumentException("Company with same22 data already exist!");
+                throw new ArgumentException("Company with same data already exist!");
             }
 
             if (string.IsNullOrWhiteSpace(editCompanyVM.Name) || string.IsNullOrWhiteSpace(editCompanyVM.ContactEmail) || string.IsNullOrWhiteSpace(editCompanyVM.ContactPhone)

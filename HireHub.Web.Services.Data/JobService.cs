@@ -125,6 +125,10 @@ namespace HireHub.Web.Services.Data
         {
             try
             {
+                if(job.MinSalary>=job.MaxSalary)
+                {
+                    throw new InvalidOperationException("Min salary must be less than max salary");
+                }
                 var jobToAdd = new Job()
                 {
                     Title = job.Title.Trim(),
@@ -325,6 +329,10 @@ namespace HireHub.Web.Services.Data
                 throw new InvalidOperationException("Job not found");
             }
 
+            if (model.MinSalary >= model.MaxSalary)
+            {
+                throw new InvalidOperationException("Min salary must be less than max salary");
+            }
             jobForEdit.Title = model.Title.Trim();
             jobForEdit.CategoryId = model.CategoryId;
             jobForEdit.LocationId = model.TownId;

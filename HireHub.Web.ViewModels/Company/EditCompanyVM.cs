@@ -13,6 +13,7 @@ namespace HireHub.Web.ViewModels.Company
         public int Id { get; set; }
 
         [StringLength(CompanyNameMaxLength, MinimumLength = CompanyNameMinLength, ErrorMessage = "Company name must be between {2} and {1} length")]
+        [RegularExpression(@"^[a-zA-Z0-9\s]+$", ErrorMessage = "Company name must contain only letters, digits and whitespaces")]
         public string Name { get; set; } = null!;
         public string LogoUrl { get; set; } = null!;
         [StringLength(ContactEmailMaxLength, MinimumLength = ContactEmailMinLength, ErrorMessage = "Contact email must be between {2} and {1} length")]

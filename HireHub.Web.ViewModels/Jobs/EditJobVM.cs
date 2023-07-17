@@ -16,6 +16,7 @@
     {
         public Guid Id { get; set; }
         [StringLength(TitleMaxLength, MinimumLength = TitleMinLength, ErrorMessage = "Title must be between {2} and {1} length")]
+        [RegularExpression(@"^[a-zA-Z0-9\s]+$", ErrorMessage = "Title must contain only letters, digits and whitespaces")]
         public string Title { get; set; } = null!;
 
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength, ErrorMessage = "Description must be between {2} and {1} length")]

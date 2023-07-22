@@ -11,6 +11,7 @@ namespace HireHub.Data.Entities
 
         [StringLength(CategoryNameMaxLength, MinimumLength = CategoryNameMinLength, ErrorMessage = "Category name must be between {2} and {1} length")]
         public string CategoryName { get; set; } = null!;
+
         public ICollection<Job> Jobs { get; set; } = new List<Job>();
     }
 }

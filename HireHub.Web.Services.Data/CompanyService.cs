@@ -2,9 +2,6 @@
 using HireHub.Data.Models.Entities;
 using HireHub.Web.Services.Data.Interfaces;
 using HireHub.Web.ViewModels.Company;
-using HireHub.Web.ViewModels.Jobs;
-using HireHub.Web.ViewModels.Users;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HireHub.Web.Services.Data
@@ -14,7 +11,6 @@ namespace HireHub.Web.Services.Data
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
-    using System.Text;
     using System.Threading.Tasks;
 
     public class CompanyService : ICompanyService
@@ -22,7 +18,8 @@ namespace HireHub.Web.Services.Data
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        public CompanyService(ApplicationDbContext context,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+
+        public CompanyService(ApplicationDbContext context, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
@@ -33,7 +30,7 @@ namespace HireHub.Web.Services.Data
         {
             var isExistWithSameName = await _context.Companies.AnyAsync(c => c.Name == createCompanyVM.Name.Trim());
 
-           if(isExistWithSameName)
+            if (isExistWithSameName)
             {
                 throw new ArgumentException("Company with same name already exist!");
             }
@@ -50,14 +47,13 @@ namespace HireHub.Web.Services.Data
 
                 await _context.Companies.AddAsync(company);
 
-
                 var newClaim = new Claim("Company", company.Name);
 
                 var user = await _userManager.FindByIdAsync(userId);
 
                 var getClaims = await _userManager.GetClaimsAsync(user);
                 var oldClaim = getClaims.FirstOrDefault(c => c.Type == "Worker");
-               
+
                 await _userManager.ReplaceClaimAsync(user, oldClaim, newClaim);
 
                 await _context.SaveChangesAsync();
@@ -103,8 +99,8 @@ namespace HireHub.Web.Services.Data
                 }).ToListAsync();
 
             return app;
-
         }
+
         public async Task<EditCompanyVM> EditCompanyAsync(EditCompanyVM editCompanyVM, string userId)
         {
             var getCompanyByUserId = await _context.Companies.FirstOrDefaultAsync(c => c.UserId == userId && c.IsDeleted == false);
@@ -134,6 +130,7 @@ namespace HireHub.Web.Services.Data
 
             return editCompanyVM;
         }
+
         public async Task<EditCompanyVM> GetCompanyByUserId(string userId)
         {
             var company = await _context.Companies.Where(c => c.UserId == userId && c.IsDeleted == false)
@@ -152,7 +149,7 @@ namespace HireHub.Web.Services.Data
         public async Task<bool> DeleteCompany(int id)
         {
             var company = _context.Companies.FirstOrDefault(c => c.Id == id && c.IsDeleted == false);
-            var userId  = company!.UserId;
+            var userId = company!.UserId;
             if (company == null)
             {
                 throw new ArgumentException("Company not found!");
@@ -166,7 +163,7 @@ namespace HireHub.Web.Services.Data
 
             var oldClaim = getClaims.FirstOrDefault(c => c.Type == "Company");
 
-            await _userManager.ReplaceClaimAsync(user,oldClaim,newClaim);
+            await _userManager.ReplaceClaimAsync(user, oldClaim, newClaim);
 
             await _context.SaveChangesAsync();
 
@@ -177,13 +174,13 @@ namespace HireHub.Web.Services.Data
 
         public async Task HireUser(string userId, string jobId)
         {
-           var hiring = new HiringRecord()
-           {
-               CandidateId = userId,
-               JobId = Guid.Parse(jobId),
-               DateOfHiring = DateTime.Now,
-               IsHired = true
-           };
+            var hiring = new HiringRecord()
+            {
+                CandidateId = userId,
+                JobId = Guid.Parse(jobId),
+                DateOfHiring = DateTime.Now,
+                IsHired = true
+            };
 
             await _context.HiringRecords.AddAsync(hiring);
             await _context.SaveChangesAsync();
@@ -191,19 +188,19 @@ namespace HireHub.Web.Services.Data
 
         public async Task<bool?> IsHire(string userId, string jobId)
         {
-           var user =  await _context.HiringRecords.FirstOrDefaultAsync(h=>h.JobId == Guid.Parse(jobId) && h.CandidateId == userId);
+            var user = await _context.HiringRecords.FirstOrDefaultAsync(h => h.JobId == Guid.Parse(jobId) && h.CandidateId == userId);
 
-           if(user != null)
+            if (user != null)
             {
-               return user.IsHired;
-           }
+                return user.IsHired;
+            }
 
             return null;
         }
 
         public async Task<string> GetUserIdByEmail(string? email)
         {
-            var user = await _context.ApplicationUsers.FirstOrDefaultAsync(x=>x.Email.ToLower().Trim() == email!.ToLower().Trim());
+            var user = await _context.ApplicationUsers.FirstOrDefaultAsync(x => x.Email.ToLower().Trim() == email!.ToLower().Trim());
 
             return user!.Id;
         }

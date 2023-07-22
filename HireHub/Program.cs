@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using HireHub.Data;
 using HireHub.Data.Models.Entities;
 using HireHub.Web.Services.Data;
 using HireHub.Web.Services.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace HireHub
 {
@@ -11,7 +9,6 @@ namespace HireHub
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Caching.Memory;
 
     public class Program
     {
@@ -46,7 +43,6 @@ namespace HireHub
 
             builder.Services.AddAuthorization(options =>
             {
-
                 options.AddPolicy("WorkerOnly", policy => policy.RequireClaim("Worker"));
                 options.AddPolicy("CompanyOnly", policy => policy.RequireClaim("Company"));
             });
@@ -58,7 +54,7 @@ namespace HireHub
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.     
+            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();

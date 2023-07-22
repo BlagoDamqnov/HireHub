@@ -9,13 +9,14 @@ namespace HireHub.Data.Entities
     {
         public int Id { get; set; }
 
-        [StringLength(TownNameMaxLength, MinimumLength = TownNameMinLength,ErrorMessage = "Town name must be between {2} and {1} characters long.")]
+        [StringLength(TownNameMaxLength, MinimumLength = TownNameMinLength, ErrorMessage = "Town name must be between {2} and {1} characters long.")]
         public string TownName { get; set; } = null!;
+
         public int CountryId { get; set; }
 
         [ForeignKey(nameof(CountryId))]
         public Country Country { get; set; } = null!;
+
         public ICollection<Job> Jobs { get; set; } = new List<Job>();
     }
-
 }

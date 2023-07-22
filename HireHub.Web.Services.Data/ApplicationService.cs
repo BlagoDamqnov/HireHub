@@ -8,24 +8,21 @@ namespace HireHub.Web.Services.Data
 {
     using HireHub.Web.ViewModels.Application;
     using HireHub.Web.ViewModels.Company;
-    using HireHub.Web.ViewModels.Jobs;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     public class ApplicationService : IApplicationService
     {
         private readonly ApplicationDbContext _context;
 
-
         public ApplicationService(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<ApplyForJobVM> AddApplicationAsync(string userId,string jobId)
+        public async Task<ApplyForJobVM> AddApplicationAsync(string userId, string jobId)
         {
             var isOwner = await _context.Jobs
     .AnyAsync(x => x.Id == Guid.Parse(jobId) && x.CreatorId == userId);
@@ -58,7 +55,6 @@ namespace HireHub.Web.Services.Data
             var isApply = await _context.Applications
                 .Where(x => x.ApplierId == userId && x.JobId == parseJobId && x.IsDeleted == false).AnyAsync();
 
-
             if (isApply == false)
             {
                 var application = new Application
@@ -77,7 +73,6 @@ namespace HireHub.Web.Services.Data
             {
                 throw new InvalidOperationException("You have already applied for this job!");
             }
-
         }
 
         public async Task<IEnumerable<GetAllApplications>> GetMyApplication(string userId)
@@ -98,7 +93,7 @@ namespace HireHub.Web.Services.Data
 
         public Task RemoveApplication(string id, string userId)
         {
-           var parseId = Guid.Parse(id);
+            var parseId = Guid.Parse(id);
             var application = _context.Applications
                 .Where(x => x.ApplierId == userId && x.JobId == parseId && x.IsDeleted == false)
                 .FirstOrDefault();

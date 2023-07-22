@@ -1,13 +1,10 @@
-﻿using HireHub.Controllers;
-using HireHub.Web.Services.Data.Interfaces;
+﻿using HireHub.Web.Services.Data.Interfaces;
 using HireHub.Web.ViewModels.Company;
 
 namespace HireHub.Web.Controllers
 {
-    using HireHub.Web.Services.Data;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using System.Text.Encodings.Web;
 
     [Authorize]
     public class CompanyController : UserController
@@ -15,7 +12,8 @@ namespace HireHub.Web.Controllers
         private readonly ICompanyService _companyService;
         private readonly IEmailService _emailService;
         private readonly IJobService _jobService;
-        public CompanyController(ICompanyService companyService, IEmailService emailService,IJobService jobService)
+
+        public CompanyController(ICompanyService companyService, IEmailService emailService, IJobService jobService)
         {
             _companyService = companyService;
             _emailService = emailService;
@@ -38,10 +36,11 @@ namespace HireHub.Web.Controllers
                     TempData["ErrorMessage"] = "Admin can't create a company!";
                     return RedirectToAction("Index", "Home");
                 }
-                TempData["ErrorMessage"] = "You must create a company first!";
+                TempData["InfoMessage"] = "You need to create a company first!";
                 return View();
             }
         }
+
         [HttpGet]
         [Authorize(Policy = "CompanyOnly")]
         public async Task<IActionResult> Edit()
@@ -125,7 +124,7 @@ namespace HireHub.Web.Controllers
         }
 
         [Authorize(Policy = "CompanyOnly")]
-        public async Task<IActionResult> Hire(string id,string email)
+        public async Task<IActionResult> Hire(string id, string email)
         {
             var getJob = await _jobService.GetJobDetails(id);
             string subject = $"Congratulations! You've been hired as a {getJob!.Title}";
@@ -142,17 +141,16 @@ namespace HireHub.Web.Controllers
                 TempData["ErrorMessage"] = "User already has a company!";
                 return RedirectToAction("MyApplication", "Company");
             }
-            var company= await _companyService.GetCompanyByUserId(GetUserId());
-
+            var company = await _companyService.GetCompanyByUserId(GetUserId());
 
             bool? isHiring = await _companyService.IsHire(userId, id);
 
-
-            if (isHiring==false)
+            if (isHiring == false)
             {
                 TempData["ErrorMessage"] = "User is already rejected!";
                 return RedirectToAction("MyApplication", "Company");
-            }else if(isHiring == true)
+            }
+            else if (isHiring == true)
             {
                 TempData["ErrorMessage"] = "User is already hired!";
                 return RedirectToAction("MyApplication", "Company");
@@ -164,20 +162,21 @@ namespace HireHub.Web.Controllers
             await _companyService.HireUser(applicantId, id);
             TempData["SuccessMessage"] = "Email sent successfully!";
             return RedirectToAction("MyApplication", "Company");
-
         }
+
         [Authorize(Policy = "CompanyOnly")]
-        public async Task<IActionResult> Reject(string id , string email)
+        public async Task<IActionResult> Reject(string id, string email)
         {
             var userId = await _companyService.GetUserIdByEmail(email);
 
             bool? isHiring = await _companyService.IsHire(userId, id);
 
-            if(isHiring == false)
+            if (isHiring == false)
             {
                 TempData["ErrorMessage"] = "User is already rejected!";
                 return RedirectToAction("MyApplication", "Company");
-            }else if (isHiring == true)
+            }
+            else if (isHiring == true)
             {
                 TempData["ErrorMessage"] = "User is already hired!";
                 return RedirectToAction("MyApplication", "Company");

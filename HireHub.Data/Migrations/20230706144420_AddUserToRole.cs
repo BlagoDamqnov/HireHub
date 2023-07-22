@@ -25,7 +25,6 @@ namespace HireHub.Data.Migrations
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "e332f872-2826-4cd4-a64b-65f82014f1af");
-
         }
     }
 }

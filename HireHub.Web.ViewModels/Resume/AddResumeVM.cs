@@ -4,7 +4,6 @@ using static HireHub.Common.EntityValidation.Resume;
 
 namespace HireHub.Web.ViewModels.Resume
 {
-
     public class AddResumeVM
     {
         [StringLength(NameMaxLength, MinimumLength = NameMinLength, ErrorMessage = "Name must be between {2} and {1} length")]

@@ -18,7 +18,7 @@ namespace HireHub.Data.Migrations
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
-         
+
             migrationBuilder.AddForeignKey(
                 name: "FK_Jobs_Companies_CompanyId",
                 table: "Jobs",
@@ -36,7 +36,7 @@ namespace HireHub.Data.Migrations
             migrationBuilder.DropColumn(
                 name: "IsDeleted",
                 table: "Companies");
-          
+
             migrationBuilder.AddForeignKey(
                 name: "FK_Jobs_Companies_CompanyId",
                 table: "Jobs",

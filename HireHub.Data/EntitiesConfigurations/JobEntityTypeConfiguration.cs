@@ -4,13 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace HireHub.Data.EntitiesConfigurations
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
-    public class JobEntityTypeConfiguration:IEntityTypeConfiguration<Job>
+    public class JobEntityTypeConfiguration : IEntityTypeConfiguration<Job>
 
     {
         public void Configure(EntityTypeBuilder<Job> builder)
@@ -20,7 +14,6 @@ namespace HireHub.Data.EntitiesConfigurations
 
             builder.Property(j => j.MaxSalary)
                 .HasColumnType("money");
-
         }
     }
 }

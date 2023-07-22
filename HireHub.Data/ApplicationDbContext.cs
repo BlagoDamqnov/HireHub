@@ -1,7 +1,6 @@
 ﻿using HireHub.Data.Entities;
 using HireHub.Data.EntitiesConfigurations;
 using HireHub.Data.Models.Entities;
-using Microsoft.AspNetCore.Identity;
 
 namespace HireHub.Data
 {
@@ -39,6 +38,5 @@ namespace HireHub.Data
         public DbSet<Company> Companies { get; set; } = null!;
         public DbSet<ApplicationUser> ApplicationUsers { get; set; } = null!;
         public DbSet<HiringRecord> HiringRecords { get; set; } = null!;
-
     }
 }

@@ -2,13 +2,15 @@
 
 namespace HireHub.Web.ViewModels.Company
 {
-
     using System.ComponentModel.DataAnnotations;
+
     public class CreateCompanyVM
     {
         public int Id { get; set; }
+
         [StringLength(CompanyNameMaxLength, MinimumLength = CompanyNameMinLength, ErrorMessage = "Company name must be between {2} and {1} length")]
         public string Name { get; set; } = null!;
+
         [StringLength(LogoUrlMaxLength, MinimumLength = LogoUrlMinLength, ErrorMessage = "Logo must be between {2} and {1} range")]
         public string LogoUrl { get; set; } = null!;
 

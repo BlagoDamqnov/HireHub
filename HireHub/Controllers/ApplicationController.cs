@@ -3,7 +3,6 @@ using HireHub.Web.ViewModels.Application;
 
 namespace HireHub.Web.Controllers
 {
-    using HireHub.Controllers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +19,12 @@ namespace HireHub.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy ="WorkerOnly")]
+        [Authorize(Policy = "WorkerOnly")]
         public async Task<IActionResult> Apply(string id)
         {
             try
             {
-                var resumes = await _applicationService.AddApplicationAsync(GetUserId(),id);
+                var resumes = await _applicationService.AddApplicationAsync(GetUserId(), id);
                 return View(resumes);
             }
             catch (InvalidOperationException e)
@@ -44,7 +43,7 @@ namespace HireHub.Web.Controllers
             {
                 return RedirectToAction("Apply");
             }
-            
+
             try
             {
                 await _applicationService.AddApply(model, id, GetUserId());
@@ -58,7 +57,6 @@ namespace HireHub.Web.Controllers
 
                 return RedirectToAction("Apply");
             }
-
         }
 
         [Authorize(Policy = "WorkerOnly")]
@@ -68,7 +66,7 @@ namespace HireHub.Web.Controllers
             {
                 return RedirectToAction("Explore", "Job");
             }
-           
+
             try
             {
                 var myApplications = await _applicationService.GetMyApplication(GetUserId());
@@ -99,6 +97,5 @@ namespace HireHub.Web.Controllers
                 return RedirectToAction("GetMyApplication");
             }
         }
-
     }
 }

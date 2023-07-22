@@ -2,7 +2,6 @@
 using HireHub.Web.ViewModels.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace HireHub.Web.Controllers
 {
@@ -18,7 +17,6 @@ namespace HireHub.Web.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-
         public async Task<IActionResult> AllJobsForApprove()
         {
             var jobs = await _jobService.GetAllJobsForApprove();
@@ -41,6 +39,7 @@ namespace HireHub.Web.Controllers
             TempData["SuccessMessage"] = "Job approved successfully!";
             return RedirectToAction("AllJobsForApprove");
         }
+
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RejectJob(string id)
         {
@@ -56,8 +55,8 @@ namespace HireHub.Web.Controllers
 
             TempData["SuccessMessage"] = "Job rejected successfully!";
             return RedirectToAction("AllJobsForApprove");
-
         }
+
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DetailsForAdmin(string id)
         {

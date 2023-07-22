@@ -1,25 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HireHub.Data.Models.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using HireHub.Data.Models.Entities;
-using Microsoft.AspNetCore.Identity;
 
 namespace HireHub.Data.Entities
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class Application
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
+
         public string ApplierId { get; set; } = null!;
 
         [ForeignKey(nameof(ApplierId))]
         public ApplicationUser ApplicationUser { get; set; } = null!;
-        public Guid JobId { get; set; } 
+
+        public Guid JobId { get; set; }
 
         [ForeignKey(nameof(JobId))]
         public Job Job { get; set; } = null!;
@@ -28,6 +25,7 @@ namespace HireHub.Data.Entities
 
         [ForeignKey(nameof(ResumeId))]
         public Resume Resume { get; set; } = null!;
+
         public DateTime CreatedOn { get; set; }
         public bool IsDeleted { get; set; } = false;
         public bool IsApproved { get; set; } = false;

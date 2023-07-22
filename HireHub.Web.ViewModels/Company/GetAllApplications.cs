@@ -1,12 +1,6 @@
-﻿using HireHub.Web.ViewModels.Users;
-
-namespace HireHub.Web.ViewModels.Company
+﻿namespace HireHub.Web.ViewModels.Company
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class GetAllApplications
     {

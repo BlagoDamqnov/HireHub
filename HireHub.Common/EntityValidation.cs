@@ -1,11 +1,5 @@
 ﻿namespace HireHub.Common
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public static class EntityValidation
     {
         public static class Job
@@ -21,6 +15,7 @@
             public const int MaxSalaryMinValue = 0;
             public const int MaxSalaryMaxValue = 1000000;
         }
+
         public static class Resume
         {
             public const int NameMinLength = 5;
@@ -34,6 +29,7 @@
             public const int TownNameMinLength = 5;
             public const int TownNameMaxLength = 50;
         }
+
         public static class Country
         {
             public const int CountryNameMinLength = 5;

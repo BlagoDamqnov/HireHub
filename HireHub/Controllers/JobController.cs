@@ -9,9 +9,6 @@ namespace HireHub.Controllers
     using HireHub.Models;
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
-    using System.Net.Mail;
-    using System.Net;
-    using System.Security.Claims;
 
     using static Common.NotificationMessagesConstants;
 
@@ -21,6 +18,7 @@ namespace HireHub.Controllers
         private readonly IJobService _jobService;
         private readonly ICompanyService _companyService;
         private readonly ICategoryService _categoryService;
+
         public JobController(IJobService jobService, ICompanyService companyService, ICategoryService categoryService)
         {
             _jobService = jobService;
@@ -39,6 +37,7 @@ namespace HireHub.Controllers
 
             return View(queryModel);
         }
+
         [HttpGet]
         public async Task<IActionResult> GetTownsByCountryId(int countryId)
         {
@@ -87,26 +86,27 @@ namespace HireHub.Controllers
                 return RedirectToAction("Create");
             }
 
-            return RedirectToAction("Explore");
+            return RedirectToAction("GetCompanyJobs");
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
         public async Task<IActionResult> Delete(string id)
         {
             try
             {
                 await _jobService.DeleteJob(id, GetUserId());
                 TempData[SuccessMessage] = "You have successfully deleted a job offer.";
-
             }
             catch (InvalidOperationException e)
             {
                 TempData[ErrorMessage] = e.Message;
             }
-            return RedirectToAction("Explore");
+            return RedirectToAction("GetCompanyJobs");
         }
 
         public async Task<IActionResult> Edit(string id)
@@ -116,7 +116,7 @@ namespace HireHub.Controllers
                 var job = await _jobService.GetJobDetailsForEdit(id, GetUserId());
                 if (job == null)
                 {
-                    TempData[ErrorMessage] = "Error during edit a job!";
+                    TempData[ErrorMessage] = "Job is null!";
                     return RedirectToAction("GetCompanyJobs");
                 }
 
@@ -134,7 +134,7 @@ namespace HireHub.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData[ErrorMessage] = "Error during edit a job!";
+                TempData[ErrorMessage] = "Not valid data!";
                 return RedirectToAction("Edit");
             }
             try
@@ -148,6 +148,7 @@ namespace HireHub.Controllers
             }
             return RedirectToAction("Edit");
         }
+
         public async Task<IActionResult> Details(string id)
         {
             var job = await _jobService.GetJobDetails(id);
@@ -157,6 +158,7 @@ namespace HireHub.Controllers
             }
             return RedirectToAction("Explore");
         }
+
         [HttpGet]
         public async Task<IActionResult> GetCompanyJobs([FromQuery] AllJobsQueryModel queryModel)
         {

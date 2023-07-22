@@ -5,13 +5,9 @@ using HireHub.Web.ViewModels.Resume;
 
 namespace HireHub.Web.Services.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
-    public class ResumeService:IResumeService
+    public class ResumeService : IResumeService
     {
         private readonly ApplicationDbContext _context;
 
@@ -20,7 +16,7 @@ namespace HireHub.Web.Services.Data
             _context = context;
         }
 
-        public async Task AddResumeAsync(AddResumeVM model,string userId)
+        public async Task AddResumeAsync(AddResumeVM model, string userId)
         {
             var resume = new Resume
             {
@@ -32,6 +28,5 @@ namespace HireHub.Web.Services.Data
             await _context.Resumes.AddAsync(resume);
             await _context.SaveChangesAsync();
         }
-        
     }
 }

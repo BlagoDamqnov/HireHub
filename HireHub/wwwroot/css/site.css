@@ -73,9 +73,11 @@ body {
     width: 900px;
     margin-left: 180px;
 }
-.container{
-    padding-top:20px;
+
+.container {
+    padding-top: 20px;
 }
+
 .logo {
     width: 120px;
     height: 120px;
@@ -524,6 +526,7 @@ body {
     color: white !important;
     text-decoration: none;
 }
+
 .create-container {
     max-width: 500px;
     margin: 0 auto;
@@ -743,7 +746,6 @@ th, td {
             cursor: pointer;
         }
 
-
 .search-bar .form-inline {
     display: flex;
     justify-content: center;
@@ -753,11 +755,13 @@ th, td {
 .search-bar .form-control {
     margin-right: 10px;
 }
-.application_pdf-img{
+
+.application_pdf-img {
     width: 20px;
     height: 100%;
     object-fit: cover;
 }
+
 .filter-icon {
     display: flex;
     align-items: center;

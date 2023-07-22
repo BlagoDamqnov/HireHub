@@ -7,7 +7,6 @@ using HireHub.Web.ViewModels.Jobs;
 using HireHub.Web.ViewModels.Jobs.Enums;
 using HireHub.Web.ViewModels.Towns;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Signing;
 
 namespace HireHub.Web.Services.Data
 {
@@ -15,13 +14,13 @@ namespace HireHub.Web.Services.Data
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     public class JobService : IJobService
     {
         private readonly ApplicationDbContext _context;
         private readonly ICompanyService _companyService;
+
         public JobService(ApplicationDbContext context, ICompanyService companyService)
         {
             _context = context;
@@ -125,7 +124,7 @@ namespace HireHub.Web.Services.Data
         {
             try
             {
-                if(job.MinSalary>=job.MaxSalary)
+                if (job.MinSalary >= job.MaxSalary)
                 {
                     throw new InvalidOperationException("Min salary must be less than max salary");
                 }
@@ -154,7 +153,6 @@ namespace HireHub.Web.Services.Data
                 throw;
             }
         }
-
 
         public async Task<IEnumerable<GetLastFiveJobsVM>> GetAllJobsForApprove()
         {
@@ -234,21 +232,20 @@ namespace HireHub.Web.Services.Data
             return job;
         }
 
-        public async Task DeleteJob(string id,string userId)
+        public async Task DeleteJob(string id, string userId)
         {
             var parsedJobId = Guid.Parse(id);
             var isExist = await _context.Jobs.AnyAsync(j => j.Id == parsedJobId);
-           
+
             if (isExist)
             {
                 var job = await _context.Jobs.FirstOrDefaultAsync(j => j.Id == parsedJobId);
-                if(job!.CreatorId!= userId)
+                if (job!.CreatorId != userId)
                 {
                     throw new InvalidOperationException("You are not creator of this job");
                 }
                 else
                 {
-
                     job!.IsDeleted = true;
                     await _context.SaveChangesAsync();
                 }
@@ -395,6 +392,5 @@ namespace HireHub.Web.Services.Data
                 Jobs = allJobs
             };
         }
-
     }
 }

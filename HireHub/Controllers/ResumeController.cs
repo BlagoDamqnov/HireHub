@@ -3,15 +3,14 @@ using HireHub.Web.ViewModels.Resume;
 
 namespace HireHub.Web.Controllers
 {
-    using HireHub.Web.Services.Data;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
     public class ResumeController : UserController
     {
-        private readonly IResumeService _resumeService;
         private readonly ICompanyService _companyService;
+        private readonly IResumeService _resumeService;
         public ResumeController(IResumeService resumeService, ICompanyService companyService)
         {
             _resumeService = resumeService;

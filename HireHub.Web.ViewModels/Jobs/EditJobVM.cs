@@ -6,34 +6,35 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     using static HireHub.Common.EntityValidation.Job;
+
     // ReSharper disable once InconsistentNaming
     public class EditJobVM
     {
-        public Guid Id { get; set; }
-        [StringLength(TitleMaxLength, MinimumLength = TitleMinLength, ErrorMessage = "Title must be between {2} and {1} length")]
-        [RegularExpression(@"^[a-zA-Z0-9\s]+$", ErrorMessage = "Title must contain only letters, digits and whitespaces")]
-        public string Title { get; set; } = null!;
+        public ICollection<CategoryVM> Categories { get; set; } = new List<CategoryVM>();
+        public int CategoryId { get; set; }
+        public ICollection<CountryVM> Countries { get; set; } = new List<CountryVM>();
+        public int CountryId { get; set; }
+        public string? CountryName { get; set; }
 
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength, ErrorMessage = "Description must be between {2} and {1} length")]
         public string Description { get; set; } = null!;
 
-        [StringLength(RequirementsMaxLength, MinimumLength = RequirementsMinLength, ErrorMessage = "Requirements must be between {2} and {1} length")]
-        public string Requirements { get; set; } = null!;
-        public string? TownName { get; set; }
-        public string? CountryName { get; set; }
-        public int CategoryId { get; set; }
-        public ICollection<CategoryVM> Categories { get; set; } = new List<CategoryVM>();
-        public int CountryId { get; set; }
-        public ICollection<CountryVM> Countries { get; set; } = new List<CountryVM>();
-        public int TownId { get; set; }
-        public ICollection<TownVM> Towns { get; set; } = new List<TownVM>();
-        public decimal MinSalary { get; set; }
+        public Guid Id { get; set; }
 
         public decimal? MaxSalary { get; set; }
+
+        public decimal MinSalary { get; set; }
+
+        [StringLength(RequirementsMaxLength, MinimumLength = RequirementsMinLength, ErrorMessage = "Requirements must be between {2} and {1} length")]
+        public string Requirements { get; set; } = null!;
+
+        [StringLength(TitleMaxLength, MinimumLength = TitleMinLength, ErrorMessage = "Title must be between {2} and {1} length")]
+        public string Title { get; set; } = null!;
+
+        public int TownId { get; set; }
+        public string? TownName { get; set; }
+        public ICollection<TownVM> Towns { get; set; } = new List<TownVM>();
     }
 }

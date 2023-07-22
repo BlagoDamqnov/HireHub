@@ -1,17 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using IdentityUser = Microsoft.AspNetCore.Identity.IdentityUser;
 
 namespace HireHub.Data.EntitiesConfigurations
 {
     using Microsoft.EntityFrameworkCore;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
-    public class UserRoleEntityTypeConfiguration:IEntityTypeConfiguration<IdentityUserRole<string>>
+    public class UserRoleEntityTypeConfiguration : IEntityTypeConfiguration<IdentityUserRole<string>>
     {
         public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
         {

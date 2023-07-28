@@ -17,6 +17,6 @@ namespace HireHub.Web.ViewModels.Jobs
 
         public IEnumerable<string> Categories { get; set; } = new List<string>();
 
-        public IEnumerable<GetLastFiveJobsVM> Jobs { get; set; } = new List<GetLastFiveJobsVM>();
+        public IEnumerable<GetJobsVM> Jobs { get; set; } = new List<GetJobsVM>();
     }
 }

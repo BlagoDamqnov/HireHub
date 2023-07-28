@@ -104,9 +104,18 @@ body {
     margin-bottom: 10px;
 }
 
+.category {
+    color: #666;
+    margin-bottom: 10px;
+}
+
 .location {
     color: #666;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+}
+
+.job-desc {
+    height: 300px;
 }
 
 .description {
@@ -772,3 +781,11 @@ th, td {
     display: flex;
     align-items: center;
 }
+
+.job-card {
+    transition: all 0.3s ease-in-out;
+}
+
+    .job-card:hover {
+        transform: scale(1.1);
+    }

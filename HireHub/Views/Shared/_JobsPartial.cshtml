@@ -1,4 +1,4 @@
-﻿@model HireHub.Web.ViewModels.Jobs.GetLastFiveJobsVM
+﻿@model HireHub.Web.ViewModels.Jobs.GetJobsVM
 
 
 @using System.Security.Claims
@@ -12,6 +12,7 @@
                 <div class="job-title">@Model.Title</div>
                 <div class="company">Company: @Model.CompanyName</div>
                 <div class="location">Location: @Model.Town</div>
+                <div class="category">Category: @Model.Category</div>
                 <div class="description">
                     Salary: @Model.MinSalary.ToString("0") lv.
                     @if (Model.MaxSalary != null)

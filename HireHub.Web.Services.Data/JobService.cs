@@ -56,15 +56,16 @@ namespace HireHub.Web.Services.Data
                 _ => throw new NotImplementedException(),
             };
 
-            IEnumerable<GetLastFiveJobsVM> allJobs = await jobsQuery
+            IEnumerable<GetJobsVM> allJobs = await jobsQuery
                 .Where(j => j.IsDeleted == false && j.IsApproved == true && j.Company.IsDeleted == false)
-                .Select(j => new GetLastFiveJobsVM()
+                .Select(j => new GetJobsVM()
                 {
                     Id = j.Id,
                     Title = j.Title,
                     Town = j.Location.TownName,
                     CreatorId = j.CreatorId,
                     CompanyName = j.Company.Name,
+                    Category = j.Category.CategoryName,
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
                     CreatedOn = j.CreatedOn,
@@ -154,11 +155,11 @@ namespace HireHub.Web.Services.Data
             }
         }
 
-        public async Task<IEnumerable<GetLastFiveJobsVM>> GetAllJobsForApprove()
+        public async Task<IEnumerable<GetJobsVM>> GetAllJobsForApprove()
         {
             var jobs = await _context.Jobs
                 .Where(j => j.IsDeleted == false && j.IsApproved == false && j.Company.IsDeleted == false)
-                .Select(j => new GetLastFiveJobsVM()
+                .Select(j => new GetJobsVM()
                 {
                     Id = j.Id,
                     Title = j.Title,
@@ -370,9 +371,9 @@ namespace HireHub.Web.Services.Data
                 _ => throw new NotImplementedException(),
             };
 
-            IEnumerable<GetLastFiveJobsVM> allJobs = await jobsQuery
+            IEnumerable<GetJobsVM> allJobs = await jobsQuery
                 .Where(j => j.IsDeleted == false && j.IsApproved == true && j.Company.IsDeleted == false)
-                .Select(j => new GetLastFiveJobsVM()
+                .Select(j => new GetJobsVM()
                 {
                     Id = j.Id,
                     Title = j.Title,

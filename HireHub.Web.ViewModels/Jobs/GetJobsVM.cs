@@ -3,13 +3,14 @@ namespace HireHub.Web.ViewModels.Jobs
 {
     using System;
 
-    public class GetLastFiveJobsVM
+    public class GetJobsVM
     {
         public Guid Id { get; set; }
         public string Title { get; set; } = null!;
         public string? CreatorId { get; set; }
         public string Town { get; set; } = null!;
         public string CompanyName { get; set; } = null!;
+        public string Category { get; set; } = null!;
         public decimal MinSalary { get; set; }
         public decimal? MaxSalary { get; set; }
         public DateTime CreatedOn { get; set; }

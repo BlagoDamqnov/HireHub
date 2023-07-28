@@ -169,7 +169,16 @@ namespace HireHub.Web.Controllers
         {
             var userId = await _companyService.GetUserIdByEmail(email);
 
+            var getJob = await _jobService.GetJobDetails(id);
+            string subject = $"We are sorry to inform you that you've been rejected as a {getJob!.Title}";
+            string message = $"Dear {email},<br/>" +
+                $"We are sorry to inform you that you've been rejected as a {getJob!.Title} at {getJob!.CompanyName}.<br/>" +
+                $"Please contact us for more information.<br/>" +
+                $"Best regards,<br/>" +
+                $"HireHub Team";
+
             bool? isHiring = await _companyService.IsHire(userId, id);
+            var company = await _companyService.GetCompanyByUserId(GetUserId());
 
             if (isHiring == false)
             {
@@ -182,7 +191,17 @@ namespace HireHub.Web.Controllers
                 return RedirectToAction("MyApplication", "Company");
             }
 
-            await _companyService.RejectUser(userId, id);
+            try
+            {
+                await _companyService.RejectUser(userId, id);
+                await _emailService.SendEmailAsync(email, subject, message, "sandbox.smtp.mailtrap.io", 587, "0d230816b7e5c4", "6d99f5faff7358", $"{company.ContactEmail}");
+            }
+            catch (ArgumentException e)
+            {
+                TempData["ErrorMessage"] = e.Message;
+                return RedirectToAction("MyApplication", "Company");
+            }
+           
             TempData["SuccessMessage"] = "User rejected successfully!";
             return RedirectToAction("MyApplication", "Company");
         }

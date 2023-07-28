@@ -17,7 +17,7 @@ namespace HireHub.Web.Services.Data.Interfaces
 
         Task AddJobAsync(CreateJobVM job, string creatorId, int companyId);
 
-        Task<IEnumerable<GetLastFiveJobsVM>> GetAllJobsForApprove();
+        Task<IEnumerable<GetJobsVM>> GetAllJobsForApprove();
 
         Task ApproveJob(string id);
 

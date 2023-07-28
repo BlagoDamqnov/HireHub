@@ -6,6 +6,6 @@ namespace HireHub.Web.Services.Data.Models.House
 
     public class AllJobsFilteredServiceModel
     {
-        public IEnumerable<GetLastFiveJobsVM> Jobs { get; set; } = new List<GetLastFiveJobsVM>();
+        public IEnumerable<GetJobsVM> Jobs { get; set; } = new List<GetJobsVM>();
     }
 }

@@ -11,6 +11,7 @@ namespace HireHub.Web.Controllers
     {
         private readonly ICompanyService _companyService;
         private readonly IResumeService _resumeService;
+
         public ResumeController(IResumeService resumeService, ICompanyService companyService)
         {
             _resumeService = resumeService;

@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HireHub.Common", "HireHub.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HireHub.Web.Services.Data.Models", "HireHub.Web.Services.Data.Models\HireHub.Web.Services.Data.Models.csproj", "{E0C0ABE2-33DA-43C9-9308-537056ED4938}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{54D1D3A6-F13A-403B-9B8C-3B84FF2EBCAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HireHub.Web.Tests", "HireHub.Web.Tests\HireHub.Web.Tests.csproj", "{1FA90657-038F-4FEA-990E-8D210AE99FC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,10 @@ Global
 		{E0C0ABE2-33DA-43C9-9308-537056ED4938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0C0ABE2-33DA-43C9-9308-537056ED4938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0C0ABE2-33DA-43C9-9308-537056ED4938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FA90657-038F-4FEA-990E-8D210AE99FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FA90657-038F-4FEA-990E-8D210AE99FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FA90657-038F-4FEA-990E-8D210AE99FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FA90657-038F-4FEA-990E-8D210AE99FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +77,7 @@ Global
 		{CD272416-FADC-4388-B861-F46D706EEEE1} = {CB6EB6C8-635C-4127-A5A6-0832357670D4}
 		{7FB0C58D-2BF8-494A-AE09-8D845B40B11E} = {239DD6E4-6917-4B91-A0C9-3FFA522476E7}
 		{E0C0ABE2-33DA-43C9-9308-537056ED4938} = {CB6EB6C8-635C-4127-A5A6-0832357670D4}
+		{1FA90657-038F-4FEA-990E-8D210AE99FC9} = {54D1D3A6-F13A-403B-9B8C-3B84FF2EBCAE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E7D4ED58-7198-4084-9BAD-58B81FFD7C4F}

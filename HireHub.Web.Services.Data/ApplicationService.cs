@@ -22,7 +22,7 @@ namespace HireHub.Web.Services.Data
             _context = context;
         }
 
-        public async Task<ApplyForJobVM> AddApplicationAsync(string userId, string jobId)
+        public async Task<ApplyForJobVM> GetMyResumesAsync(string userId, string jobId)
         {
             var isOwner = await _context.Jobs
     .AnyAsync(x => x.Id == Guid.Parse(jobId) && x.CreatorId == userId);

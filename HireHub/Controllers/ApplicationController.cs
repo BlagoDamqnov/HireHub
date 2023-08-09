@@ -24,7 +24,7 @@ namespace HireHub.Web.Controllers
         {
             try
             {
-                var resumes = await _applicationService.AddApplicationAsync(GetUserId(), id);
+                var resumes = await _applicationService.GetMyResumesAsync(GetUserId(), id);
                 return View(resumes);
             }
             catch (InvalidOperationException e)

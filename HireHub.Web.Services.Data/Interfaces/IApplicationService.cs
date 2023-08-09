@@ -8,7 +8,7 @@ namespace HireHub.Web.Services.Data.Interfaces
 
     public interface IApplicationService
     {
-        Task<ApplyForJobVM> AddApplicationAsync(string userId, string jobId);
+        Task<ApplyForJobVM> GetMyResumesAsync(string userId, string jobId);
 
         Task AddApply(ApplyForJobVM model, string jobId, string userId);
 

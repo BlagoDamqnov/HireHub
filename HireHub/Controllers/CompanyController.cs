@@ -201,7 +201,7 @@ namespace HireHub.Web.Controllers
                 TempData["ErrorMessage"] = e.Message;
                 return RedirectToAction("MyApplication", "Company");
             }
-           
+
             TempData["SuccessMessage"] = "User rejected successfully!";
             return RedirectToAction("MyApplication", "Company");
         }

@@ -3,8 +3,10 @@ using HireHub.Web.ViewModels.Categories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HireHub.Web.Controllers
+namespace HireHub.Web.Areas.Admin.Controllers
 {
+    [Authorize]
+    [Area("Admin")]
     public class AdminController : Controller
     {
         private readonly IJobService _jobService;
@@ -16,6 +18,7 @@ namespace HireHub.Web.Controllers
             _categoryService = categoryService;
         }
 
+        public IActionResult Index() => View();
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AllJobsForApprove()
         {

@@ -1,5 +1,8 @@
-﻿@model IEnumerable<HireHub.Web.ViewModels.Company.GetAllApplications>
-
+﻿@using HireHub.Web.Services.Data;
+@using System.Security.Claims;
+@using HireHub.Web.Services.Data.Interfaces;
+@model IEnumerable<HireHub.Web.ViewModels.Company.GetAllApplications>
+@inject ICompanyService companyService;
 
 <table>
     <thead>
@@ -25,17 +28,32 @@
                     <a href="@job.Resume" target="_blank">View documents</a>
                 </td>
                 <td>
-                    <div class="btn-group">
-                        <form asp-route-id="@job.Id" asp-action="Remove" asp-controller="Application" class="btn-group">
-                            <button type="submit" class="btn btn-primary btn btn-block" name="approveButton">Remove</button>
-                        </form>
-                        <form asp-route-id="@job.Id" asp-action="Details" asp-controller="Job" class="btn-group">
-                            <button type="submit" class="btn btn-primary btn btn-block" style="background-color:#dc3545 !important">Details</button>
-                        </form>
-                    </div>
+                    @{
+                        bool? isHiring = await companyService.IsHire(User.FindFirstValue(ClaimTypes.NameIdentifier), job.Id.ToString());
+
+                        if (isHiring == null)
+                        {
+                            <div class="btn-group">
+                                <form asp-route-id="@job.Id" asp-action="Remove" asp-controller="Application" class="btn-group">
+                                    <button type="submit" class="btn btn-primary btn btn-block" name="approveButton">Remove</button>
+                                </form>
+                                <form asp-route-id="@job.Id" asp-action="Details" asp-controller="Job" class="btn-group">
+                                    <button type="submit" class="btn btn-primary btn btn-block" style="background-color:#dc3545 !important">Details</button>
+                                </form>
+                            </div>
+                        }
+                        if (isHiring == true)
+                        {
+                            <a class=" btn apply-btn">Hired</a>
+                        }
+                        else if (isHiring == false)
+                        {
+                            <a class=" btn btn-danger">Rejected</a>
+                        }
+
+                    }
                 </td>
             </tr>
-           
-        }
+            }
     </tbody>
 </table>

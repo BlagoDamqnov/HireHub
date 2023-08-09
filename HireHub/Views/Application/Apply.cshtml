@@ -8,7 +8,6 @@
                 <div class="form-group">
                     <label for="resumeId">Select your CV:</label>
                     <select id="resumeId" name="resumeId" class="form-control">
-                        <option value="" selected disabled>Select CV</option>
                         @foreach (var resume in Model.Resumes)
                         {
                             <option value="@resume.Id">@resume.Name</option>

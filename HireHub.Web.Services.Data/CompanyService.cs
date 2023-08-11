@@ -149,12 +149,12 @@ namespace HireHub.Web.Services.Data
         public async Task<bool> DeleteCompany(int id)
         {
             var company = _context.Companies.FirstOrDefault(c => c.Id == id && c.IsDeleted == false);
-            var userId = company!.UserId;
             if (company == null)
             {
                 throw new ArgumentException("Company not found!");
             }
 
+            var userId = company!.UserId;
             company.IsDeleted = true;
 
             var newClaim = new Claim("Worker", company.Name);

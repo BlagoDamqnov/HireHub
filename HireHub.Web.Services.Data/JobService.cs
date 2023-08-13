@@ -380,6 +380,7 @@ namespace HireHub.Web.Services.Data
                     Town = j.Location.TownName,
                     CreatorId = j.CreatorId,
                     CompanyName = j.Company.Name,
+                    Category = j.Category.CategoryName,
                     MinSalary = j.MinSalary,
                     MaxSalary = j.MaxSalary,
                     CreatedOn = j.CreatedOn,

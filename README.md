@@ -89,7 +89,15 @@ Seeded:
 ![App Screenshot](https://scontent.fsof8-1.fna.fbcdn.net/v/t1.15752-9/361635969_598068465788433_1612953888797881399_n.png?_nc_cat=109&cb=99be929b-59f725be&ccb=1-7&_nc_sid=ae9488&_nc_ohc=Ws9swJkLVncAX-hCSNV&_nc_ht=scontent.fsof8-1.fna&oh=03_AdSfyi856BAb40aWR7eyK2Zon1mJbZiQKIXvblQtlyledQ&oe=64DBB427)
 
 #### And many more functionalities
+# Test
+## Libraries used for testing:
 
+* NUnit
+* Moq
+---
+
+* Services Test Coverage
+![code-coverage](https://scontent-sof1-2.xx.fbcdn.net/v/t1.15752-9/363899762_592423763094954_5492767281894697389_n.png?_nc_cat=107&cb=99be929b-59f725be&ccb=1-7&_nc_sid=ae9488&_nc_ohc=IBsNzkpG4V8AX_lDDJW&_nc_ht=scontent-sof1-2.xx&oh=03_AdRRZLSK_swp7xKQaLZU4YD3rDKwdIIegkE-0Um1TQd-pQ&oe=64FDA7C0)
 
 ## 🔗 Contact
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/blagovest-damyanov-88b3b8237/)
